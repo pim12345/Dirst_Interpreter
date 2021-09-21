@@ -66,180 +66,207 @@ class DAT(Token):
 class abs(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2):
+    def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
+        self.isInALoop = isInALoop
 class neg(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2):
+    def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
+        self.isInALoop = isInALoop
 class add(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class sub(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class mul(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class div(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class mod(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class and_(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class orb(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class xor(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class xad(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class nad(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class nor(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class not_(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2):
+    def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
+        self.isInALoop = isInALoop
 class mor(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class less(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class equ(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class neq(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class get(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class let(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class rdi(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1):
+    def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
+        self.isInALoop = isInALoop
 class ric(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1):
+    def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
+        self.isInALoop = isInALoop
 class dsi(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1):
+    def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
+        self.isInALoop = isInALoop
 class dic(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1):
+    def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
+        self.isInALoop = isInALoop
 class set(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2):
+    def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
+        self.isInALoop = isInALoop
 class max(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 class min(DAT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, parameter2, parameter3):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 ##################################
 ########## CSV Tokens used for variables and arrays ######
 class Csv(Token):
@@ -250,44 +277,69 @@ class cia(Csv):
     def __str__(self):
         return "Creates an integer array with the specified variable name"
 class civ(Csv):
-    def __init__(self, name):
+    def __init__(self, name,isInALoop):
         self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Creates an integer variable with the specified variable name"
 class csa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Creates a string array with the specified variable name"
 class csv(Csv):
-    def __init__(self, name):
+    def __init__(self, name,isInALoop):
         self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return self.name #Creates a string variable with the specified variable name
 class cfa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Creates a float array with the specified variable name"
 class cfv(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Creates a float variable with the specified variable name"
 class dia(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes an integer array with the specified variable name"
 class div(Csv):
-    def __init__(self, name):
+    def __init__(self, name,isInALoop):
         self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes an integer variable with the specified variable name"
 class dsa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a string array with the specified variable name"
 class dsv(Csv):
-    def __init__(self, name):
+    def __init__(self, name,isInALoop):
         self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a string variable with the specified variable name"
 class dfa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a float array with the specified variable name"
 class dfv(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a float variable with the specified variable name"
 
@@ -296,6 +348,101 @@ class dfv(Csv):
 class TXT(Token):
     def __str__(self):
         return "Contains all string functionality and logic as well as advanced console IO"
+class rdc(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class rds(TXT):
+    def __str__(self):
+        return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class eof(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class dsc(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInAloop = isInALoop
+class dss(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class dsl(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class dec(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInAloop = isInALoop
+class des(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class del_(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class clr(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInAloop = isInALoop
+class cat(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class idx(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class ids(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class lid(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
 
 class dss(TXT):
     def __str__(self):
@@ -303,9 +450,5 @@ class dss(TXT):
     def __init__(self, name):
         self.name = name
 
-class rds(TXT):
-    def __str__(self):
-        return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name):
-        self.name = name
+
     

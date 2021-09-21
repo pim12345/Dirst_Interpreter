@@ -2,7 +2,7 @@ import re
 from typing import List
 from tokens import *
 
-fileTree = open("Greeter.txt", "r")
+fileTree = open("Fib_seq.txt", "r")
 
 #print(fileTree.read())
 #lambda x: x+x ,
@@ -26,143 +26,145 @@ def split(line):
     #print(re.split(r'_|\.|\t', line))#zonder punten en _ in de lijst
     return re.split(r'_|\.|\t', line)
     
-# foobar_loop :: [String] → [String]
-#def fileToArgumentList(list: list[str]) -> list[list[str]]:
- #   if len(list) == 0:
-#        return []
-#    else:
-#        head, *tail = list
-#        return [fileToArgumentList(head)]#split + fileToArgumentList(tail)
 
-def giveCorrectClass(operator):
-    if operator[0] == Instruction_Subsets.DIRECTORY.value:
-        if operator[1] == "fnc":
-            return fnc(operator[2])
-        if operator[1] == "dif":
-            return dif(operator[2])
-        if operator[1] == "nif":
-            return nif(operator[2])
-        if operator[1] == "lpc":
-            return lpc(operator[2])
-        if operator[1] == "lpn":
-            return lpn(operator[2])
-        if operator[1] == "dlw":
-            return dlw(operator[2])
-        if operator[1] == "dlu":
-            return dlu(operator[2])
+def giveCorrectClass(operator, isInALoop):
+    #if operator[0] == Instruction_Subsets.DIRECTORY.value:
+        #removed \t a stap back
+    if operator[0] == "fnc":
+        return fnc(operator[1])
+    if operator[0] == "dif":
+        return dif(operator[1])
+    if operator[0] == "nif":
+         return nif(operator[1])
+    if operator[0] == "lpc":
+        return lpc(operator[1])
+    if operator[0] == "lpn":
+        return lpn(operator[1])
+    if operator[0] == "dlw":
+        return dlw(operator[1])
+    if operator[0] == "dlu":
+        return dlu(operator[1])
 
     if operator[-1] == Instruction_Subsets.DAT.value:
         if operator[0] == "abs":
-            return abs(operator[1],operator[2])
+            return abs(operator[1],operator[2],isInALoop)
         if operator[0] == "neg":
-            return neg(operator[1],operator[2])
+            return neg(operator[1],operator[2],isInALoop)
         if operator[0] == "add":
-            return add(operator[1],operator[2],operator[3])
+            return add(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "sub":
-            return sub(operator[1],operator[2],operator[3])
+            return sub(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "mul":
-            return mul(operator[1],operator[2],operator[3])
+            return mul(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "div":
-            return div(operator[1],operator[2],operator[3])
+            return div(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "mod":
-            return mod(operator[1],operator[2],operator[3])
+            return mod(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "and":
-            return and_(operator[1],operator[2],operator[3])
+            return and_(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "orb":
-            return orb(operator[1],operator[2],operator[3])
+            return orb(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "xor":
-            return xor(operator[1],operator[2],operator[3])
+            return xor(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "xad":
-            return xad(operator[1],operator[2],operator[3])
+            return xad(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "nad":
-            return nad(operator[1],operator[2],operator[3])
+            return nad(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "nor":
-            return nor(operator[1],operator[2],operator[3])
+            return nor(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "not":
-            return not_(operator[1],operator[2])
+            return not_(operator[1],operator[2],isInALoop)
         if operator[0] == "mor":
-            return mor(operator[1],operator[2],operator[3])
+            return mor(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "less":
-            return less(operator[1],operator[2],operator[3])
+            return less(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "equ":
-            return equ(operator[1],operator[2],operator[3])
+            return equ(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "neq":
-            return neq(operator[1],operator[2],operator[3])
+            return neq(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "gets":
-            return gets(operator[1],operator[2],operator[3])    
+            return get(operator[1],operator[2],operator[3],isInALoop)    
         if operator[0] == "let":
-            return let(operator[1],operator[2],operator[3])
+            return let(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "rdi":
-            return rdi(operator[1])
+            return rdi(operator[1],isInALoop)
         if operator[0] == "ric":
-            return (operator[1])
+            return (operator[1],isInALoop)
         if operator[0] == "dsi":
-            return dsi(operator[1])
+            return dsi(operator[1],isInALoop)
         if operator[0] == "dic":
-            return dic(operator[1])
+            return dic(operator[1],isInALoop)
         if operator[0] == "dic":
-            return dic(operator[1])
+            return dic(operator[1],isInALoop)
         if operator[0] == "set":
-            return set(operator[1],operator[2])
+            return set(operator[1],operator[2],isInALoop)
         if operator[0] == "max":
-            return max_(operator[1],operator[2],operator[3])
+            return max(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "min":
-            return min_(operator[1],operator[2],operator[3])
+            return min(operator[1],operator[2],operator[3],isInALoop)
     
     if operator[-1] == Instruction_Subsets.TXT.value:
         if operator[0] == "rdc":
-            return rdc(operator[1])
+            return rdc(operator[1],isInALoop)
         if operator[0] == "rds":
-            return rds(operator[1]) 
+            return rds(operator[1],isInALoop) 
         if operator[0] == "eof":
-            return eof(operator[1])
+            return eof(operator[1],isInALoop)
         if operator[0] == "dsc":
-            return dsc(operator[1],operator[2])
+            return dsc(operator[1],operator[2],isInALoop)
         if operator[0] == "dss":
-           return dss(operator[1])
+           return dss(operator[1],isInALoop)
         if operator[0] == "dsl":
-           return dsl(operator[1])
+           return dsl(operator[1],isInALoop)
         if operator[0] == "dec":
-            return dec(operator[1],operator[2])
+           return dec(operator[1],operator[2],isInALoop)
         if operator[0] == "des":
-           return des(operator[1])
+           return des(operator[1],isInALoop)
         if operator[0] == "del":
-           return del_(operator[1])
+           return del_(operator[1],isInALoop)
         if operator[0] == "clr":
-           return clr(operator[1])
+           return clr(operator[1],isInALoop)
         if operator[0] == "cat":
-           return cat(operator[1],operator[2],operator[3])
+           return cat(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "idx":
-           return idx(operator[1],operator[2],operator[3])
+           return idx(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "ids":
-           return ids(operator[1],operator[2],operator[3],operator[4])
+           return ids(operator[1],operator[2],operator[3],operator[4],isInALoop)
         
        
         
     
     if operator[-1] == Instruction_Subsets.CSV.value:#
         if operator[0] == "csv":
-            return csv(operator[1])       
+            return csv(operator[1],isInALoop)       
         if operator[0] == "civ":
-            return civ(operator[1])
+            return civ(operator[1],isInALoop)
         if operator[0] == "dsv":
-            return dsv(operator[1])
+            return dsv(operator[1],isInALoop)
         if operator[0] == "div":
-            return div(operator[1])
+            return div(operator[1],isInALoop)
 
 def recursiveInstructionClassList(argumentlist):
+    isInALoop = False 
+    if argumentlist[0][0] == "":
+        isInALoop = True
+        #print(argumentlist[0])
+        del argumentlist[0][0]
+        #print(argumentlist[0])
     if len(argumentlist) == 1:
-        return [giveCorrectClass(argumentlist[0])]
+        return [giveCorrectClass(argumentlist[0], isInALoop)]
     else:
-        return [giveCorrectClass(argumentlist[0])] + recursiveInstructionClassList(argumentlist[1:])
+        return [giveCorrectClass(argumentlist[0], isInALoop)] + recursiveInstructionClassList(argumentlist[1:])
 
 
 def lexv2(file):
     argument_list = map(split,file)
-    #token_ouput_list = []
-    list1 = recursiveInstructionClassList(list(argument_list))
-    print(list1)
+    token_ouput_list = recursiveInstructionClassList(list(argument_list))
+    print(token_ouput_list)
 
+    
+    
+    
     #maak nog functie die meerdere functies maakt mail ff diederik hoe en wat met classes en hoe moet je dan data opslaan?
 
 
