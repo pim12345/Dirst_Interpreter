@@ -24,28 +24,222 @@ class Directory(Token):
         return "Looping"
 
 class fnc(Directory):
-    def __init__(self, type):
-        type.name = type
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Execute all subitems in the directory"
 class dif(Directory):
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is not zero"
 class nif(Directory):
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is zero"
 class lpc(Directory):
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is not zero"
 class lpn(Directory):
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is zero"
 class dlw(Directory):
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
 class dlu(Directory):
+    def __init__(self, value):
+        self.value = value
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is zero (loop at least once)"
+##################################
+########## DAT Tokens ############
+class DAT(Token):
+    def __str__(self):
+        return ""
+class abs(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+class neg(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+class add(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class sub(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class mul(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class div(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class mod(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class and_(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class orb(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class xor(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class xad(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class nad(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class nor(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class not_(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+class mor(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class less(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class equ(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class neq(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class get(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class let(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class rdi(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1):
+        self.parameter1 = parameter1
+class ric(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1):
+        self.parameter1 = parameter1
+class dsi(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1):
+        self.parameter1 = parameter1
+class dic(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1):
+        self.parameter1 = parameter1
+class set(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+class max(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+class min(DAT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
 ##################################
 ########## CSV Tokens used for variables and arrays ######
 class Csv(Token):
@@ -96,20 +290,6 @@ class dfa(Csv):
 class dfv(Csv):
     def __str__(self):
         return "Deletes a float variable with the specified variable name"
-##################################
-########## DAT Tokens ############
-class DAT(Token):
-    def __str__(self):
-        return ""
-    
-class set(DAT):
-    def __str__(self):
-        return ""
-    def __init__(self, parameter1, parameter2):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-
-
 
 ##################################
 ########## TXT Tokens ############
