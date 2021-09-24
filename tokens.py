@@ -1,5 +1,7 @@
 from enum import Enum
 
+
+#nog toevoegen __repr__ ook toevoegen denk i.p.v __str__
 class Instruction_Subsets(Enum):
     DAT = "dat"
     TXT = "txt"
@@ -28,7 +30,7 @@ class fnc(Directory):
         self.value = value
     def __str__(self):
         return "Execute all subitems in the directory"
-class dif(Directory):
+class dif_(Directory):
     def __init__(self, value):
         self.value = value
     def __str__(self):
@@ -85,7 +87,7 @@ class add(DAT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.isInALoop = isInALoop
-class sub(DAT):
+class sub_(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
@@ -267,81 +269,6 @@ class min(DAT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.isInALoop = isInALoop
-##################################
-########## CSV Tokens used for variables and arrays ######
-class Csv(Token):
-    def __str__(self):
-        return "Manages, creates, and destroys variables and arrays"
-
-class cia(Csv):
-    def __str__(self):
-        return "Creates an integer array with the specified variable name"
-class civ(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Creates an integer variable with the specified variable name"
-class csa(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Creates a string array with the specified variable name"
-class csv(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return self.name #Creates a string variable with the specified variable name
-class cfa(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Creates a float array with the specified variable name"
-class cfv(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Creates a float variable with the specified variable name"
-class dia(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Deletes an integer array with the specified variable name"
-class div(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Deletes an integer variable with the specified variable name"
-class dsa(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Deletes a string array with the specified variable name"
-class dsv(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Deletes a string variable with the specified variable name"
-class dfa(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Deletes a float array with the specified variable name"
-class dfv(Csv):
-    def __init__(self, name,isInALoop):
-        self.name = name
-        self.isInALoop = isInALoop
-    def __str__(self):
-        return "Deletes a float variable with the specified variable name"
 
 ##################################
 ########## TXT Tokens ############
@@ -443,12 +370,282 @@ class lid(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.isInAloop = isInALoop
-
-class dss(TXT):
+class rep(TXT):
     def __str__(self):
-        return "Displays the given string variable to the console with no newline following"
-    def __init__(self, name):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class sub(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class rmv(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class ins(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class tou(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInAloop = isInALoop
+class tol(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInAloop = isInALoop
+class pdl(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class cpl(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class pdr(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class cpr(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.parameter4 = parameter4
+        self.isInAloop = isInALoop
+class sam(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class dif(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class hiv(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class lov(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class hev(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class lev(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class ssw(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class sew(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class trm(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class tms(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class tme(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInAloop = isInALoop
+class ses(TXT):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInAloop = isInALoop
+
+##################################
+########## BIN Tokens ############
+class BIN(Token):
+    def __str__(self):
+        return ""
+
+##################################
+########## ZIP Tokens ############
+class ZIP(Token):
+    def __str__(self):
+        return ""
+
+##################################
+########## EXE Tokens ############
+class EXE(Token):
+    def __str__(self):
+        return ""
+
+##################################
+########## DLL Tokens ############
+class DLL(Token):
+    def __str__(self):
+        return ""
+
+##################################
+########## CSV Tokens used for variables and arrays ######
+class Csv(Token):
+    def __str__(self):
+        return "Manages, creates, and destroys variables and arrays"
+
+class cia(Csv):
+    def __str__(self):
+        return "Creates an integer array with the specified variable name"
+class civ(Csv):
+    def __init__(self, name,isInALoop):
         self.name = name
-
-
-    
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Creates an integer variable with the specified variable name"
+class csa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Creates a string array with the specified variable name"
+class csv(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return self.name #Creates a string variable with the specified variable name
+class cfa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Creates a float array with the specified variable name"
+class cfv(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Creates a float variable with the specified variable name"
+class dia(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Deletes an integer array with the specified variable name"
+class div(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Deletes an integer variable with the specified variable name"
+class dsa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Deletes a string array with the specified variable name"
+class dsv(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Deletes a string variable with the specified variable name"
+class dfa(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Deletes a float array with the specified variable name"
+class dfv(Csv):
+    def __init__(self, name,isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "Deletes a float variable with the specified variable name"

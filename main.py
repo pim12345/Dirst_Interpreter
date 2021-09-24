@@ -1,8 +1,12 @@
 import re
-from typing import List
+from typing import List, Tuple
 from tokens import *
+import functools
 
-fileTree = open("Fib_seq.txt", "r")
+#dectorator met decorator syntax toevoegen. hoofdstuk 3.5
+
+
+fileTree = open("Deadfish_interpreter.txt", "r")
 
 #print(fileTree.read())
 #lambda x: x+x ,
@@ -28,22 +32,22 @@ def split(line):
     
 
 def giveCorrectClass(operator, isInALoop):
-    #if operator[0] == Instruction_Subsets.DIRECTORY.value:
+    if isInALoop == True:
         #removed \t a stap back
-    if operator[0] == "fnc":
-        return fnc(operator[1])
-    if operator[0] == "dif":
-        return dif(operator[1])
-    if operator[0] == "nif":
-         return nif(operator[1])
-    if operator[0] == "lpc":
-        return lpc(operator[1])
-    if operator[0] == "lpn":
-        return lpn(operator[1])
-    if operator[0] == "dlw":
-        return dlw(operator[1])
-    if operator[0] == "dlu":
-        return dlu(operator[1])
+        if operator[0] == "fnc":
+            return fnc(operator[1])
+        if operator[0] == "dif":
+            return dif_(operator[1])
+        if operator[0] == "nif":
+            return nif(operator[1])
+        if operator[0] == "lpc":
+            return lpc(operator[1])
+        if operator[0] == "lpn":
+            return lpn(operator[1])
+        if operator[0] == "dlw":
+            return dlw(operator[1])
+        if operator[0] == "dlu":
+            return dlu(operator[1])
 
     if operator[-1] == Instruction_Subsets.DAT.value:
         if operator[0] == "abs":
@@ -53,7 +57,7 @@ def giveCorrectClass(operator, isInALoop):
         if operator[0] == "add":
             return add(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "sub":
-            return sub(operator[1],operator[2],operator[3],isInALoop)
+            return sub_(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "mul":
             return mul(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "div":
@@ -143,113 +147,96 @@ def giveCorrectClass(operator, isInALoop):
             return dsv(operator[1],isInALoop)
         if operator[0] == "div":
             return div(operator[1],isInALoop)
+        if operator[0] == "cfv":
+            return cfv(operator[1],isInALoop)
 
 def recursiveInstructionClassList(argumentlist):
-    isInALoop = False 
+    isInALoop = 0
     if argumentlist[0][0] == "":
-        isInALoop = True
+        #print(argumentlist[0].count(""))
+        isInALoop = argumentlist[0].count("")
         #print(argumentlist[0])
-        del argumentlist[0][0]
-        #print(argumentlist[0])
+        argumentlist[0] = list(filter(lambda x: (x != "") ,argumentlist[0]))
+        print(argumentlist[0])
+       
+        #del argumentlist[0][0]#remove tab from list and put a boolian expression in the place. only support for one loop
     if len(argumentlist) == 1:
         return [giveCorrectClass(argumentlist[0], isInALoop)]
     else:
         return [giveCorrectClass(argumentlist[0], isInALoop)] + recursiveInstructionClassList(argumentlist[1:])
 
+class SimpleStatement:
+    def __init__(self, num=1):
+        self.number = num
 
-def lexv2(file):
-    argument_list = map(split,file)
-    token_ouput_list = recursiveInstructionClassList(list(argument_list))
-    print(token_ouput_list)
+#repeatStr :: String -> Integer -> String
+def repeatStr(s : str, i : int):
+    if (i <= 0):
+        return ""
+    return s + repeatStr(s, i - 1)
 
-    
-    
-    
-    #maak nog functie die meerdere functies maakt mail ff diederik hoe en wat met classes en hoe moet je dan data opslaan?
+class CodeBlock:
+    def __init__(self, nest=0):
+        self.statements = []
+        self.nestlevel = nest
 
+    #addStatement :: CodeBlock -> SimpleStatement -> CodeBlock
+    def addStatement(self, statement : SimpleStatement):
+        self.statements.append(statement)
+        return self
 
+    def __str__(self):
+        return self.__repr__()
+
+    #__repr__ :: CodeBlock -> String
+    def __repr__(self) -> str:
+        nstr = repeatStr("   ", self.nestlevel)
+        statestr = ''.join(map(lambda st: nstr + str(st) + "\n", self.statements))
+        return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + "End Block"
 
 def lex(file):
-    #now no folder support
-    """argument_list = []
-    for line in file:
-        line = line.replace('\n',"") #remove newline from string.
-        line = line.replace('-c',':')
-        line = line.replace('-s','*')
-        line = line.replace('-u','?')
-        line = line.replace('-g','>')
-        line = line.replace('-l','<')
-        line = line.replace('-p','|')
-        line = line.replace('-e','!')
-        #line = line.replace('-d','_')
-        #line = line.replace('-t'," ")
-        #line = line.replace('-r','\r')
-        #line = line.replace('-n','\n')
-        #line = line.replace('-q','\"')
-        line = line.replace('--','-')
-        #print(re.split(r'([\t\._])', line))#met de punten en _ in de lijst 
-        #print(re.split(r'_|\.|\t', line))#zonder punten en _ in de lijst
-        argument_list.append(re.split(r'_|\.|\t', line))
-    #print(argument_list)
-    """
     argument_list = map(split,file)
-    token_ouput_list = []
-    for x in argument_list:
-        #print(x)
-        if x[0] == Instruction_Subsets.DIRECTORY.value:
-            #this is a folder
-            #DIRECTORY
-            if x[1] == "fnc":
-                fncClass = fnc(x[2])
-                token_ouput_list.append(fncClass)
-            if x[1] == "dlw":
-                dlwClass = dlw(x[2])
-                token_ouput_list.append(dlwClass)
-            #print("test123: " + x[1])
-        #print(Instruction_Subsets.CSV.value)
-        #print(x[:1][0])
-        if x[-1] == Instruction_Subsets.CSV.value:#
-            if x[0] == "csv":
-                csvClass = csv(x[1])
-                #print(csvClass.name)
-                token_ouput_list.append(csvClass)
-            if x[0] == "civ":
-                civClass = civ(x[1])
-                token_ouput_list.append(civClass)
-            if x[0] == "dsv":
-                dsvClass = dsv(x[1])
-                token_ouput_list.append(dsvClass)
-            if x[0] == "div":
-                divClass = div(x[1])
-                token_ouput_list.append(divClass)
-        if x[-1] == Instruction_Subsets.DAT.value:
-            if x[0] == "set":
-                setClass = set(x[1],x[2])
-                token_ouput_list.append(setClass)
-            if x[0] == "add":
-                addClass = add(x[1],x[2],x[3])
-                token_ouput_list.append(addClass)
-            if x[0] == "dsi":
-                dsiClass = dsi(x[1],x[2],x[3])
-                token_ouput_list.append(dsiClass)
-        if x[-1] == Instruction_Subsets.TXT.value:
-            if x[0] == "dss":
-                dssClass = dss(x[1])
-                #print(dssClass.name)
-                token_ouput_list.append(dssClass)
-                #print(dssClass.name)
-            if x[0] == "rds":
-                rdsClass = rds(x[1])
-                #print(dssClass.name)
-                token_ouput_list.append(rdsClass)
-                #print(rdsClass.name)
-
-            #print("test")
-
-    print(len(token_ouput_list))
-        
+    #print(token_ouput_list)
+    return recursiveInstructionClassList(list(argument_list))
 
 
-#lex(fileTree)
-lexv2(fileTree)
+    #maak nog functie die meerdere functies maakt mail ff diederik hoe en wat met classes en hoe moet je dan data opslaan?
+
+class Loop(SimpleStatement):
+    def __init__(self, block):
+        self.code = block
+
+    #__repr__ :: Loop -> String
+    def __repr__(self) -> str:
+        s = self.code.__repr__()
+        return s
+
+
+# parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
+def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
+    if len(tokens) == 0:
+        return None, code
+    token, *rest = tokens
+    if (token.isInALoop == 0):
+        return rest, code
+    if isinstance(token, DAT):
+        return parseCodeBlock(rest, code.addStatement())
+    elif isinstance(token, TXT):
+        return parseCodeBlock(rest, code.addStatement())
+    elif isinstance(token, BIN):
+        return parseCodeBlock(rest, code.addStatement())
+    elif isinstance(token, Directory):
+        newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
+        return parseCodeBlock(newrest, code.addStatement(Loop(block)))
+
+def parsen(tokens):
+    if len(tokens) == 0:
+        return None, code
+    token, *rest = tokens
+    
+
+
+
+lex_output = lex(fileTree)
 fileTree.close()
+parsen(lex_output)
