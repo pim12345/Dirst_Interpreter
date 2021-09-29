@@ -15,8 +15,8 @@ fileTree = open("Fib_seq.txt", "r")
 
 lex_output = lex(fileTree)
 
-#tree = CodeBlock()
-parseCodeBlock(lex_output, CodeBlock)
-
+tree = CodeBlock()
+parse = parseCodeBlock(lex_output, tree)
+print(parse)
 fileTree.close()
 

@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 #nog toevoegen __repr__ ook toevoegen denk i.p.v __str__
 class Instruction_Subsets(Enum):
     DAT = "dat"
@@ -14,7 +13,8 @@ class Instruction_Subsets(Enum):
 
 ########## Tokens ###############
 class Token:
-    def __init__(self):
+    def __init__(self, isInALoop=0):
+        self.isInALoop = isInALoop
         self.test = 0
 
     def __str__(self):
@@ -26,37 +26,44 @@ class Directory(Token):
         return "Looping"
 
 class fnc(Directory):
-    def __init__(self, value):
+    def __init__(self, value, isInALoop):
+        self.isInALoop = isInALoop
         self.value = value
     def __str__(self):
         return "Execute all subitems in the directory"
 class dif_(Directory):
-    def __init__(self, value):
+    def __init__(self, value, isInALoop):
+        self.isInALoop = isInALoop
         self.value = value
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is not zero"
 class nif(Directory):
-    def __init__(self, value):
+    def __init__(self, value, isInALoop):
+        self.isInALoop = isInALoop
         self.value = value
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is zero"
 class lpc(Directory):
-    def __init__(self, value):
+    def __init__(self, value, isInALoop):
+        self.isInALoop = isInALoop
         self.value = value
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is not zero"
 class lpn(Directory):
-    def __init__(self, value):
+    def __init__(self, value, isInALoop):
+        self.isInALoop = isInALoop
         self.value = value
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is zero"
 class dlw(Directory):
-    def __init__(self, value):
-        self.value = value
+    def __init__(self,varname, isInALoop):
+        self.isInALoop = isInALoop
+        self.varname = varname
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
 class dlu(Directory):
-    def __init__(self, value):
+    def __init__(self, value, isInALoop):
+        self.isInALoop = isInALoop
         self.value = value
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is zero (loop at least once)"
@@ -182,7 +189,7 @@ class mor(DAT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.isInALoop = isInALoop
-class less(DAT):
+class les(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
@@ -280,63 +287,63 @@ class rdc(TXT):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class rds(TXT):
     def __str__(self):
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class eof(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class dsc(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class dss(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class dsl(TXT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+    def __init__(self, name, isInALoop):
+        self.name = name
+        self.isInALoop = isInALoop
 class dec(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class des(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class del_(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class clr(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class cat(TXT):
     def __str__(self):
         return ""
@@ -344,7 +351,7 @@ class cat(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class idx(TXT):
     def __str__(self):
         return ""
@@ -352,7 +359,7 @@ class idx(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class ids(TXT):
     def __str__(self):
         return ""
@@ -361,7 +368,7 @@ class ids(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class lid(TXT):
     def __str__(self):
         return ""
@@ -369,7 +376,7 @@ class lid(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class rep(TXT):
     def __str__(self):
         return ""
@@ -378,7 +385,7 @@ class rep(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class sub(TXT):
     def __str__(self):
         return ""
@@ -387,7 +394,7 @@ class sub(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class rmv(TXT):
     def __str__(self):
         return ""
@@ -396,7 +403,7 @@ class rmv(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class ins(TXT):
     def __str__(self):
         return ""
@@ -405,21 +412,21 @@ class ins(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class tou(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class tol(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class pdl(TXT):
     def __str__(self):
         return ""
@@ -427,7 +434,7 @@ class pdl(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class cpl(TXT):
     def __str__(self):
         return ""
@@ -436,7 +443,7 @@ class cpl(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class pdr(TXT):
     def __str__(self):
         return ""
@@ -444,7 +451,7 @@ class pdr(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class cpr(TXT):
     def __str__(self):
         return ""
@@ -453,7 +460,7 @@ class cpr(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class sam(TXT):
     def __str__(self):
         return ""
@@ -461,7 +468,7 @@ class sam(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class dif(TXT):
     def __str__(self):
         return ""
@@ -469,7 +476,7 @@ class dif(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class hiv(TXT):
     def __str__(self):
         return ""
@@ -477,7 +484,7 @@ class hiv(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class lov(TXT):
     def __str__(self):
         return ""
@@ -485,7 +492,7 @@ class lov(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class hev(TXT):
     def __str__(self):
         return ""
@@ -493,7 +500,7 @@ class hev(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class lev(TXT):
     def __str__(self):
         return ""
@@ -501,7 +508,7 @@ class lev(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class ssw(TXT):
     def __str__(self):
         return ""
@@ -509,7 +516,7 @@ class ssw(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class sew(TXT):
     def __str__(self):
         return ""
@@ -517,7 +524,7 @@ class sew(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class trm(TXT):
     def __str__(self):
         return ""
@@ -525,7 +532,7 @@ class trm(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class tms(TXT):
     def __str__(self):
         return ""
@@ -533,7 +540,7 @@ class tms(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class tme(TXT):
     def __str__(self):
         return ""
@@ -541,14 +548,14 @@ class tme(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 class ses(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInAloop = isInALoop
+        self.isInALoop = isInALoop
 
 ##################################
 ########## BIN Tokens ############

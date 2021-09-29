@@ -26,19 +26,19 @@ def giveCorrectClass(operator, isInALoop):
     if isInALoop > 0:
         #removed \t a stap back
         if operator[0] == "fnc":
-            return fnc(operator[1])
+            return fnc(operator[1], isInALoop)
         if operator[0] == "dif":
-            return dif_(operator[1])
+            return dif_(operator[1], isInALoop)
         if operator[0] == "nif":
-            return nif(operator[1])
+            return nif(operator[1], isInALoop)
         if operator[0] == "lpc":
-            return lpc(operator[1])
+            return lpc(operator[1], isInALoop)
         if operator[0] == "lpn":
-            return lpn(operator[1])
+            return lpn(operator[1], isInALoop)
         if operator[0] == "dlw":
-            return dlw(operator[1])
+            return dlw(operator[1], isInALoop)
         if operator[0] == "dlu":
-            return dlu(operator[1])
+            return dlu(operator[1], isInALoop)
 
     if operator[-1] == Instruction_Subsets.DAT.value:
         if operator[0] == "abs":
@@ -71,8 +71,8 @@ def giveCorrectClass(operator, isInALoop):
             return not_(operator[1],operator[2],isInALoop)
         if operator[0] == "mor":
             return mor(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "less":
-            return less(operator[1],operator[2],operator[3],isInALoop)
+        if operator[0] == "les":
+            return les(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "equ":
             return equ(operator[1],operator[2],operator[3],isInALoop)
         if operator[0] == "neq":
