@@ -145,3 +145,4 @@ dmypy.json
 /.idea/.gitignore
 
 zooi.txt
+.vscode/launch.json

@@ -576,74 +576,74 @@ class DLL(Token):
 
 ##################################
 ########## CSV Tokens used for variables and arrays ######
-class Csv(Token):
+class CSV(Token):
     def __str__(self):
         return "Manages, creates, and destroys variables and arrays"
 
-class cia(Csv):
+class cia(CSV):
     def __str__(self):
         return "Creates an integer array with the specified variable name"
-class civ(Csv):
+class civ(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Creates an integer variable with the specified variable name"
-class csa(Csv):
+class csa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Creates a string array with the specified variable name"
-class csv(Csv):
+class csv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return self.name #Creates a string variable with the specified variable name
-class cfa(Csv):
+class cfa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Creates a float array with the specified variable name"
-class cfv(Csv):
+class cfv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Creates a float variable with the specified variable name"
-class dia(Csv):
+class dia(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes an integer array with the specified variable name"
-class div(Csv):
+class div(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes an integer variable with the specified variable name"
-class dsa(Csv):
+class dsa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a string array with the specified variable name"
-class dsv(Csv):
+class dsv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a string variable with the specified variable name"
-class dfa(Csv):
+class dfa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a float array with the specified variable name"
-class dfv(Csv):
+class dfv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
         self.isInALoop = isInALoop
