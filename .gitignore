@@ -144,3 +144,5 @@ dmypy.json
 /dataSources.local.xml
 /.idea/.gitignore
 
+zooi.txt
+.vscode/launch.json

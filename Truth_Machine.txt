@@ -1,0 +1,7 @@
+civ_value.csv
+civ_tmp.csv
+ric_value.dat
+equ_tmp_value_49.dat
+	lpc_tmp
+	dic_value.dat
+dic_48.dat

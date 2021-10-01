@@ -1,0 +1,44 @@
+civ_value.csv
+civ_char.csv
+civ_boolean.csv
+civ_temp.csv
+cfv_fv.csv
+cfv_fr.csv
+	dlw_boolean
+	dss_-g-g .txt
+	ric_char.dat
+	neq_boolean_char_-1.dat
+		dif_boolean
+		equ_temp_char_100.dat
+			dif_temp
+			sub_value_value_1.dat
+		equ_temp_char_105.dat
+			dif_temp
+			add_value_value_1.dat
+		equ_temp_char_111.dat
+			dif_temp
+			dsi_value.dat
+			dsl_.txt
+		equ_temp_char_115.dat
+			dif_temp
+			itf_fv_value.exe
+			pwr_fr_fv_2.bin
+			fti_value_fr.exe
+		equ_temp_char_10.dat
+			lpn_temp
+			ric_char.dat
+			equ_temp_char_10.dat
+				nif_temp
+				equ_temp_char_-1.dat
+	equ_temp_value_256.dat
+		dif_temp
+		set_value_0.dat
+	les_temp_value_0.dat
+		dif_temp
+		set_value_0.dat
+div_value.csv
+div_char.csv
+div_boolean.csv
+div_temp.csv
+dfv_fv.csv
+dfv_fr.csv
