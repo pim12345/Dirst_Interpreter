@@ -26,33 +26,33 @@ class Directory(Token):
         return "Looping"
 
 class fnc(Directory):
-    def __init__(self, value, isInALoop):
+    def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop
-        self.value = value
+        self.varname = varname
     def __str__(self):
         return "Execute all subitems in the directory"
 class dif_(Directory):
-    def __init__(self, value, isInALoop):
+    def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop
-        self.value = value
+        self.varname = varname
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is not zero"
 class nif(Directory):
-    def __init__(self, value, isInALoop):
+    def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop
-        self.value = value
+        self.varname = varname
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is zero"
 class lpc(Directory):
-    def __init__(self, value, isInALoop):
+    def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop
-        self.value = value
+        self.varname = varname
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is not zero"
 class lpn(Directory):
-    def __init__(self, value, isInALoop):
+    def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop
-        self.value = value
+        self.varname = varname
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is zero"
 class dlw(Directory):
@@ -62,9 +62,9 @@ class dlw(Directory):
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
 class dlu(Directory):
-    def __init__(self, value, isInALoop):
+    def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop
-        self.value = value
+        self.varname = varname
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is zero (loop at least once)"
 ##################################
@@ -285,14 +285,14 @@ class TXT(Token):
 class rdc(TXT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop):
+        self.name = name
         self.isInALoop = isInALoop
 class rds(TXT):
     def __str__(self):
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop):
+        self.name = name
         self.isInALoop = isInALoop
 class eof(TXT):
     def __str__(self):
@@ -310,8 +310,8 @@ class dsc(TXT):
 class dss(TXT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop):
+        self.name = name
         self.isInALoop = isInALoop
 class dsl(TXT):
     def __str__(self):
@@ -329,20 +329,20 @@ class dec(TXT):
 class des(TXT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop):
+        self.name = name
         self.isInALoop = isInALoop
 class del_(TXT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop):
+        self.name = name
         self.isInALoop = isInALoop
 class clr(TXT):
     def __str__(self):
         return ""
-    def __init__(self, parameter1, isInALoop):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop):
+        self.name = name
         self.isInALoop = isInALoop
 class cat(TXT):
     def __str__(self):

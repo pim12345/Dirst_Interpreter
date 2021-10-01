@@ -38,8 +38,9 @@ class CodeBlock:
         return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + "End Block"
 
 class Loop(SimpleStatement):
-    def __init__(self, block):
+    def __init__(self, block, varname):
         self.code = block
+        self.varname = varname
 
     #__repr__ :: Loop -> String
     def __repr__(self) -> str:
@@ -122,7 +123,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     if isinstance(token, Directory):
         print("loop")
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
-        return parseCodeBlock(newrest, code.addStatement(Loop(block)))
+        return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
     if isinstance(token, DAT):
         print("dat")
         if isinstance(token, add):
