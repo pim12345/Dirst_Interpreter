@@ -39,11 +39,21 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         #print(test)
         #print(statement.name)
         return runABlock(code,codePtr+1,state,output)
+
     elif isinstance(statement, setValue):
         print("test2")
         print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
+        state.memory[state.variablenamesDictionary[statement.name]] = statement.newValue
         return runABlock(code,codePtr+1,state,output)
-
+    elif isinstance(statement, displayValue):
+        print(statement.value)
+        return runABlock(code,codePtr+1,state,output)
+    elif isinstance(statement, valueCompare):
+        if (state.memory[state.variablenamesDictionary[statement.parameter2]] < int(statement.parameter3) ):#need fix for fib later, maak functie als niet in dir zit kijkt of het naar een int gecast kan worden, anders error meegeven
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+        else:
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+        return runABlock(code,codePtr+1,state,output)
 
     elif isinstance(statement, LoopOpen):#LoopOpen
         print("loop")
@@ -55,14 +65,15 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         return runABlock(code, codePtr+1, state_, output_)
     
     print("end")
+    #state.memory[state.pointer]=0
     #return state, output
     
 
     #runloop :: Loop -> ProgramState -> String -> (ProgramState, String)
 def runloop(loop : CodeBlock, state: ProgramState, output : str) -> Tuple[ProgramState, str]:#loop : Loop
     #print("loop")
-    if(state.memory[state.pointer]==0):
+    if(state.memory[state.pointer]!=0):
         return state,output
     else:
-        state_, output_ = runABlock(loop.code,0,state,output)
+        state_, output_ = runABlock(loop.code,1,state,output)
         return runloop(loop, state_, output_)
