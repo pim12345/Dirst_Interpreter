@@ -50,7 +50,7 @@ class Loop(SimpleStatement):
 class createVar(SimpleStatement):
     def __init__(self, name):
         self.name = name
-        self.number = 1
+        #self.number = 1
 
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
@@ -91,7 +91,14 @@ class addValue(SimpleStatement):
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
         return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " and " + str(self.parameter3)
-    
+
+
+class LoopOpen(SimpleStatement):
+    # __repr__ :: LoopOpen -> String
+    def __repr__(self):
+        return "Open loop"
+
+
 class valueCompare(SimpleStatement):
     def __init__(self, parameter1, parameter2, parameter3):
         self.parameter1 = parameter1
@@ -106,26 +113,29 @@ class valueCompare(SimpleStatement):
 def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
     #print(code)
     if len(tokens) == 0:
-        print("end")
+        #print("end")
         return None, code
-    print(len(tokens))
+    #print(len(tokens))
     token, *rest = tokens
     if (token.isInALoop == 1 and rest[0].isInALoop == 0):#maak naar verschil is 1 en slaat nu 1 over. dus na deze statment nog 1 keer iets uitvoeren #(token.isInALoop == 1 and rest[0].isInALoop == 0):
-        print("activeerd!")
+        #print("activeerd!")
         #code aad huidige statement
         token.isInALoop = 0
         testlist = [token]
         test = parseCodeBlock(testlist, code)
-        print(test)
+        #print(test)
         return rest, code
     #if (token.isInALoop == 0):
     #    return rest, code
     if isinstance(token, Directory):
-        print("loop")
+        #print("loop")
+        code.addStatement(LoopOpen())
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
         return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
+        #newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
+        #return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
     if isinstance(token, DAT):
-        print("dat")
+        #print("dat")
         if isinstance(token, add):
             return parseCodeBlock(rest, code.addStatement(addValue(token.parameter1, token.parameter2, token.parameter3)))
         if isinstance(token, les):
@@ -135,18 +145,18 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         if isinstance(token, set):
             return parseCodeBlock(rest, code.addStatement(setValue(token.parameter1, token.parameter2)))
     elif isinstance(token, TXT):
-        print("txt")
+        #print("txt")
         return parseCodeBlock(rest, code.addStatement(displayValue(token.name)))
     elif isinstance(token, BIN):
-        print("bin")
+        #print("bin")
         return rest, code
         return parseCodeBlock(rest, code.addStatement())
     elif isinstance(token, CSV):
-        print("csv")
+        #print("csv")
         if isinstance(token,div):
             return parseCodeBlock(rest, code.addStatement(deleteVar(token.name)))   
         else: 
             return parseCodeBlock(rest, code.addStatement(createVar(token.name)))   
     else: 
-        print("else")
+        #print("else")
         return rest, code
