@@ -115,7 +115,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     if len(tokens) == 0:
         #print("end")
         return None, code
-    #print(len(tokens))
+    print(len(tokens))
     token, *rest = tokens
     if (token.isInALoop == 1 and rest[0].isInALoop == 0):#maak naar verschil is 1 en slaat nu 1 over. dus na deze statment nog 1 keer iets uitvoeren #(token.isInALoop == 1 and rest[0].isInALoop == 0):
         #print("activeerd!")

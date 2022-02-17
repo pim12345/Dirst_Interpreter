@@ -19,8 +19,8 @@ lex_output = lex(fileTree)
 tree = CodeBlock()
 parse = parseCodeBlock(lex_output, tree)[1]
 print(parse)
-out = runABlock(parse, 0, ProgramState(), "")[1]
-print(out)
+#out = runABlock(parse, 0, ProgramState(), "")[1]
+#print(out)
 #runner(parse)
 fileTree.close()
 
