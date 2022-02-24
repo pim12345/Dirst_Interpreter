@@ -415,7 +415,7 @@ class rep(TXT):
         self.isInALoop = isInALoop
 class sub(TXT):
     def __str__(self):
-        return ""
+        return "sub classe"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
