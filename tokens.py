@@ -234,7 +234,7 @@ class equ(DAT):
         self.isInALoop = isInALoop
 class neq(DAT):
     def __str__(self):
-        return ""
+        return "neq classe"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -264,7 +264,7 @@ class rdi(DAT):
         self.isInALoop = isInALoop
 class ric(DAT):
     def __str__(self):
-        return ""
+        return "ric classe"
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         self.isInALoop = isInALoop
@@ -336,7 +336,7 @@ class dsc(TXT):
         self.isInALoop = isInALoop
 class dss(TXT):
     def __str__(self):
-        return ""
+        return "dss classe"
     def __init__(self, name, isInALoop):
         self.name = name
         self.isInALoop = isInALoop
@@ -589,6 +589,14 @@ class ses(TXT):
 class BIN(Token):
     def __str__(self):
         return ""
+class pwr(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
 
 ##################################
 ########## ZIP Tokens ############
@@ -601,6 +609,21 @@ class ZIP(Token):
 class EXE(Token):
     def __str__(self):
         return ""
+
+class fti(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+class itf(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
 
 ##################################
 ########## DLL Tokens ############

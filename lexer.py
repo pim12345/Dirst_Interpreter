@@ -24,8 +24,8 @@ def split(line):
 
 def giveCorrectClass(operator, isInALoop):
     if isInALoop > 0:
-        test = fncT(isInALoop,"testing")
-        print(test)
+        #test = fncT(isInALoop,"testing")
+        #print(test)
         #removed \t a stap back
         print("operator: ", operator)
         if operator[0] == "fnc":
@@ -87,7 +87,7 @@ def giveCorrectClass(operator, isInALoop):
         if operator[0] == "rdi":
             return rdi(operator[1],isInALoop)
         if operator[0] == "ric":
-            return (operator[1],isInALoop)
+            return ric(operator[1],isInALoop)
         if operator[0] == "dsi":
             return dsi(operator[1],isInALoop)
         if operator[0] == "dic":
@@ -140,10 +140,19 @@ def giveCorrectClass(operator, isInALoop):
             return div(operator[1],isInALoop)
         if operator[0] == "cfv":
             return cfv(operator[1],isInALoop)
+    if operator[-1] == Instruction_Subsets.EXE.value:
+        if operator[0] == "itf":
+            return itf(operator[1], operator[2], isInALoop)
+        if operator[0] == "fti":
+            return fti(operator[1], operator[2], isInALoop)
+    if operator[-1] == Instruction_Subsets.BIN.value:
+        if operator[0] == "pwr":
+            return pwr(operator[1], operator[2],operator[3], isInALoop)
 
 
 def recursiveInstructionClassList(argumentlist):
     isInALoop = 0
+    print("inrecursive fun: ", argumentlist[0], "space: ", argumentlist[0].count(""), "test" )
     if argumentlist[0][0] == "":
         #print(argumentlist[0].count(""))
         isInALoop = argumentlist[0].count("")
