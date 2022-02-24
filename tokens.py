@@ -1,4 +1,6 @@
 from enum import Enum
+import string
+from typing import NamedTuple, Union
 
 #nog toevoegen __repr__ ook toevoegen denk i.p.v __str__
 class Instruction_Subsets(Enum):
@@ -31,6 +33,31 @@ class fnc(Directory):
         self.varname = varname
     def __str__(self):
         return "Execute all subitems in the directory"
+
+class fncT(NamedTuple):
+    isInALoop: bool
+    varName: str
+class difT(NamedTuple):
+    isInALoop: bool
+    varName: str
+class nifT(NamedTuple):
+    isInALoop: bool
+    varName: str
+class lpcT(NamedTuple):
+    isInALoop: bool
+    varName: str
+class lpnT(NamedTuple):
+    isInALoop: bool
+    varName: str
+class dlwT(NamedTuple):
+    isInALoop: bool
+    varName: str
+class dluT(NamedTuple):
+    isInALoop: bool
+    varName: str
+
+directoryUnion = Union[fncT, difT, nifT, lpcT, lpnT, dlwT, dluT]
+
 class dif_(Directory):
     def __init__(self, varname, isInALoop):
         self.isInALoop = isInALoop

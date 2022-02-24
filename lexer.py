@@ -24,7 +24,10 @@ def split(line):
 
 def giveCorrectClass(operator, isInALoop):
     if isInALoop > 0:
+        test = fncT(isInALoop,"testing")
+        print(test)
         #removed \t a stap back
+        print("operator: ", operator)
         if operator[0] == "fnc":
             return fnc(operator[1], isInALoop)
         if operator[0] == "dif":

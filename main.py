@@ -1,8 +1,8 @@
-from typing import List, Tuple
+from typing import Tuple, List, Callable, Union, TypeVar, Optional
+from functools import reduce
 from tokens import *
 from lexer import *
 from runner import *
-import functools
 from Parser import *
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
 
