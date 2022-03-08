@@ -56,6 +56,23 @@ class createVar(SimpleStatement):
     def __repr__(self) -> str:
         return "create var with name: " + str(self.name)
 
+class tempBinFunction(SimpleStatement):
+    def __init__(self, parameter1,parameter2):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        #self.number = 1
+
+    # __repr__ :: IncrementPointer -> String
+    def __repr__(self) -> str:
+        return "bin function: para1: " + str(self.parameter1) + " para2: " + str(self.parameter2)
+
+class tempMissingValue(SimpleStatement):
+    def __init__(self):
+        pass
+    # __repr__ :: IncrementPointer -> String
+    def __repr__(self) -> str:
+        return "missing action"
+
 class deleteVar(SimpleStatement):
     def __init__(self, name):
         self.name = name
@@ -128,17 +145,18 @@ class valueCompare(SimpleStatement):
 def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
     #print(code)
     if tokens == None or len(tokens) == 0:
-        #print("end")
+        print("end")
         return None, code
-    print("len tokens: ",len(tokens))
     token, *rest = tokens
-    if token == None:
-        return None, code
-    if len(rest) == 0:
-        print("rest[0]: ", rest[0])
-    print("token: ",token, print())
+    #if token == None:
+    #    return None, code
+    #if len(rest) == 0:
+        #print("rest[0]: ", rest[0])
+    #print("token: ",token, print())
     #print("rest[0]: ", rest[0])
     #
+    #if 
+
     #if (token.isInALoop == 1 and rest[0].isInALoop == 0):#maak naar verschil is 1 en slaat nu 1 over. dus na deze statment nog 1 keer iets uitvoeren #(token.isInALoop == 1 and rest[0].isInALoop == 0):
     #if len(rest) != 0:
     #    if (token.isInALoop - rest[0].isInALoop == 1):#if (token.isInALoop == 1 and rest[0].isInALoop == 0):
@@ -153,13 +171,21 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     #    return rest, code
     if isinstance(token, Directory):
         #print("loop")
-        code.addStatement(LoopOpen())
-        newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
-        #block.addStatement(LoopClosed())
-        return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
+        #code.addStatement(LoopOpen())
+        print(token.isInALoop)
         print("test")
+        newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
+        code.addStatement(Loop(block, token.varname))
+        #return newrest, code
+        #block.addStatement(LoopClosed())
+        #code.addStatement(LoopClosed())
+        #block.addStatement(LoopClosed())
+        return parseCodeBlock(newrest, code)
+        #return newrest, block
+        #print("test")
         #newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
         #return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
+
     if isinstance(token, DAT):
         #print("dat")
         if isinstance(token, add):
@@ -181,8 +207,17 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         return parseCodeBlock(rest, code.addStatement(displayValue(token.name)))
     elif isinstance(token, BIN):
         #print("bin")
-        return rest, code
-        return parseCodeBlock(rest, code.addStatement())
+        #return rest, code
+        return parseCodeBlock(rest, code.addStatement(tempBinFunction(token.parameter1,token.parameter2)))
+    elif isinstance(token, ZIP):
+        code.addStatement(tempMissingValue())
+        return parseCodeBlock(rest, code)
+    elif isinstance(token, EXE):
+        code.addStatement(tempMissingValue())
+        return parseCodeBlock(rest, code)
+    elif isinstance(token, DLL):
+        code.addStatement(tempMissingValue())
+        return parseCodeBlock(rest, code)
     elif isinstance(token, CSV):
         #print("csv")
         if isinstance(token,div):
@@ -193,5 +228,12 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             print("adding: ", token.name)
             return parseCodeBlock(rest, code.addStatement(createVar(token.name)))   
     else: 
+        print("things")
+        #if len(rest) > 0:
+        #    if rest[0] is not None:
+        #        print(len(rest))
+        #        if code.nestlevel > rest[0].isInALoop:
+        #            return rest,code
         #print("else")
-        return rest, code
+        return None,code
+        

@@ -13,11 +13,14 @@ fileTree = open("Deadfish_interpreter.txt", "r")
 #print(fileTree.read())
 #lambda x: x+x ,
 
-
+print("start")
 lex_output = lex(fileTree)
+print(lex_output)
+print("lexed")
 
 tree = CodeBlock()
 parse = parseCodeBlock(lex_output, tree)[1]
+print("parsed")
 print(parse)
 #out = runABlock(parse, 0, ProgramState(), "")[1]
 #print(out)

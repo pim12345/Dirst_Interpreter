@@ -701,8 +701,8 @@ class dfa(CSV):
     def __str__(self):
         return "Deletes a float array with the specified variable name"
 class dfv(CSV):
-    def __init__(self, name,isInALoop):
-        self.name = name
+    def __init__(self, parameter1,isInALoop):
+        self.parameter1 = parameter1
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a float variable with the specified variable name"

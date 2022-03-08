@@ -140,6 +140,8 @@ def giveCorrectClass(operator, isInALoop):
             return div(operator[1],isInALoop)
         if operator[0] == "cfv":
             return cfv(operator[1],isInALoop)
+        if operator[0] == "dfv":
+            return dfv(operator[1],isInALoop)
     if operator[-1] == Instruction_Subsets.EXE.value:
         if operator[0] == "itf":
             return itf(operator[1], operator[2], isInALoop)
@@ -148,14 +150,17 @@ def giveCorrectClass(operator, isInALoop):
     if operator[-1] == Instruction_Subsets.BIN.value:
         if operator[0] == "pwr":
             return pwr(operator[1], operator[2],operator[3], isInALoop)
+        if operator[0] == "dfv":
+            return dfv(operator[1],isInALoop)
 
 
 def recursiveInstructionClassList(argumentlist):
-    isInALoop = 0
+    #isInALoop = 0
+    isInALoop = argumentlist[0].count("")
     print("inrecursive fun: ", argumentlist[0], "space: ", argumentlist[0].count(""), "test" )
     if argumentlist[0][0] == "":
         #print(argumentlist[0].count(""))
-        isInALoop = argumentlist[0].count("")
+        #isInALoop = argumentlist[0].count("")
         #print(argumentlist[0])
         argumentlist[0] = list(filter(lambda str: (str != "") ,argumentlist[0]))
         #print(argumentlist[0])
