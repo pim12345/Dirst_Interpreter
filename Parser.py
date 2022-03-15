@@ -248,21 +248,25 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         print("test")
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
         code.addStatement(Loop(block, token.varname))
+        #rest = newrest
+        #if (newrest[0].isInALoop) - (token.isInALoop) < -1:
+        #    return rest,code
         return parseCodeBlock(newrest, code)
+        #return parseCodeBlock(newrest, code)
 
     if isinstance(token, DAT):
         #print("dat")
         if isinstance(token, add):
             code.addStatement(addValue(token.parameter1, token.parameter2, token.parameter3))
-        if isinstance(token, ric):
+        elif isinstance(token, ric):
             code.addStatement(displayValue(token.parameter1))#temp moet nog functie aan hangen die goed overeenkomt met standaard
-        if isinstance(token, les):
+        elif isinstance(token, les):
             code.addStatement(valueCompare(token.parameter1, token.parameter2, token.parameter3))
-        if (isinstance(token, dsi) or isinstance(token, dic)):
+        elif (isinstance(token, dsi) or isinstance(token, dic)):
             code.addStatement(displayValue(token.parameter1))
-        if isinstance(token, set):
+        elif isinstance(token, set):
             code.addStatement(setValue(token.parameter1, token.parameter2))
-        if isinstance(token, neq) or isinstance(token, equ) or isinstance(token, sub_):
+        elif isinstance(token, neq) or isinstance(token, equ) or isinstance(token, sub_):
             code.addStatement(neq2_test(token.parameter1, token.parameter2, token.parameter3))
     elif isinstance(token, TXT):
         #print("txt")
@@ -287,10 +291,10 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             print("adding: ", token.name)
             code.addStatement(createVar(token.name))
     print("things")
-    #print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
-    #print("token.isInALoop: ",token.isInALoop)
-    #print("tokens[0].isInALoop: ",rest[0].isInALoop)
     if len(tokens) >= 2:
+        print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
+        print("token.isInALoop: ",token.isInALoop)
+        print("tokens[0].isInALoop: ",rest[0].isInALoop)
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest,code
     return parseCodeBlock(rest, code)   
