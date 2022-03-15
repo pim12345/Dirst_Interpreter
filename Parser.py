@@ -243,87 +243,55 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     token, *rest = tokens
     print(token)
     print(token.isInALoop)
-    #if token == None:
-    #    return None, code
-    #if len(rest) == 0:
-        #print("rest[0]: ", rest[0])
-    #print("token: ",token, print())
-    #print("rest[0]: ", rest[0])
-    #
-    #if 
-
-    #if (token.isInALoop == 1 and rest[0].isInALoop == 0):#maak naar verschil is 1 en slaat nu 1 over. dus na deze statment nog 1 keer iets uitvoeren #(token.isInALoop == 1 and rest[0].isInALoop == 0):
-    #if len(rest) != 0:
-    #    if (token.isInALoop - rest[0].isInALoop == 1):#if (token.isInALoop == 1 and rest[0].isInALoop == 0):
-            #print("activeerd!")
-            #code aad huidige statement
-    #        token.isInALoop = 0
-    #        testlist = [token]
-    #        test = parseCodeBlock(testlist, code)
-    #        print(test)
-    #        return rest, code
-    #if (token.isInALoop == 0):
-    #    return rest, code
     if isinstance(token, Directory):
-        #print("loop")
-        #code.addStatement(LoopOpen())
         print(token.isInALoop)
         print("test")
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
         code.addStatement(Loop(block, token.varname))
-        #return newrest, code
-        #block.addStatement(LoopClosed())
-        #code.addStatement(LoopClosed())
-        #block.addStatement(LoopClosed())
-        #return parseCodeBlock(newrest, code)
-        return newrest, code
-        #print("test")
-        #newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
-        #return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
+        return parseCodeBlock(newrest, code)
 
     if isinstance(token, DAT):
         #print("dat")
         if isinstance(token, add):
             code.addStatement(addValue(token.parameter1, token.parameter2, token.parameter3))
         if isinstance(token, ric):
-            return parseCodeBlock(rest, code.addStatement(displayValue(token.parameter1)))#temp moet nog functie aan hangen die goed overeenkomt met standaard
+            code.addStatement(displayValue(token.parameter1))#temp moet nog functie aan hangen die goed overeenkomt met standaard
         if isinstance(token, les):
-            return parseCodeBlock(rest, code.addStatement(valueCompare(token.parameter1, token.parameter2, token.parameter3)))
+            code.addStatement(valueCompare(token.parameter1, token.parameter2, token.parameter3))
         if (isinstance(token, dsi) or isinstance(token, dic)):
-            return parseCodeBlock(rest, code.addStatement(displayValue(token.parameter1)))
+            code.addStatement(displayValue(token.parameter1))
         if isinstance(token, set):
-            return parseCodeBlock(rest, code.addStatement(setValue(token.parameter1, token.parameter2)))
+            code.addStatement(setValue(token.parameter1, token.parameter2))
         if isinstance(token, neq) or isinstance(token, equ) or isinstance(token, sub_):
-            return parseCodeBlock(rest, code.addStatement(neq2_test(token.parameter1, token.parameter2, token.parameter3)))
-        
-        
+            code.addStatement(neq2_test(token.parameter1, token.parameter2, token.parameter3))
     elif isinstance(token, TXT):
         #print("txt")
-        return parseCodeBlock(rest, code.addStatement(displayValue(token.name)))
+        code.addStatement(displayValue(token.name))
     elif isinstance(token, BIN):
         #print("bin")
         #return rest, code
-        return parseCodeBlock(rest, code.addStatement(tempBinFunction(token.parameter1,token.parameter2)))
+        code.addStatement(tempBinFunction(token.parameter1,token.parameter2))
     elif isinstance(token, ZIP):
         code.addStatement(tempMissingValue())
-        return parseCodeBlock(rest, code)
     elif isinstance(token, EXE):
         code.addStatement(tempMissingValue())
-        return parseCodeBlock(rest, code)
     elif isinstance(token, DLL):
         code.addStatement(tempMissingValue())
-        return parseCodeBlock(rest, code)
     elif isinstance(token, CSV):
         #print("csv")
         if isinstance(token,div):
-            return parseCodeBlock(rest, code.addStatement(deleteVar(token.name)))  
+            code.addStatement(deleteVar(token.name))
         elif isinstance(token,dfv): 
-            return parseCodeBlock(rest, code.addStatement(displayValue(token.parameter1)))
+            code.addStatement(displayValue(token.parameter1))
         else: 
             print("adding: ", token.name)
-            return parseCodeBlock(rest, code.addStatement(createVar(token.name)))   
+            code.addStatement(createVar(token.name))
     print("things")
-    if (token.isInALoop) - (tokens[0].isInALoop) == 0:
-        return rest,code
+    #print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
+    #print("token.isInALoop: ",token.isInALoop)
+    #print("tokens[0].isInALoop: ",rest[0].isInALoop)
+    if len(tokens) >= 2:
+        if (rest[0].isInALoop) - (token.isInALoop) < 0:
+            return rest,code
     return parseCodeBlock(rest, code)   
         
