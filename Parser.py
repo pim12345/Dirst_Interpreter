@@ -141,6 +141,99 @@ class valueCompare(SimpleStatement):
     def __repr__(self) -> str:
         return "parameter1: " + str(self.parameter1) + " parameter2: " + str(self.parameter2) + " parameter3: " + str(self.parameter3)
 
+
+def witchProgram(token):
+    if isinstance(token, Directory):
+        #print("loop")
+        #code.addStatement(LoopOpen())
+        print(token.isInALoop)
+        print("test")
+        #newrest, block = parseCodeBlock2(rest, CodeBlock(nest=token.isInALoop))
+        #code.addStatement(Loop(block, token.varname))
+        #return newrest, code
+        #block.addStatement(LoopClosed())
+        #code.addStatement(LoopClosed())
+        #block.addStatement(LoopClosed())
+        #return parseCodeBlock(newrest, code)
+        #return newrest, code
+        #print("test")
+        #newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
+        #return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
+
+    if isinstance(token, DAT):
+        #print("dat")
+        if isinstance(token, add):
+            return addValue(token.parameter1, token.parameter2, token.parameter3)
+        if isinstance(token, ric):
+            return displayValue(token.parameter1)#temp moet nog functie aan hangen die goed overeenkomt met standaard
+        if isinstance(token, les):
+            return valueCompare(token.parameter1, token.parameter2, token.parameter3)
+        if (isinstance(token, dsi) or isinstance(token, dic)):
+            return displayValue(token.parameter1)
+        if isinstance(token, set):
+            return setValue(token.parameter1, token.parameter2)
+        if isinstance(token, neq) or isinstance(token, equ) or isinstance(token, sub_):
+            return neq2_test(token.parameter1, token.parameter2, token.parameter3)
+        
+        
+    elif isinstance(token, TXT):
+        #print("txt")
+        return displayValue(token.name)
+    elif isinstance(token, BIN):
+        return tempBinFunction(token.parameter1,token.parameter2)
+    elif isinstance(token, ZIP):
+        return tempMissingValue()
+    elif isinstance(token, EXE):
+        return tempMissingValue()
+    elif isinstance(token, DLL):
+        return tempMissingValue()
+    elif isinstance(token, CSV):
+        #print("csv")
+        if isinstance(token,div):
+            return deleteVar(token.name)
+        elif isinstance(token,dfv): 
+            return displayValue(token.parameter1)
+        else: 
+            print("adding: ", token.name)
+            return createVar(token.name) 
+    else: 
+        print("things")
+        #if len(rest) > 0:
+        #    if rest[0] is not None:
+        #        print(len(rest))
+        #        if code.nestlevel > rest[0].isInALoop:
+        #            return rest,code
+        #print("else")
+        return None
+
+
+# parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
+def parseCodeBlock2(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
+    #print(code)
+    #if tokens == None or len(tokens) == 0:
+    #    print("end")
+    #    return None, code
+    #token, *rest = tokens
+    #print(token)
+    #print(token.isInALoop)
+    #if isinstance(token, Directory):
+    #    newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
+    #    code.addStatement(Loop(block, token.varname))
+    #    return parseCodeBlock(newrest, code)
+    # return witchProgram(token)
+    if tokens == None or len(tokens) == 0:
+        print("end")
+        return None, code
+
+    elif tokens[0].isInALoop - tokens[1].isInALoop:
+        pass
+
+    else:
+        #code.addStatement(witchProgram(tokens[0]))
+        return parseCodeBlock2(tokens[1:],code )
+
+
+
 # parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
 def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
     #print(code)
@@ -148,6 +241,8 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         print("end")
         return None, code
     token, *rest = tokens
+    print(token)
+    print(token.isInALoop)
     #if token == None:
     #    return None, code
     #if len(rest) == 0:
@@ -180,8 +275,8 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         #block.addStatement(LoopClosed())
         #code.addStatement(LoopClosed())
         #block.addStatement(LoopClosed())
-        return parseCodeBlock(newrest, code)
-        #return newrest, block
+        #return parseCodeBlock(newrest, code)
+        return newrest, code
         #print("test")
         #newrest, block = parseCodeBlock(rest, CodeBlock(nest=code.nestlevel + 1))
         #return parseCodeBlock(newrest, code.addStatement(Loop(block, token.varname)))
@@ -189,7 +284,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     if isinstance(token, DAT):
         #print("dat")
         if isinstance(token, add):
-            return parseCodeBlock(rest, code.addStatement(addValue(token.parameter1, token.parameter2, token.parameter3)))
+            code.addStatement(addValue(token.parameter1, token.parameter2, token.parameter3))
         if isinstance(token, ric):
             return parseCodeBlock(rest, code.addStatement(displayValue(token.parameter1)))#temp moet nog functie aan hangen die goed overeenkomt met standaard
         if isinstance(token, les):
@@ -227,13 +322,8 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         else: 
             print("adding: ", token.name)
             return parseCodeBlock(rest, code.addStatement(createVar(token.name)))   
-    else: 
-        print("things")
-        #if len(rest) > 0:
-        #    if rest[0] is not None:
-        #        print(len(rest))
-        #        if code.nestlevel > rest[0].isInALoop:
-        #            return rest,code
-        #print("else")
-        return None,code
+    print("things")
+    if (token.isInALoop) - (tokens[0].isInALoop) == 0:
+        return rest,code
+    return parseCodeBlock(rest, code)   
         

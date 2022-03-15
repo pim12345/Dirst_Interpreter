@@ -7,7 +7,7 @@ from Parser import *
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
 
 
-fileTree = open("Deadfish_interpreter.txt", "r")
+fileTree = open("Fib_seq.txt", "r")
 
 
 #print(fileTree.read())
