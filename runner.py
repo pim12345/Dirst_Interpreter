@@ -91,11 +91,47 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         state_.memory[0] = state.memory[0]
         #return runABlock(code, codePtr + 1, state_, output_)
         return runABlock(code, codePtr+1, state_, output)
-    
+    elif isinstance(statement, RunFunction):
+        pass
+    elif isinstance(statement, ReturnFunction):
+        return code, codePtr, state, output
+    elif isinstance(statement, ReturnIFFunction):#returnIFEquealFunction
+        if statement.parameter1.isdigit() == True and statement.parameter2.isdigit() == False:
+            if statement.parameter1 == state.memory[state.variablenamesDictionary[statement.parameter2]]:
+                return code, codePtr, state, output
+            else:
+                return runABlock(code, codePtr+1, state, output)
+        elif statement.parameter1.isdigit() == False and statement.parameter2.isdigit() == True:
+            if statement.parameter2 == state.memory[state.variablenamesDictionary[statement.parameter1]]:
+                return code, codePtr, state, output
+            else:
+                return runABlock(code, codePtr+1, state, output)
+        elif statement.parameter1.isdigit() == True and statement.parameter2.isdigit() == True:
+            if statement.parameter1 == statement.parameter2:
+                return code, codePtr, state, output
+            else:
+                return runABlock(code, codePtr+1, state, output)
+        else:
+            if state.memory[state.variablenamesDictionary[statement.parameter1]] == state.memory[state.variablenamesDictionary[statement.parameter2]]:
+                return code, codePtr, state, output
+            else:
+                return runABlock(code, codePtr+1, state, output)
     print("end")
     state.memory[state.pointer]=0 #idk misch weg
     return code, codePtr, state, output
     
+def runAFunction(filename : str, argument : str):
+    #eerst andere code lexen uit andere file daarna parsen en daarna door de runAvblock halen. 
+    fileTree = open((filename + ".txt"), "r")
+    lexoutput = lex(fileTree)
+    fileTree.close()
+    state = ProgramState()
+    state.memory[0] = argument
+    state.variablenamesDictionary["argument1"] = 0
+    code, codePtr, state, output = runABlock(parseCodeBlock(lexoutput, CodeBlock())[1], 0, state, output)
+    
+    #return number of string in ieder geval 1 arg en output
+    return state.memory[0],output
 
     #runloop :: Loop -> ProgramState -> String -> (ProgramState, String)
 def runloopDLW(loop : CodeBlock, state: ProgramState, output : str) -> Tuple[ProgramState, str]:#loop : Loop

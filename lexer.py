@@ -152,6 +152,13 @@ def giveCorrectClass(operator, isInALoop):
             return pwr(operator[1], operator[2],operator[3], isInALoop)
         if operator[0] == "dfv":
             return dfv(operator[1],isInALoop)
+    if operator[-1] == Instruction_Subsets.LNK.value:
+        if operator[0] == "run":
+            return run(operator[1], operator[2],operator[3], isInALoop)
+        if operator[0] == "ifrtn":
+            return ifrtn(operator[1], operator[2],operator[3], isInALoop)
+        if operator[0] == "rtn":
+            return rtn(operator[1],isInALoop)
 
 
 def recursiveInstructionClassList(argumentlist):

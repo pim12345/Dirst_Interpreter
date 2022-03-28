@@ -130,7 +130,6 @@ class LoopClosed(SimpleStatement):
     def __repr__(self):
         return "closed loop"
 
-
 class valueCompare(SimpleStatement):
     def __init__(self, parameter1, parameter2, parameter3):
         self.parameter1 = parameter1
@@ -141,6 +140,33 @@ class valueCompare(SimpleStatement):
     def __repr__(self) -> str:
         return "parameter1: " + str(self.parameter1) + " parameter2: " + str(self.parameter2) + " parameter3: " + str(self.parameter3)
 
+class RunFunction(SimpleStatement):
+    def __init__(self, result, argument, function):
+        self.result = result
+        self.argument = argument
+        self.function = function
+    
+    # __repr__ :: LoopOpen -> String
+    def __repr__(self):
+        return "run a function in an other file"
+    
+class ReturnFunction(SimpleStatement):
+    def __init__(self, parameter1):
+       self.parameter1 = parameter1
+    
+    # __repr__ :: LoopOpen -> String
+    def __repr__(self):
+        return "return a variable after running a function"
+
+class ReturnIFFunction(SimpleStatement):
+    def __init__(self, parameter1,parameter2,parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+    
+    # __repr__ :: LoopOpen -> String
+    def __repr__(self):
+        return "return parameter3 from a function if parameter1 is equal to parameter2"
 
 def witchProgram(token):
     if isinstance(token, Directory):
@@ -290,7 +316,15 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         else: 
             print("adding: ", token.name)
             code.addStatement(createVar(token.name))
+    elif isinstance(token, LNK):
+        if isinstance(token,run):
+            code.addStatement(RunFunction(token.result,token.argument,token.function))
+        if isinstance(token,rtn):
+            code.addStatement(ReturnFunction(token.parameter1))
+        if isinstance(token,ifrtn):
+            code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
     print("things")
+    
     if len(tokens) >= 2:
         print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
         print("token.isInALoop: ",token.isInALoop)

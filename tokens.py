@@ -11,6 +11,7 @@ class Instruction_Subsets(Enum):
     EXE = "exe"
     DLL = "dll"
     CSV = 'csv'
+    LNK = 'lnk'
     DIRECTORY = ""
 
 ########## Tokens ###############
@@ -706,3 +707,34 @@ class dfv(CSV):
         self.isInALoop = isInALoop
     def __str__(self):
         return "Deletes a float variable with the specified variable name"
+
+##################################
+########## LNK Tokens are used for function calls and the like ######
+class LNK(Token):
+    def __str__(self):
+        return "function calls and the like"
+
+class run(LNK):
+    def __init__(self, result,argument,function,isInALoop):
+        self.result = result
+        self.argument = argument
+        self.function = function
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "run a function with 1 argument(second parameter) and save the result to first parameter. third argument is filename of function to run"
+
+class ifrtn(LNK):
+    def __init__(self, parameter1,parameter2,parameter3,isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "return parameter3 from a function if parameter1 is equal to parameter2"
+
+class rtn(LNK):
+    def __init__(self, parameter1,isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+    def __str__(self):
+        return "return parameter 1 to function."
