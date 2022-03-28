@@ -101,6 +101,16 @@ class neq2_test(SimpleStatement):
     def __repr__(self) -> str:
         return "testing"
 
+class subValue(SimpleStatement):
+    def __init__(self, parameter1, parameter2, parameter3):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+    
+    # __repr__ :: IncrementPointer -> String
+    def __repr__(self) -> str:
+        return "Sets parameter 1 to the value of parameter 2 minus parameter 3"
+
 class displayValue(SimpleStatement):
     def __init__(self, value):
         self.value = value
@@ -292,7 +302,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(displayValue(token.parameter1))
         elif isinstance(token, set):
             code.addStatement(setValue(token.parameter1, token.parameter2))
-        elif isinstance(token, neq) or isinstance(token, equ) or isinstance(token, sub_):
+        elif isinstance(token, sub_):
+            code.addStatement(subValue(token.parameter1, token.parameter2, token.parameter3))
+        elif isinstance(token, neq) or isinstance(token, equ):
             code.addStatement(neq2_test(token.parameter1, token.parameter2, token.parameter3))
     elif isinstance(token, TXT):
         #print("txt")
