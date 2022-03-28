@@ -22,8 +22,10 @@ tree = CodeBlock()
 parse = parseCodeBlock(lex_output, tree)[1]
 print("parsed")
 print(parse)
-#out = runABlock(parse, 0, ProgramState(), "")[1]
-#print(out)
+print("begin run a block")
+code, codePtr, state, output = runABlock(parse, 0, ProgramState(), "")
+print("output: ", output)
+#print("output2: ", out2)
 #runner(parse)
 fileTree.close()
-
+print("end of program")
