@@ -95,7 +95,9 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         #return runABlock(code, codePtr + 1, state_, output_)
         return runABlock(code, codePtr+1, state_, output)
     elif isinstance(statement, RunFunction):
-        state.variablenamesDictionary[statement.result],output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
+        state.memory[state.variablenamesDictionary[statement.result]],output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
+        print(state.variablenamesDictionary[statement.result])
+        print(state.memory[state.variablenamesDictionary[statement.result]])
         return runABlock(code, codePtr+1, state, output_)
     elif isinstance(statement, ReturnFunction):
         return code, codePtr, state, output
@@ -103,28 +105,28 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         print(statement.parameter1)
         if statement.parameter1.isdigit() == True and statement.parameter2.isdigit() == False:
             if int(statement.parameter1) == state.memory[state.variablenamesDictionary[statement.parameter2]]:
-                state.memory[state.variablenamesDictionary["result"]] = statement.parameter3
+                state.memory[state.variablenamesDictionary["result"]] = int(statement.parameter3)
                 #output += statement.parameter3 + '\n'
                 return code, codePtr, state, output
             else:
                 return runABlock(code, codePtr+1, state, output)
         elif statement.parameter1.isdigit() == False and statement.parameter2.isdigit() == True:
             if int(statement.parameter2) == state.memory[state.variablenamesDictionary[statement.parameter1]]:
-                state.memory[state.variablenamesDictionary["result"]] = statement.parameter3
+                state.memory[state.variablenamesDictionary["result"]] = int(statement.parameter3)
                 #output += statement.parameter3 + '\n'
                 return code, codePtr, state, output
             else:
                 return runABlock(code, codePtr+1, state, output)
         elif statement.parameter1.isdigit() == True and statement.parameter2.isdigit() == True:
             if statement.parameter1 == statement.parameter2:
-                state.memory[state.variablenamesDictionary["result"]] = statement.parameter3
+                state.memory[state.variablenamesDictionary["result"]] = int(statement.parameter3)
                 #output += statement.parameter3 + '\n'
                 return code, codePtr, state, output
             else:
                 return runABlock(code, codePtr+1, state, output)
         else:
             if state.memory[state.variablenamesDictionary[statement.parameter1]] == state.memory[state.variablenamesDictionary[statement.parameter2]]:
-                state.memory[state.variablenamesDictionary["result"]] = statement.parameter3
+                state.memory[state.variablenamesDictionary["result"]] = int(statement.parameter3)
                 #output += statement.parameter3 + '\n'
                 return code, codePtr, state, output
             else:
