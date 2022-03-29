@@ -39,12 +39,34 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         #print(test)
         #print(statement.name)
         return runABlock(code,codePtr+1,state,output)
-
+    elif isinstance(statement, IfStatement):
+        if statement.condition == ">=":
+            if statement.parameter2.lstrip("-").isdigit() == True and statement.parameter3.lstrip("-").isdigit() == False:
+                if int(statement.parameter2) >= state.memory[state.variablenamesDictionary[statement.parameter3]]:
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+                else:
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            elif statement.parameter2.lstrip("-").isdigit() == False and statement.parameter3.lstrip("-").isdigit() == True:
+                if state.memory[state.variablenamesDictionary[statement.parameter2]] >= int(statement.parameter3):
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+                else:
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            elif statement.parameter2.lstrip("-").isdigit() == True and statement.parameter3.lstrip("-").isdigit() == True:
+                if int(statement.parameter2) >= int(statement.parameter3):
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+                else:
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            else:
+                if state.memory[state.variablenamesDictionary[statement.parameter2]] >= state.memory[state.variablenamesDictionary[statement.parameter3]]:
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+                else:
+                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+        return runABlock(code,codePtr+1,state,output)
     elif isinstance(statement, setValue):
         print("test2")
-        print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
+        #print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
         print(type(statement.newValue))
-        if statement.newValue.isdigit() == True:
+        if statement.newValue.lstrip("-").isdigit() == True:#lstrip because isdigit can't understand negatife numbers
             state.memory[state.variablenamesDictionary[statement.name]] = int(statement.newValue)
         else:
             state.memory[state.variablenamesDictionary[statement.name]] = state.memory[state.variablenamesDictionary[statement.newValue]]
@@ -81,19 +103,38 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         print("loop")
         print("statement name: ", statement.varname)
         #state.memory[state.pointer]=1
-        print()
-        state.memory[0] = state.memory[state.variablenamesDictionary[statement.varname]] 
+        #if isinstance(statement, Loop):
+        #print()
+        #state.memory[0] = state.memory[state.variablenamesDictionary[statement.varname]] maybe enable if other thing not working out
         #state.memory[state.pointer]=1
         #state.memory[0]=1
         #codePtr+=1
         statementLoop = code.statements[codePtr].code
         print(type(statementLoop))
-        statementLoop, codePtr_, state_, output = runABlock(statementLoop, 0, state, output)#loop at least once
-        state_, output = runloopDLW(statementLoop, state_, output)
-        state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-        state_.memory[0] = state.memory[0]
-        #return runABlock(code, codePtr + 1, state_, output_)
-        return runABlock(code, codePtr+1, state_, output)
+        if statement.onlyOneTime == True:
+            statementLoop, codePtr_, state_, output = runABlock(statementLoop, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
+            #return runABlock(code, codePtr+1, state_, output)
+        elif statement.loopAtLeastOnce == True:
+            statementLoop, codePtr_, state_, output = runABlock(statementLoop, 0, state, output)#loop at least once
+            if statement.whileZero == True:
+                state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
+                state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+                state_.memory[0] = state.memory[0]
+            else:
+                state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname)
+                state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+                state_.memory[0] = state.memory[0]
+            return runABlock(code, codePtr+1, state_, output)
+        else:
+            if statement.whileZero == True:
+                state, output = runLoopWhileZero(statementLoop, state, output, statement.varname)
+                #state.memory[state.variablenamesDictionary[statement.varname]] = state.memory[0]
+                #state.memory[0] = state.memory[0]
+            else:
+                state, output = runLoopWhileNotZero(statementLoop, state, output, statement.varname)
+                #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+                #state_.memory[0] = state.memory[0]
+        return runABlock(code, codePtr+1, state, output)
     elif isinstance(statement, RunFunction):
         state.memory[state.variablenamesDictionary[statement.result]],output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
         print(state.variablenamesDictionary[statement.result])
@@ -150,22 +191,22 @@ def runAFunction(filename : str, argument1 : int, output : str):
     return state.memory[state.variablenamesDictionary["result"]],output
 
     #runloop :: Loop -> ProgramState -> String -> (ProgramState, String)
-def runloopDLW(loop : CodeBlock, state: ProgramState, output : str) -> Tuple[ProgramState, str]:#loop : Loop
+def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, str, str]:#loop : Loop
     #print("loop")
     print(state.pointer)
     #if(state.memory[state.pointer]!=0):
-    if(state.memory[0]!=0):
-        return state,output
+    if state.memory[state.variablenamesDictionary[loopname]] != 0:
+        return state, output
     else:
-        state_, output_ = runABlock(loop.code,0,state,output)
-        return runloopDLW(loop, state_, output_)
+        code_, codePtr_, state_, output_ = runABlock(loop.code,0,state,output)
+        return runLoopWhileZero(loop, state_, output_, loopname)
 
-def runloop(loop : CodeBlock, state: ProgramState, output : str) -> Tuple[ProgramState, str]:#loop : Loop
+def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, str]:#loop : Loop
     #print("loop")
     print(state.pointer)
     #if(state.memory[state.pointer]!=0):
-    if(state.memory[0]!=0):
-        return state,output
+    if state.memory[state.variablenamesDictionary[loopname]] == 0:
+        return state, output
     else:
-        state_, output_ = runABlock(loop.code,0,state,output)
-        return runloop(loop, state_, output_)
+        code_, codePtr_, state_, output_ = runABlock(loop,0,state,output)
+        return runLoopWhileNotZero(loop, state_, output_, loopname)

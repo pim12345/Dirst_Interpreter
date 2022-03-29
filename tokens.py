@@ -589,10 +589,19 @@ class ses(TXT):
 ########## BIN Tokens ############
 class BIN(Token):
     def __str__(self):
-        return ""
+        return "Contains all floating point functionality and logic as well as advanced math operations"
 class pwr(BIN):
     def __str__(self):
         return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class gte(BIN):
+    def __str__(self):
+        return "Set parameter 1 to -1 if parameter 2 is greater than or equal to parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2

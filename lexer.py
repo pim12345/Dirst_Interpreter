@@ -129,7 +129,7 @@ def giveCorrectClass(operator, isInALoop):
         if operator[0] == "ids":
            return ids(operator[1],operator[2],operator[3],operator[4],isInALoop)
 
-    if operator[-1] == Instruction_Subsets.CSV.value:#
+    if operator[-1] == Instruction_Subsets.CSV.value:
         if operator[0] == "csv":
             return csv(operator[1],isInALoop)       
         if operator[0] == "civ":
@@ -152,6 +152,8 @@ def giveCorrectClass(operator, isInALoop):
             return pwr(operator[1], operator[2],operator[3], isInALoop)
         if operator[0] == "dfv":
             return dfv(operator[1],isInALoop)
+        if operator[0] == "gte":
+            return gte(operator[1], operator[2],operator[3], isInALoop)
     if operator[-1] == Instruction_Subsets.LNK.value:
         if operator[0] == "run":
             return run(operator[1], operator[2],operator[3], isInALoop)
