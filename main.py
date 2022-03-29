@@ -7,7 +7,7 @@ from Parser import *
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
 
 
-fileTree = open("sommigExample.txt", "r")
+fileTree = open("dubble_recursive_even.txt", "r")
 
 
 #print(fileTree.read())

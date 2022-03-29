@@ -18,7 +18,6 @@ class Instruction_Subsets(Enum):
 class Token:
     def __init__(self, isInALoop=0):
         self.isInALoop = isInALoop
-        self.test = 0
 
     def __str__(self):
         return "Token"
@@ -590,7 +589,266 @@ class ses(TXT):
 class BIN(Token):
     def __str__(self):
         return "Contains all floating point functionality and logic as well as advanced math operations"
+
+class pls(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class mns(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+        
+class tms(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class dvb(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
 class pwr(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class sgn(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class sqr(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class sin(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class cos(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class tan(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class snh(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class csh(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+    
+class tnh(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class cil(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class flr(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class log(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class lge(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class lbq(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class epw(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class avl(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class rnd(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class rou(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class asn(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class acs(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class atn(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class mks(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class fmx(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class fmn(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class grt(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class lst(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class eqt(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class net(BIN):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
@@ -608,17 +866,218 @@ class gte(BIN):
         self.parameter3 = parameter3
         self.isInALoop = isInALoop
 
+class lte(BIN):
+    def __str__(self):
+        return "Set parameter 1 to -1 if parameter 2 is less than or equal to parameter 3, 0 otherwise. Wrong in original Dirst documentation."
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class rfv(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class dfv(BIN):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
 ##################################
 ########## ZIP Tokens ############
 class ZIP(Token):
     def __str__(self):
-        return ""
+        return "Manages arrays and array values"
 
+class giv(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class siv(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class gsv(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+#dubblicate siv class in original documenation
+
+class gfv(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class sfv(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class fia(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class zia(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class fsa(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class zsa(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class ffa(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class zfa(ZIP):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+#one dubble removed
 ##################################
 ########## EXE Tokens ############
 class EXE(Token):
     def __str__(self):
+        return "Handles type conversion and value/array transcoding"
+
+class sia(EXE):
+    def __str__(self):
         return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class ssa(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class sti(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class stf(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class stc(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.parameter3 = parameter3
+        self.isInALoop = isInALoop
+
+class its(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class itf(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class ias(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class aif(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
+
+class fts(EXE):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, parameter2, isInALoop):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        self.isInALoop = isInALoop
 
 class fti(EXE):
     def __str__(self):
@@ -627,7 +1086,8 @@ class fti(EXE):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.isInALoop = isInALoop
-class itf(EXE):
+
+class afi(EXE):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
@@ -639,7 +1099,139 @@ class itf(EXE):
 ########## DLL Tokens ############
 class DLL(Token):
     def __str__(self):
+        return "Contains all extensions and specialized instructions, such as exception handling and abstract data structures"
+
+class psh(DLL):
+    def __str__(self):
         return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class pop(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class spk(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+
+class ssz(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class enq(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class deq(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class qpk(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class qsz(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, parameter1, isInALoop):
+        self.parameter1 = parameter1
+        self.isInALoop = isInALoop
+
+class tpl(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class tpr(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class tsv(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self,parameter1, isInALoop):
+        self.isInALoop = isInALoop
+        self.parameter1 = parameter1
+
+class tgv(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self,parameter1, isInALoop):
+        self.isInALoop = isInALoop
+        self.parameter1 = parameter1
+
+class gbe(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class gen(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class gef(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class lce(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class lcn(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class lcf(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
+
+class ges(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self,parameter1 ,isInALoop):
+        self.isInALoop = isInALoop
+        self.parameter1 = parameter1
+
+class ces(DLL):
+    def __str__(self):
+        return ""
+    def __init__(self, isInALoop):
+        self.isInALoop = isInALoop
 
 ##################################
 ########## CSV Tokens used for variables and arrays ######
@@ -721,7 +1313,7 @@ class dfv(CSV):
 ########## LNK Tokens are used for function calls and the like ######
 class LNK(Token):
     def __str__(self):
-        return "function calls and the like"
+        return "function calls and the like. Not in orignal Dirst"
 
 class run(LNK):
     def __init__(self, result,argument,function,isInALoop):
