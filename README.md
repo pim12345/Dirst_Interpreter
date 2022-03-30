@@ -1,29 +1,20 @@
 # Dirst_Interpreter
+
 A python Dirst interpreter
 
 This python Dirst interpreter is based on the [Dirst programming language](https://esolangs.org/wiki/Dirst)
 
 In this project is has also added functions calls in the project
 
-
 # Requirements
-
-
-
-
-
 
 # === README CHECKLIST ===
 
-Gekozen taal:
+Gekozen taal: [Dirst](https://esolangs.org/wiki/Dirst)
 
-Turing-compleet omdat:
-
- 
+Turing-compleet omdat: Het in de categorie van turing complete staat
 
 Code is geschreven in functionele stijl.
-
- 
 
 Taal ondersteunt:
 
@@ -33,11 +24,9 @@ Goto-statements? Voorbeeld: [file] - [regel]
 
 Lambda-calculus? Voorbeeld: [files] - [regels]
 
- 
-
 Bevat:
 
-Classes met inheritance: bijvoorbeeld [file] - [regel]
+Classes met inheritance: bijvoorbeeld [tokens.py] - [36-40]
 
 Object-printing voor elke class: [ja/nee]
 
@@ -48,12 +37,8 @@ Type-annotatie: Haskell-stijl in comments: [ja/nee]; Python-stijl in functiedefi
 Minstens drie toepassingen van hogere-orde functies:
 
 1. [file] - [regel]
-
 2. [file] - [regel]
-
 3. [file] - [regel]
-
- 
 
 Interpreter-functionaliteit Must-have:
 
@@ -64,8 +49,6 @@ Functie-parameters kunnen aan de interpreter meegegeven worden door:
 Functies kunnen andere functies aanroepen: zie voorbeeld [file] - [regel]
 
 Functie resultaat wordt op de volgende manier weergegeven:
-
- 
 
 Interpreter-functionaliteit (should/could-have):
 
