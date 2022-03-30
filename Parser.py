@@ -159,7 +159,7 @@ class operators(SimpleStatement):
     
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
-        match self.operator:
+        match self.operatorType:
             case operatorsList.plus:
                 return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " plus " + str(self.parameter3)
             case operatorsList.minus:
