@@ -40,7 +40,7 @@ class CodeBlock:
         return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + "End Block"
 
 class Loop(SimpleStatement):
-    def __init__(self, block, varname, whileZero = False, loopAtLeastOnce = True, onlyOneTime = False):
+    def __init__(self, block, varname, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
         self.code = block
         self.varname = varname
         self.whileZero = whileZero
@@ -95,25 +95,6 @@ class setValue(SimpleStatement):
     def __repr__(self) -> str:
         return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2)
 
-class neq2_test(SimpleStatement):
-    def __init__(self, name, newValue, parameter3):
-        self.name = name
-        self.newValue = newValue
-        self.parameter3 = parameter3
-    
-    # __repr__ :: IncrementPointer -> String
-    def __repr__(self) -> str:
-        return "testing"
-
-class subValue(SimpleStatement):
-    def __init__(self, parameter1, parameter2, parameter3):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-    
-    # __repr__ :: IncrementPointer -> String
-    def __repr__(self) -> str:
-        return "Sets parameter 1 to the value of parameter 2 minus parameter 3"
 
 class displayValue(SimpleStatement):
     def __init__(self, value : int, isChar: bool):
@@ -288,7 +269,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         #print(token.isInALoop)
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
         if isinstance(token,fnc):
-            code.addStatement(Loop(block, token.varname,False,False,True))
+            code.addStatement(Loop(block, token.varname,False,True,True))
         elif isinstance(token,dif):
             code.addStatement(Loop(block, token.varname,False,False,True))
         elif isinstance(token,nif):

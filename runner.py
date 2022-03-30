@@ -138,6 +138,39 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             state.memory[state.variablenamesDictionary[statement.name]] = 0
             del state.variablenamesDictionary[statement.name]#check if it gives no errors
             return runABlock(code,codePtr+1,state,output)
+        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
+            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
+            return runABlock(code, codePtr+1, state, output)
+        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif #maybe implent if statement in switch case
+            if state.memory[state.variablenamesDictionary[statement.parameter1]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
+                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)
+            return runABlock(code, codePtr+1, state_, output)
+        case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=True):#nif
+            if state.memory[state.variablenamesDictionary[statement.parameter1]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
+                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)
+            return runABlock(code, codePtr+1, state_, output)
+        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=False):#lpc # check if logic is good with if statement
+            state_, output = runLoopWhileNotZero(code.statements[codePtr].code, state_, output, statement.varname)
+            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
+            state_.memory[0] = state.memory[0]
+            return runABlock(code, codePtr+1, state_, output)
+        case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=False):#lpn
+            state_, output = runLoopWhileZero(code.statements[codePtr].code, state_, output, statement.varname)# check if logic is good with if statement in function
+            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
+            state_.memory[0] = state.memory[0]
+            return runABlock(code, codePtr+1, state_, output)
+        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=False):#dlw
+            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)#loop at least once
+            state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname)
+            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+            state_.memory[0] = state.memory[0]
+            return runABlock(code, codePtr+1, state_, output)
+        case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=True,onlyOneTime=False):#dlu
+            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)#loop at least once
+            state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
+            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+            state_.memory[0] = state.memory[0]
+            return runABlock(code, codePtr+1, state_, output)
         case Loop():
             print("loop")
             print("statement name: ", statement.varname)
@@ -150,10 +183,10 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             #codePtr+=1
             statementLoop = code.statements[codePtr].code
             print(type(statementLoop))
-            if statement.onlyOneTime == True:
-                statementLoop, codePtr_, state_, output = runABlock(statementLoop, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
+            #if statement.onlyOneTime == True:
+                
             #return runABlock(code, codePtr+1, state_, output)
-            elif statement.loopAtLeastOnce == True:
+            if statement.loopAtLeastOnce == True:#was elif
                 statementLoop, codePtr_, state_, output = runABlock(statementLoop, 0, state, output)#loop at least once
                 if statement.whileZero == True:
                     state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
