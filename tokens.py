@@ -25,7 +25,7 @@ class Token:
 ########## Directory Tokens ######
 class Directory(Token):
     def __str__(self):
-        return "Looping"
+        return "Handles looping, conditionals and code separation"
 
 class fnc(Directory):
     def __init__(self, varname, isInALoop):
@@ -33,31 +33,6 @@ class fnc(Directory):
         super().__init__(isInALoop)
     def __str__(self):
         return "Execute all subitems in the directory"
-
-class fncT(NamedTuple):
-    isInALoop: bool
-    varName: str
-class difT(NamedTuple):
-    isInALoop: bool
-    varName: str
-class nifT(NamedTuple):
-    isInALoop: bool
-    varName: str
-class lpcT(NamedTuple):
-    isInALoop: bool
-    varName: str
-class lpnT(NamedTuple):
-    isInALoop: bool
-    varName: str
-class dlwT(NamedTuple):
-    isInALoop: bool
-    varName: str
-class dluT(NamedTuple):
-    isInALoop: bool
-    varName: str
-
-directoryUnion = Union[fncT, difT, nifT, lpcT, lpnT, dlwT, dluT]
-
 class dif_(Directory):
     def __init__(self, varname, isInALoop):
         self.varname = varname
@@ -98,24 +73,24 @@ class dlu(Directory):
 ########## DAT Tokens ############
 class DAT(Token):
     def __str__(self):
-        return ""
+        return "Contains all integer functionality and logic"
 class abs(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: " + str(self.parameter1) + " to the absolute value of parameter 2: " + str(self.parameter2)
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class neg(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the negative value of parameter 2:"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class add(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: plus parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -123,7 +98,7 @@ class add(DAT):
         super().__init__(isInALoop)
 class sub_(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: minus parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -131,7 +106,7 @@ class sub_(DAT):
         super().__init__(isInALoop)
 class mul(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: times parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -139,7 +114,7 @@ class mul(DAT):
         super().__init__(isInALoop)
 class div(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: divided by parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -147,7 +122,7 @@ class div(DAT):
         super().__init__(isInALoop)
 class mod(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: modulo parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -155,7 +130,7 @@ class mod(DAT):
         super().__init__(isInALoop)
 class and_(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: bitwise and parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -163,7 +138,7 @@ class and_(DAT):
         super().__init__(isInALoop)
 class orb(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: bitwise or parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -171,7 +146,7 @@ class orb(DAT):
         super().__init__(isInALoop)
 class xor(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: bitwise xor parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -179,7 +154,7 @@ class xor(DAT):
         super().__init__(isInALoop)
 class xad(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: bitwise xand parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -187,7 +162,7 @@ class xad(DAT):
         super().__init__(isInALoop)
 class nad(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: bitwise nand parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -195,7 +170,7 @@ class nad(DAT):
         super().__init__(isInALoop)
 class nor(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of parameter 2: bitwise nor parameter 3:"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -203,14 +178,14 @@ class nor(DAT):
         super().__init__(isInALoop)
 class not_(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to the value of the bitwise not of parameter 2:"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class mor(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to -1 if parameter 2: is greater than parameter 3:, otherwise 0"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -218,7 +193,7 @@ class mor(DAT):
         super().__init__(isInALoop)
 class les(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to -1 if parameter 2: is less than parameter 3:, otherwise 0"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -226,7 +201,7 @@ class les(DAT):
         super().__init__(isInALoop)
 class equ(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1: to -1 if parameter 2: is equal to parameter 3:, otherwise 0"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -234,7 +209,7 @@ class equ(DAT):
         super().__init__(isInALoop)
 class neq(DAT):
     def __str__(self):
-        return "neq classe"
+        return "Sets parameter 1: to -1 if parameter 2: is not equal to parameter 3:, otherwise 0"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -242,7 +217,7 @@ class neq(DAT):
         super().__init__(isInALoop)
 class get(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1 to -1 if parameter 2 is greater than or equal to parameter 3, otherwise 0"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -250,7 +225,7 @@ class get(DAT):
         super().__init__(isInALoop)
 class let(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1 to -1 if parameter 2 is less than or equal to parameter 3, otherwise 0"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -258,38 +233,38 @@ class let(DAT):
         super().__init__(isInALoop)
 class rdi(DAT):
     def __str__(self):
-        return ""
+        return "Reads an integer from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is not modified and EOF is marked."
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class ric(DAT):
     def __str__(self):
-        return "ric classe"
+        return "Read a character from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is set to -1."
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dsi(DAT):
     def __str__(self):
-        return ""
+        return "Display the specified integer value to the console"
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dic(DAT):
     def __str__(self):
-        return ""
+        return "Display the character specified by the integer value to the console"
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class set(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1 to the value of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class max(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1 to the higher value out of parameter 2 and parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -297,7 +272,7 @@ class max(DAT):
         super().__init__(isInALoop)
 class min(DAT):
     def __str__(self):
-        return ""
+        return "Sets parameter 1 to the lower value out of parameter 2 and parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -311,7 +286,7 @@ class TXT(Token):
         return "Contains all string functionality and logic as well as advanced console IO"
 class rdc(TXT):
     def __str__(self):
-        return ""
+        return "Reads a character from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
     def __init__(self, name, isInALoop):
         self.name = name
         super().__init__(isInALoop)
@@ -323,57 +298,57 @@ class rds(TXT):
         super().__init__(isInALoop)
 class eof(TXT):
     def __str__(self):
-        return ""
+        return "Sets the given integer variable to -1 it EOF has been reached, 0 otherwise"
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dsc(TXT):
     def __str__(self):
-        return ""
+        return "Displays the character from string parameter 1 at index parameter 2 (base 0) to the console"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class dss(TXT):
     def __str__(self):
-        return "dss classe"
+        return "Displays the given string variable to the console with no newline following"
     def __init__(self, name, isInALoop):
         self.name = name
         super().__init__(isInALoop)
 class dsl(TXT):
     def __str__(self):
-        return ""
+        return "Displays the given string variable to the console followed by a newline"
     def __init__(self, name, isInALoop):
         self.name = name
         super().__init__(isInALoop)
 class dec(TXT):
     def __str__(self):
-        return ""
+        return "Displays the character from string parameter 1 at index parameter 2 (base 0) to STDERR"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class des(TXT):
     def __str__(self):
-        return ""
+        return "Displays the given string variable to STDERR with no newline following"
     def __init__(self, name, isInALoop):
         self.name = name
         super().__init__(isInALoop)
 class del_(TXT):
     def __str__(self):
-        return ""
+        return "Displays the given string variable to STDERR followed by a newline"
     def __init__(self, name, isInALoop):
         self.name = name
         super().__init__(isInALoop)
 class clr(TXT):
     def __str__(self):
-        return ""
+        return "Clears the given string variable: " + str(self.name)
     def __init__(self, name, isInALoop):
         self.name = name
         super().__init__(isInALoop)
 class cat(TXT):
     def __str__(self):
-        return ""
+        return "Concats parameter 2 and parameter 3 and sets parameter 1 to the result"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -381,7 +356,7 @@ class cat(TXT):
         super().__init__(isInALoop)
 class idx(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the index of the first occurrence of parameter 3 in parameter 2, or -1 if not found"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -389,7 +364,7 @@ class idx(TXT):
         super().__init__(isInALoop)
 class ids(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the index of the first occurrence of parameter 3 in parameter 2 after specified index parameter 4, or -1 if not found"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -398,7 +373,7 @@ class ids(TXT):
         super().__init__(isInALoop)
 class lid(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the index of the last occurrence of parameter 3 in parameter 2, or -1 if not found"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -406,7 +381,7 @@ class lid(TXT):
         super().__init__(isInALoop)
 class rep(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2, replacing every occurrence of parameter 3 with parameter 4"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -415,7 +390,7 @@ class rep(TXT):
         super().__init__(isInALoop)
 class sub(TXT):
     def __str__(self):
-        return "sub classe"
+        return "Set parameter 1 to the substring of parameter 2 from index parameter 3 (base 0) of length parameter 4"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -424,7 +399,7 @@ class sub(TXT):
         super().__init__(isInALoop)
 class rmv(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 removing characters from index parameter 3 (base 0) of length parameter 4"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -433,7 +408,7 @@ class rmv(TXT):
         super().__init__(isInALoop)
 class ins(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 inserting substring parameter 4 at index parameter 3 (base 0)"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -442,21 +417,21 @@ class ins(TXT):
         super().__init__(isInALoop)
 class tou(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the all uppercase value of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class tol(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the all lowercase value of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class pdl(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 padded on the left-hand side with spaces until length parameter 3 is reached"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -464,7 +439,7 @@ class pdl(TXT):
         super().__init__(isInALoop)
 class cpl(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 padded on the left-hand side with the character value parameter 4 until length parameter 3 is reached"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -473,7 +448,7 @@ class cpl(TXT):
         super().__init__(isInALoop)
 class pdr(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 padded on the right-hand side with spaces until length parameter 3 is reached"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -481,7 +456,7 @@ class pdr(TXT):
         super().__init__(isInALoop)
 class cpr(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 padded on the right-hand side with the character value parameter 4 until length parameter 3 is reached"
     def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -490,7 +465,7 @@ class cpr(TXT):
         super().__init__(isInALoop)
 class sam(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is equal to parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -498,7 +473,7 @@ class sam(TXT):
         super().__init__(isInALoop)
 class dif(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is not equal to parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -506,7 +481,7 @@ class dif(TXT):
         super().__init__(isInALoop)
 class hiv(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is lexicographically after parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -514,7 +489,7 @@ class hiv(TXT):
         super().__init__(isInALoop)
 class lov(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is lexicographically before parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -522,7 +497,7 @@ class lov(TXT):
         super().__init__(isInALoop)
 class hev(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is lexicographically after or equal to parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -530,7 +505,7 @@ class hev(TXT):
         super().__init__(isInALoop)
 class lev(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is lexicographically before or equal to parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -538,7 +513,7 @@ class lev(TXT):
         super().__init__(isInALoop)
 class ssw(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 starts with parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -546,7 +521,7 @@ class ssw(TXT):
         super().__init__(isInALoop)
 class sew(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 ends with parameter 3, 0 otherwise"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -554,7 +529,7 @@ class sew(TXT):
         super().__init__(isInALoop)
 class trm(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 trimming all leading and trailing occurrences of the characters in parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -562,7 +537,7 @@ class trm(TXT):
         super().__init__(isInALoop)
 class tms(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 trimming all leading occurrences of the characters in parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -570,7 +545,7 @@ class tms(TXT):
         super().__init__(isInALoop)
 class tme(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to parameter 2 trimming all trailing occurrences of the characters in parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -578,7 +553,7 @@ class tme(TXT):
         super().__init__(isInALoop)
 class ses(TXT):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -592,34 +567,31 @@ class BIN(Token):
 
 class pls(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2 plus parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class mns(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2 minus parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        super().__init__(isInALoop)
-        
+        super().__init__(isInALoop)   
 class tms(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2 times parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class dvb(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2 divided by parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -628,7 +600,7 @@ class dvb(BIN):
 
 class pwr(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2 to the power of parameter 3"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -637,7 +609,7 @@ class pwr(BIN):
 
 class sgn(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the sign of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -645,7 +617,7 @@ class sgn(BIN):
 
 class sqr(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the square root of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -653,7 +625,7 @@ class sqr(BIN):
 
 class sin(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the sine of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -661,7 +633,7 @@ class sin(BIN):
 
 class cos(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the cosine of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -669,7 +641,7 @@ class cos(BIN):
 
 class tan(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the tangent of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -677,7 +649,7 @@ class tan(BIN):
 
 class snh(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the hyperbolic sine of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -685,7 +657,7 @@ class snh(BIN):
 
 class csh(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the hyperbolic cosine of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -693,7 +665,7 @@ class csh(BIN):
     
 class tnh(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the hyperbolic tangent of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -701,7 +673,7 @@ class tnh(BIN):
 
 class cil(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the ceiling of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -709,7 +681,7 @@ class cil(BIN):
 
 class flr(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the floor of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -717,7 +689,7 @@ class flr(BIN):
 
 class log(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the base 10 logarithm of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -725,7 +697,7 @@ class log(BIN):
 
 class lge(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the natural logarithm of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -733,7 +705,7 @@ class lge(BIN):
 
 class lbq(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the base parameter 3 logarithm of parameter 2"
     def __init__(self, parameter1, parameter2, parameter3, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -742,7 +714,7 @@ class lbq(BIN):
 
 class epw(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of e to the power of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -750,7 +722,7 @@ class epw(BIN):
 
 class avl(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of the absolute value of parameter 2"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -758,14 +730,14 @@ class avl(BIN):
 
 class rnd(BIN):
     def __str__(self):
-        return ""
+        return "Set the given float variable to a random value between 0.0 and 1.0 inclusive"
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 
 class rou(BIN):
     def __str__(self):
-        return ""
+        return "Set parameter 1 to the value of parameter 2 rounded to the nearest whole number"
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2

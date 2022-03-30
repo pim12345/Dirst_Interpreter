@@ -182,6 +182,4 @@ def recursiveInstructionClassList(argumentlist):
 
 
 def lex(file):
-    argument_list = map(split,file)
-    #print(token_ouput_list)
-    return recursiveInstructionClassList(list(argument_list))
+    return recursiveInstructionClassList(list(map(split,file)))

@@ -9,10 +9,6 @@ from Parser import *
 
 fileTree = open("sommigExample.txt", "r")
 
-
-#print(fileTree.read())
-#lambda x: x+x ,
-
 print("start")
 lex_output = lex(fileTree)
 print(lex_output)

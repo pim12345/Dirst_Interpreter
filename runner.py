@@ -27,59 +27,117 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         return code, codePtr, state, output
     statement = code.statements[codePtr]
     print(str(statement))
-    if isinstance(statement, createVar):
+    print(type(statement))
+    #if hasattr(statement, "parameter2"):
+    try:
         print("test")
-        if statement.name in state.variablenamesDictionary:
-            print("error systeem nog niet in plaats, maar var bestaat al ")
-            return code, codePtr, state, "error"
-        state.memory[state.pointer]=0
-        state.variablenamesDictionary[statement.name] = state.pointer
-        state.pointer+=1
-        
-        #print(test)
-        #print(statement.name)
-        return runABlock(code,codePtr+1,state,output)
-    elif isinstance(statement, IfStatement):
-        if statement.condition == ">=":
-            if statement.parameter2.lstrip("-").isdigit() == True and statement.parameter3.lstrip("-").isdigit() == False:
-                if int(statement.parameter2) >= state.memory[state.variablenamesDictionary[statement.parameter3]]:
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
-                else:
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
-            elif statement.parameter2.lstrip("-").isdigit() == False and statement.parameter3.lstrip("-").isdigit() == True:
-                if state.memory[state.variablenamesDictionary[statement.parameter2]] >= int(statement.parameter3):
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
-                else:
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
-            elif statement.parameter2.lstrip("-").isdigit() == True and statement.parameter3.lstrip("-").isdigit() == True:
-                if int(statement.parameter2) >= int(statement.parameter3):
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
-                else:
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+        #probeer if statement goed uit te voeren daara is elke actie hetzelfde
+        parameter2_value = int(statement.parameter2)#better name and explaining wat to do and explaining that if 
+    except ValueError:
+        parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+    except AttributeError:
+        pass #there is no parameter 2, so it can't convert it
+    try:
+        parameter3_value = int(statement.parameter3)
+    except ValueError:
+        parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+    except AttributeError:
+        pass #there is no parameter 3, so it can't convert it
+    
+    match statement:
+        case createVar():
+            print("test")
+            if statement.name in state.variablenamesDictionary:
+                print("error systeem nog niet in plaats, maar var bestaat al ")
+                return code, codePtr, state, "error"
+            state.memory[state.pointer]=0
+            state.variablenamesDictionary[statement.name] = state.pointer
+            state.pointer+=1
+            #print(test)
+            #print(statement.name)
+            return runABlock(code,codePtr+1,state,output)
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=">"):
+            if parameter2_value > parameter3_value:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
-                if state.memory[state.variablenamesDictionary[statement.parameter2]] >= state.memory[state.variablenamesDictionary[statement.parameter3]]:
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
-                else:
-                    state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
-        return runABlock(code,codePtr+1,state,output)
-    elif isinstance(statement, setValue):
-        print("test2")
-        #print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
-        print(type(statement.newValue))
-        if statement.newValue.lstrip("-").isdigit() == True:#lstrip because isdigit can't understand negatife numbers
-            state.memory[state.variablenamesDictionary[statement.name]] = int(statement.newValue)
-        else:
-            state.memory[state.variablenamesDictionary[statement.name]] = state.memory[state.variablenamesDictionary[statement.newValue]]
-        return runABlock(code,codePtr+1,state,output)
-    elif isinstance(statement, addValue):
-        if statement.parameter2.isdigit() == True and statement.parameter3.isdigit() == False:
-            state.memory[state.variablenamesDictionary[statement.parameter1]] = statement.parameter2 + state.memory[state.variablenamesDictionary[statement.parameter3]]
-        elif statement.parameter2.isdigit() == False and statement.parameter3.isdigit() == True:
-            state.memory[state.variablenamesDictionary[statement.parameter1]] = state.memory[state.variablenamesDictionary[statement.parameter2]] + statement.parameter3
-        else:
-            state.memory[state.variablenamesDictionary[statement.parameter1]] = state.memory[state.variablenamesDictionary[statement.parameter2]] + state.memory[state.variablenamesDictionary[statement.parameter3]]
-        return runABlock(code,codePtr+1,state,output)
-    elif isinstance(statement, displayValue):
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            return runABlock(code,codePtr+1,state,output)
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="<"):
+            if parameter2_value < parameter3_value:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+            else:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            return runABlock(code,codePtr+1,state,output)
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="=="):
+            if parameter2_value == parameter3_value:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+            else:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            return runABlock(code,codePtr+1,state,output)
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="!="):
+            if parameter2_value != parameter3_value:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+            else:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            return runABlock(code,codePtr+1,state,output)
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=">="):
+            if parameter2_value >= parameter3_value:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+            else:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            return runABlock(code,codePtr+1,state,output)
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="<="):
+            if parameter2_value <= parameter3_value:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
+            else:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
+            return runABlock(code,codePtr+1,state,output)
+        case setValue():
+            #print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
+            print(type(statement.newValue))
+            if statement.newValue.lstrip("-").isdigit() == True:#lstrip because isdigit can't understand negatife numbers
+                state.memory[state.variablenamesDictionary[statement.name]] = int(statement.newValue)
+            else:
+                state.memory[state.variablenamesDictionary[statement.name]] = state.memory[state.variablenamesDictionary[statement.newValue]]
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.plus):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value + parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.minus):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value - parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.multiply):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value * parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.divide):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value / parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.modulo):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value % parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.andOp):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value & parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.orb):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value | parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.xor):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value ^ parameter3_value
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.xad):
+            print("not yet implented")
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.nad):
+            #state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value  parameter3_value
+            print("not yet implented")
+            return runABlock(code,codePtr+1,state,output)
+        case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.nor):
+            #state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value  parameter3_value
+            print("not yet implented")
+            return runABlock(code,codePtr+1,state,output)
+        #case NotImplemented() | _:
+        #    raise Exception('method not implemented')
+    if isinstance(statement, displayValue):
         print(statement.value)
         #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
         print("output in block: ", output)
