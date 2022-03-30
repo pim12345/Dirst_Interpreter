@@ -28,10 +28,7 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
     statement = code.statements[codePtr]
     print(str(statement))
     print(type(statement))
-    #if hasattr(statement, "parameter2"):
     try:
-        print("test")
-        #probeer if statement goed uit te voeren daara is elke actie hetzelfde
         parameter2_value = int(statement.parameter2)#better name and explaining wat to do and explaining that if 
     except ValueError:
         parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
@@ -94,11 +91,8 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             return runABlock(code,codePtr+1,state,output)
         case setValue():
             #print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
-            print(type(statement.newValue))
-            if statement.newValue.lstrip("-").isdigit() == True:#lstrip because isdigit can't understand negatife numbers
-                state.memory[state.variablenamesDictionary[statement.name]] = int(statement.newValue)
-            else:
-                state.memory[state.variablenamesDictionary[statement.name]] = state.memory[state.variablenamesDictionary[statement.newValue]]
+            print(type(statement.parameter1))
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value
             return runABlock(code,codePtr+1,state,output)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.plus):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value + parameter3_value

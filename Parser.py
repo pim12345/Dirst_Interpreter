@@ -87,13 +87,13 @@ class deleteVar(SimpleStatement):
         return "delete var with name: " + str(self.name)
 
 class setValue(SimpleStatement):
-    def __init__(self, name, newValue):
-        self.name = name
-        self.newValue = newValue
+    def __init__(self, parameter1, parameter2):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
     
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
-        return "Existing var with name: " + str(self.name) + " has new value: " + str(self.newValue)
+        return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2)
 
 class neq2_test(SimpleStatement):
     def __init__(self, name, newValue, parameter3):
