@@ -1,7 +1,7 @@
 civ_result.csv
 civ_argument1.csv
 set_result_0.dat
-set_argument1_12.dat
+set_argument1_24.dat
 run_result_argument1_sommig.lnk
 dsi_result.dat
 div_result.csv

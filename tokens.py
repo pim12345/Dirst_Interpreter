@@ -16,7 +16,7 @@ class Instruction_Subsets(Enum):
 
 ########## Tokens ###############
 class Token:
-    def __init__(self, isInALoop=0):
+    def __init__(self, isInALoop):
         self.isInALoop = isInALoop
 
     def __str__(self):
@@ -29,8 +29,8 @@ class Directory(Token):
 
 class fnc(Directory):
     def __init__(self, varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Execute all subitems in the directory"
 
@@ -60,38 +60,38 @@ directoryUnion = Union[fncT, difT, nifT, lpcT, lpnT, dlwT, dluT]
 
 class dif_(Directory):
     def __init__(self, varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is not zero"
 class nif(Directory):
     def __init__(self, varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Execute directory subitems only if the specified integer value is zero"
 class lpc(Directory):
     def __init__(self, varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is not zero"
 class lpn(Directory):
     def __init__(self, varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Loop through directory subitems while the specified integer value is zero"
 class dlw(Directory):
     def __init__(self,varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
 class dlu(Directory):
     def __init__(self, varname, isInALoop):
-        self.isInALoop = isInALoop
         self.varname = varname
+        super().__init__(isInALoop)
     def __str__(self):
         return "Do loop through directory subitems while the specified integer value is zero (loop at least once)"
 ##################################
@@ -105,14 +105,14 @@ class abs(DAT):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class neg(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class add(DAT):
     def __str__(self):
         return ""
@@ -120,7 +120,7 @@ class add(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class sub_(DAT):
     def __str__(self):
         return ""
@@ -128,7 +128,7 @@ class sub_(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class mul(DAT):
     def __str__(self):
         return ""
@@ -136,7 +136,7 @@ class mul(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class div(DAT):
     def __str__(self):
         return ""
@@ -144,7 +144,7 @@ class div(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class mod(DAT):
     def __str__(self):
         return ""
@@ -152,7 +152,7 @@ class mod(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class and_(DAT):
     def __str__(self):
         return ""
@@ -160,7 +160,7 @@ class and_(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class orb(DAT):
     def __str__(self):
         return ""
@@ -168,7 +168,7 @@ class orb(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class xor(DAT):
     def __str__(self):
         return ""
@@ -176,7 +176,7 @@ class xor(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class xad(DAT):
     def __str__(self):
         return ""
@@ -184,7 +184,7 @@ class xad(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class nad(DAT):
     def __str__(self):
         return ""
@@ -192,7 +192,7 @@ class nad(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class nor(DAT):
     def __str__(self):
         return ""
@@ -200,14 +200,14 @@ class nor(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class not_(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class mor(DAT):
     def __str__(self):
         return ""
@@ -215,7 +215,7 @@ class mor(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class les(DAT):
     def __str__(self):
         return ""
@@ -223,7 +223,7 @@ class les(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class equ(DAT):
     def __str__(self):
         return ""
@@ -231,7 +231,7 @@ class equ(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class neq(DAT):
     def __str__(self):
         return "neq classe"
@@ -239,7 +239,7 @@ class neq(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class get(DAT):
     def __str__(self):
         return ""
@@ -247,7 +247,7 @@ class get(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class let(DAT):
     def __str__(self):
         return ""
@@ -255,38 +255,38 @@ class let(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class rdi(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class ric(DAT):
     def __str__(self):
         return "ric classe"
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dsi(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dic(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class set(DAT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class max(DAT):
     def __str__(self):
         return ""
@@ -294,7 +294,7 @@ class max(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class min(DAT):
     def __str__(self):
         return ""
@@ -302,7 +302,7 @@ class min(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 ##################################
 ########## TXT Tokens ############
@@ -314,63 +314,63 @@ class rdc(TXT):
         return ""
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class rds(TXT):
     def __str__(self):
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class eof(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dsc(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dss(TXT):
     def __str__(self):
         return "dss classe"
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dsl(TXT):
     def __str__(self):
         return ""
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dec(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class des(TXT):
     def __str__(self):
         return ""
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class del_(TXT):
     def __str__(self):
         return ""
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class clr(TXT):
     def __str__(self):
         return ""
     def __init__(self, name, isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class cat(TXT):
     def __str__(self):
         return ""
@@ -378,7 +378,7 @@ class cat(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class idx(TXT):
     def __str__(self):
         return ""
@@ -386,7 +386,7 @@ class idx(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class ids(TXT):
     def __str__(self):
         return ""
@@ -395,7 +395,7 @@ class ids(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class lid(TXT):
     def __str__(self):
         return ""
@@ -403,7 +403,7 @@ class lid(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class rep(TXT):
     def __str__(self):
         return ""
@@ -412,7 +412,7 @@ class rep(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class sub(TXT):
     def __str__(self):
         return "sub classe"
@@ -421,7 +421,7 @@ class sub(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class rmv(TXT):
     def __str__(self):
         return ""
@@ -430,7 +430,7 @@ class rmv(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class ins(TXT):
     def __str__(self):
         return ""
@@ -439,21 +439,21 @@ class ins(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class tou(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class tol(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class pdl(TXT):
     def __str__(self):
         return ""
@@ -461,7 +461,7 @@ class pdl(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class cpl(TXT):
     def __str__(self):
         return ""
@@ -470,7 +470,7 @@ class cpl(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class pdr(TXT):
     def __str__(self):
         return ""
@@ -478,7 +478,7 @@ class pdr(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class cpr(TXT):
     def __str__(self):
         return ""
@@ -487,7 +487,7 @@ class cpr(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class sam(TXT):
     def __str__(self):
         return ""
@@ -495,7 +495,7 @@ class sam(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class dif(TXT):
     def __str__(self):
         return ""
@@ -503,7 +503,7 @@ class dif(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class hiv(TXT):
     def __str__(self):
         return ""
@@ -511,7 +511,7 @@ class hiv(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class lov(TXT):
     def __str__(self):
         return ""
@@ -519,7 +519,7 @@ class lov(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class hev(TXT):
     def __str__(self):
         return ""
@@ -527,7 +527,7 @@ class hev(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class lev(TXT):
     def __str__(self):
         return ""
@@ -535,7 +535,7 @@ class lev(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class ssw(TXT):
     def __str__(self):
         return ""
@@ -543,7 +543,7 @@ class ssw(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class sew(TXT):
     def __str__(self):
         return ""
@@ -551,7 +551,7 @@ class sew(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class trm(TXT):
     def __str__(self):
         return ""
@@ -559,7 +559,7 @@ class trm(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class tms(TXT):
     def __str__(self):
         return ""
@@ -567,7 +567,7 @@ class tms(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class tme(TXT):
     def __str__(self):
         return ""
@@ -575,14 +575,14 @@ class tme(TXT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 class ses(TXT):
     def __str__(self):
         return ""
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 ##################################
 ########## BIN Tokens ############
@@ -597,7 +597,7 @@ class pls(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class mns(BIN):
     def __str__(self):
@@ -606,7 +606,7 @@ class mns(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
         
 class tms(BIN):
     def __str__(self):
@@ -615,7 +615,7 @@ class tms(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class dvb(BIN):
     def __str__(self):
@@ -624,7 +624,7 @@ class dvb(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class pwr(BIN):
     def __str__(self):
@@ -633,7 +633,7 @@ class pwr(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class sgn(BIN):
     def __str__(self):
@@ -641,7 +641,7 @@ class sgn(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class sqr(BIN):
     def __str__(self):
@@ -649,7 +649,7 @@ class sqr(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class sin(BIN):
     def __str__(self):
@@ -657,7 +657,7 @@ class sin(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class cos(BIN):
     def __str__(self):
@@ -665,7 +665,7 @@ class cos(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class tan(BIN):
     def __str__(self):
@@ -673,7 +673,7 @@ class tan(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class snh(BIN):
     def __str__(self):
@@ -681,7 +681,7 @@ class snh(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class csh(BIN):
     def __str__(self):
@@ -689,7 +689,7 @@ class csh(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     
 class tnh(BIN):
     def __str__(self):
@@ -697,7 +697,7 @@ class tnh(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class cil(BIN):
     def __str__(self):
@@ -705,7 +705,7 @@ class cil(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class flr(BIN):
     def __str__(self):
@@ -713,7 +713,7 @@ class flr(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class log(BIN):
     def __str__(self):
@@ -721,7 +721,7 @@ class log(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lge(BIN):
     def __str__(self):
@@ -729,7 +729,7 @@ class lge(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lbq(BIN):
     def __str__(self):
@@ -738,7 +738,7 @@ class lbq(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class epw(BIN):
     def __str__(self):
@@ -746,7 +746,7 @@ class epw(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class avl(BIN):
     def __str__(self):
@@ -754,14 +754,14 @@ class avl(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class rnd(BIN):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class rou(BIN):
     def __str__(self):
@@ -769,7 +769,7 @@ class rou(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class asn(BIN):
     def __str__(self):
@@ -777,7 +777,7 @@ class asn(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class acs(BIN):
     def __str__(self):
@@ -785,7 +785,7 @@ class acs(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class atn(BIN):
     def __str__(self):
@@ -793,7 +793,7 @@ class atn(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class mks(BIN):
     def __str__(self):
@@ -801,7 +801,7 @@ class mks(BIN):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class fmx(BIN):
     def __str__(self):
@@ -810,7 +810,7 @@ class fmx(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class fmn(BIN):
     def __str__(self):
@@ -819,7 +819,7 @@ class fmn(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class grt(BIN):
     def __str__(self):
@@ -828,7 +828,7 @@ class grt(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lst(BIN):
     def __str__(self):
@@ -837,7 +837,7 @@ class lst(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class eqt(BIN):
     def __str__(self):
@@ -846,7 +846,7 @@ class eqt(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class net(BIN):
     def __str__(self):
@@ -855,7 +855,7 @@ class net(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class gte(BIN):
     def __str__(self):
@@ -864,7 +864,7 @@ class gte(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lte(BIN):
     def __str__(self):
@@ -873,21 +873,21 @@ class lte(BIN):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class rfv(BIN):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class dfv(BIN):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 ##################################
 ########## ZIP Tokens ############
@@ -902,7 +902,7 @@ class giv(ZIP):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class siv(ZIP):
     def __str__(self):
@@ -911,7 +911,7 @@ class siv(ZIP):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class gsv(ZIP):
     def __str__(self):
@@ -920,7 +920,7 @@ class gsv(ZIP):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 #dubblicate siv class in original documenation
 
@@ -931,7 +931,7 @@ class gfv(ZIP):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class sfv(ZIP):
     def __str__(self):
@@ -940,7 +940,7 @@ class sfv(ZIP):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class fia(ZIP):
     def __str__(self):
@@ -948,7 +948,7 @@ class fia(ZIP):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class zia(ZIP):
     def __str__(self):
@@ -956,7 +956,7 @@ class zia(ZIP):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class fsa(ZIP):
     def __str__(self):
@@ -964,7 +964,7 @@ class fsa(ZIP):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class zsa(ZIP):
     def __str__(self):
@@ -972,7 +972,7 @@ class zsa(ZIP):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class ffa(ZIP):
     def __str__(self):
@@ -980,7 +980,7 @@ class ffa(ZIP):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class zfa(ZIP):
     def __str__(self):
@@ -988,7 +988,7 @@ class zfa(ZIP):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 #one dubble removed
 ##################################
@@ -1003,7 +1003,7 @@ class sia(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class ssa(EXE):
     def __str__(self):
@@ -1012,7 +1012,7 @@ class ssa(EXE):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class sti(EXE):
     def __str__(self):
@@ -1020,7 +1020,7 @@ class sti(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class stf(EXE):
     def __str__(self):
@@ -1028,7 +1028,7 @@ class stf(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class stc(EXE):
     def __str__(self):
@@ -1037,7 +1037,7 @@ class stc(EXE):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class its(EXE):
     def __str__(self):
@@ -1045,7 +1045,7 @@ class its(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class itf(EXE):
     def __str__(self):
@@ -1053,7 +1053,7 @@ class itf(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class ias(EXE):
     def __str__(self):
@@ -1061,7 +1061,7 @@ class ias(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class aif(EXE):
     def __str__(self):
@@ -1069,7 +1069,7 @@ class aif(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class fts(EXE):
     def __str__(self):
@@ -1077,7 +1077,7 @@ class fts(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class fti(EXE):
     def __str__(self):
@@ -1085,7 +1085,7 @@ class fti(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class afi(EXE):
     def __str__(self):
@@ -1093,7 +1093,7 @@ class afi(EXE):
     def __init__(self, parameter1, parameter2, isInALoop):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 ##################################
 ########## DLL Tokens ############
@@ -1106,21 +1106,21 @@ class psh(DLL):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class pop(DLL):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class spk(DLL):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 
 class ssz(DLL):
@@ -1128,110 +1128,110 @@ class ssz(DLL):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class enq(DLL):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class deq(DLL):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class qpk(DLL):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class qsz(DLL):
     def __str__(self):
         return ""
     def __init__(self, parameter1, isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class tpl(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class tpr(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class tsv(DLL):
     def __str__(self):
         return ""
     def __init__(self,parameter1, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
         self.parameter1 = parameter1
 
 class tgv(DLL):
     def __str__(self):
         return ""
     def __init__(self,parameter1, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
         self.parameter1 = parameter1
 
 class gbe(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class gen(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class gef(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lce(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lcn(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class lcf(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 class ges(DLL):
     def __str__(self):
         return ""
     def __init__(self,parameter1 ,isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
         self.parameter1 = parameter1
 
 class ces(DLL):
     def __str__(self):
         return ""
     def __init__(self, isInALoop):
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
 
 ##################################
 ########## CSV Tokens used for variables and arrays ######
@@ -1245,67 +1245,67 @@ class cia(CSV):
 class civ(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Creates an integer variable with the specified variable name"
 class csa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Creates a string array with the specified variable name"
 class csv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return self.name #Creates a string variable with the specified variable name
 class cfa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Creates a float array with the specified variable name"
 class cfv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Creates a float variable with the specified variable name"
 class dia(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Deletes an integer array with the specified variable name"
 class div(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Deletes an integer variable with the specified variable name"
 class dsa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Deletes a string array with the specified variable name"
 class dsv(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Deletes a string variable with the specified variable name"
 class dfa(CSV):
     def __init__(self, name,isInALoop):
         self.name = name
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Deletes a float array with the specified variable name"
 class dfv(CSV):
     def __init__(self, parameter1,isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "Deletes a float variable with the specified variable name"
 
@@ -1320,7 +1320,7 @@ class run(LNK):
         self.result = result
         self.argument = argument
         self.function = function
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "run a function with 1 argument(second parameter) and save the result to first parameter. third argument is filename of function to run"
 
@@ -1329,13 +1329,13 @@ class ifrtn(LNK):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "return parameter3 from a function if parameter1 is equal to parameter2"
 
 class rtn(LNK):
     def __init__(self, parameter1,isInALoop):
         self.parameter1 = parameter1
-        self.isInALoop = isInALoop
+        super().__init__(isInALoop)
     def __str__(self):
         return "return parameter 1 to function."
