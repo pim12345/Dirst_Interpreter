@@ -20,14 +20,14 @@ class ProgramState:
 
 #runABlock :: CodeBlock -> Integer -> ProgramState -> String -> (ProgramState, String) <-old check if still correct
 def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : string) -> Tuple[CodeBlock,int, ProgramState, str]:
-    print(state)
+    #print(state)
     #print(code.statements)
-    print("len statments: " + str(len(code.statements)) + " len codePtr: " + str(codePtr))
+    #print("len statments: " + str(len(code.statements)) + " len codePtr: " + str(codePtr))
     if(codePtr >= len(code.statements)):
         return code, codePtr, state, output
     statement = code.statements[codePtr]
-    print(str(statement))
-    print(type(statement))
+    #print(str(statement))
+    #print(type(statement))
     try:
         parameter2_value = int(statement.parameter2)#better name and explaining wat to do and explaining that if 
     except ValueError:
@@ -43,7 +43,7 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
     
     match statement:
         case createVar():
-            print("test")
+            #print("test")
             if statement.name in state.variablenamesDictionary:
                 print("error systeem nog niet in plaats, maar var bestaat al ")
                 return code, codePtr, state, "error"
@@ -91,7 +91,7 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             return runABlock(code,codePtr+1,state,output)
         case setValue():
             #print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
-            print(type(statement.parameter1))
+            #print(type(statement.parameter1))
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value
             return runABlock(code,codePtr+1,state,output)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.plus):
@@ -129,10 +129,10 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value | parameter3_value)
             return runABlock(code,codePtr+1,state,output)
         case displayValue():
-            print(statement.value)
+            #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
-            output("output in block: ", output)
-            output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
+            output("output in block: ", state.memory[state.variablenamesDictionary[statement.value]])
+            #output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
         case deleteVar():
             state.memory[state.variablenamesDictionary[statement.name]] = 0
@@ -173,13 +173,13 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             return runABlock(code, codePtr+1, state_, output)
         case RunFunction():
             state.memory[state.variablenamesDictionary[statement.result]],output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
-            print(state.variablenamesDictionary[statement.result])
-            print(state.memory[state.variablenamesDictionary[statement.result]])
+            #print(state.variablenamesDictionary[statement.result])
+            #print(state.memory[state.variablenamesDictionary[statement.result]])
             return runABlock(code, codePtr+1, state, output_)
         case ReturnFunction():
             return code, codePtr, state, output
         case ReturnIFFunction():#returnIFEquealFunction
-            print(statement.parameter1)
+            #print(statement.parameter1)
             if state.memory[state.variablenamesDictionary[statement.parameter1]] == parameter2_value:
                 state.memory[state.variablenamesDictionary["result"]] = int(statement.parameter3)
                 #output += statement.parameter3 + '\n'
@@ -187,8 +187,8 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             else:
                 return runABlock(code, codePtr+1, state, output)
         case NotImplemented() | _:
-            print(statement)
-            print(type(statement))
+            #print(statement)
+            #print(type(statement))
             raise Exception('method not implemented')
     #print("end")
     #state.memory[state.pointer]=0 #idk misch weg
@@ -211,7 +211,7 @@ def runAFunction(filename : str, argument1 : int, output : str):
     #runloop :: Loop -> ProgramState -> String -> (ProgramState, String)
 def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, str, str]:#loop : Loop
     #print("loop")
-    print(state.pointer)
+    #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
     if state.memory[state.variablenamesDictionary[loopname]] != 0:
         return state, output
@@ -221,7 +221,7 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : str, loopna
 
 def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, str]:#loop : Loop
     #print("loop")
-    print(state.pointer)
+    #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
     if state.memory[state.variablenamesDictionary[loopname]] == 0:
         return state, output

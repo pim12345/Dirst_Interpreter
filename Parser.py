@@ -267,7 +267,7 @@ class ReturnIFFunction(SimpleStatement):
 def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
     #print(code)
     if tokens == None or len(tokens) == 0:
-        print("end")
+        #print("end")
         return None, code
     token, *rest = tokens
     #print(token)
@@ -412,7 +412,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token,dfv): 
             code.addStatement(displayValue(token.parameter1))
         else: 
-            print("adding: ", token.name)
+            #print("adding: ", token.name)
             code.addStatement(createVar(token.name))
     elif isinstance(token, LNK):
         if isinstance(token,run):
@@ -421,12 +421,12 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(ReturnFunction(token.parameter1))
         if isinstance(token,ifrtn):
             code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
-    print("things")
+    #print("things")
     
     if len(tokens) >= 2:
-        print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
-        print("token.isInALoop: ",token.isInALoop)
-        print("tokens[0].isInALoop: ",rest[0].isInALoop)
+        #print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
+        #print("token.isInALoop: ",token.isInALoop)
+        #print("tokens[0].isInALoop: ",rest[0].isInALoop)
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest,code
     return parseCodeBlock(rest, code)   

@@ -24,10 +24,7 @@ def split(line):
 
 def giveCorrectClass(operator, isInALoop):
     if isInALoop > 0:
-        #test = fncT(isInALoop,"testing")
-        #print(test)
-        #removed \t a stap back
-        print("operator: ", operator)
+        #print("operator: ", operator)
         if operator[0] == "fnc":
             return fnc(operator[1], isInALoop)
         if operator[0] == "dif":
@@ -166,7 +163,7 @@ def giveCorrectClass(operator, isInALoop):
 def recursiveInstructionClassList(argumentlist):
     #isInALoop = 0
     isInALoop = argumentlist[0].count("")
-    print("inrecursive fun: ", argumentlist[0], "space: ", argumentlist[0].count(""), "test" )
+    #print("inrecursive fun: ", argumentlist[0], "space: ", argumentlist[0].count(""), "test" )
     if argumentlist[0][0] == "":
         #print(argumentlist[0].count(""))
         #isInALoop = argumentlist[0].count("")
