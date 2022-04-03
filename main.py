@@ -4,12 +4,13 @@ from tokens import *
 from lexer import *
 from runner import *
 from Parser import *
+import logging
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
 
+fileTree = open("sommigExample.txt", "r")
+console_printing_INFO = lambda *args: print(*args)
 
-fileTree = open("dubble_recursive_even.txt", "r")
 
-print("start")
 lex_output = lex(fileTree)
 print(lex_output)
 print("lexed")
@@ -19,7 +20,7 @@ parse = parseCodeBlock(lex_output, tree)[1]
 print("parsed")
 print(parse)
 print("begin run a block")
-code, codePtr, state, output = runABlock(parse, 0, ProgramState(), "")
+code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_printing_INFO)
 print("output: ", output)
 #print("output2: ", out2)
 #runner(parse)

@@ -18,8 +18,8 @@ class ProgramState:
         return "ptr: " + str(self.pointer) + " val: " + str(self.memory)
 
 
-#runABlock :: CodeBlock -> Integer -> ProgramState -> String -> (ProgramState, String)
-def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : str) -> Tuple[CodeBlock,int, ProgramState, str]:
+#runABlock :: CodeBlock -> Integer -> ProgramState -> String -> (ProgramState, String) <-old check if still correct
+def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : string) -> Tuple[CodeBlock,int, ProgramState, str]:
     print(state)
     #print(code.statements)
     print("len statments: " + str(len(code.statements)) + " len codePtr: " + str(codePtr))
@@ -120,7 +120,7 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             return runABlock(code,codePtr+1,state,output)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.xad):
             #state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value  parameter3_value
-            print("not yet implented")
+            output("not yet implented")
             return runABlock(code,codePtr+1,state,output)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.nad):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value & parameter3_value)
@@ -131,7 +131,7 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         case displayValue():
             print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
-            print("output in block: ", output)
+            output("output in block: ", output)
             output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
         case deleteVar():
@@ -139,74 +139,38 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             del state.variablenamesDictionary[statement.name]#check if it gives no errors
             return runABlock(code,codePtr+1,state,output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
-            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
+            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
             return runABlock(code, codePtr+1, state, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif #maybe implent if statement in switch case
             if state.memory[state.variablenamesDictionary[statement.parameter1]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
-                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)
+                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=True):#nif
             if state.memory[state.variablenamesDictionary[statement.parameter1]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
-                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)
+                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=False):#lpc # check if logic is good with if statement
-            state_, output = runLoopWhileNotZero(code.statements[codePtr].code, state_, output, statement.varname)
-            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
-            state_.memory[0] = state.memory[0]
+            state_, output = runLoopWhileNotZero(code.statements[codePtr].block, state, output, statement.varname)
+            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
+            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=False):#lpn
-            state_, output = runLoopWhileZero(code.statements[codePtr].code, state_, output, statement.varname)# check if logic is good with if statement in function
-            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
-            state_.memory[0] = state.memory[0]
+            state_, output = runLoopWhileZero(code.statements[codePtr].block, state, output, statement.varname)# check if logic is good with if statement in function
+            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
+            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=False):#dlw
-            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)#loop at least once
+            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop at least once
             state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname)
-            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-            state_.memory[0] = state.memory[0]
+            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=True,onlyOneTime=False):#dlu
-            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].code, 0, state, output)#loop at least once
+            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop at least once
             state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
-            state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-            state_.memory[0] = state.memory[0]
+            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
+            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
-        case Loop():
-            print("loop")
-            print("statement name: ", statement.varname)
-            #state.memory[state.pointer]=1
-            #if isinstance(statement, Loop):
-            #print()
-            #state.memory[0] = state.memory[state.variablenamesDictionary[statement.varname]] maybe enable if other thing not working out
-            #state.memory[state.pointer]=1
-            #state.memory[0]=1
-            #codePtr+=1
-            statementLoop = code.statements[codePtr].code
-            print(type(statementLoop))
-            #if statement.onlyOneTime == True:
-                
-            #return runABlock(code, codePtr+1, state_, output)
-            if statement.loopAtLeastOnce == True:#was elif
-                statementLoop, codePtr_, state_, output = runABlock(statementLoop, 0, state, output)#loop at least once
-                if statement.whileZero == True:
-                    state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
-                    state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-                    state_.memory[0] = state.memory[0]
-                else:
-                    state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname)
-                    state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-                    state_.memory[0] = state.memory[0]
-                return runABlock(code, codePtr+1, state_, output)
-            else:
-                if statement.whileZero == True:
-                    state, output = runLoopWhileZero(statementLoop, state, output, statement.varname)
-                    #state.memory[state.variablenamesDictionary[statement.varname]] = state.memory[0]
-                    #state.memory[0] = state.memory[0]
-                else:
-                    state, output = runLoopWhileNotZero(statementLoop, state, output, statement.varname)
-                    #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-                    #state_.memory[0] = state.memory[0]
-            return runABlock(code, codePtr+1, state, output)
         case RunFunction():
             state.memory[state.variablenamesDictionary[statement.result]],output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
             print(state.variablenamesDictionary[statement.result])
@@ -222,11 +186,13 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
                 return code, codePtr, state, output
             else:
                 return runABlock(code, codePtr+1, state, output)
-    #case NotImplemented() | _:
-        #    raise Exception('method not implemented')
-    print("end")
-    state.memory[state.pointer]=0 #idk misch weg
-    return code, codePtr, state, output
+        case NotImplemented() | _:
+            print(statement)
+            print(type(statement))
+            raise Exception('method not implemented')
+    #print("end")
+    #state.memory[state.pointer]=0 #idk misch weg
+    #return code, codePtr, state, output
     
 def runAFunction(filename : str, argument1 : int, output : str):
     #eerst andere code lexen uit andere file daarna parsen en daarna door de runAvblock halen. 

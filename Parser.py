@@ -1,5 +1,5 @@
-from ast import operator
-from re import L
+#from ast import operator
+#from re import L
 from typing import List, Tuple
 from tokens import *
 from lexer import *
@@ -41,7 +41,7 @@ class CodeBlock:
 
 class Loop(SimpleStatement):
     def __init__(self, block, varname, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
-        self.code = block
+        self.block = block
         self.varname = varname
         self.whileZero = whileZero
         self.loopAtLeastOnce = loopAtLeastOnce
@@ -49,7 +49,7 @@ class Loop(SimpleStatement):
 
     #__repr__ :: Loop -> String
     def __repr__(self) -> str:
-        s = self.code.__repr__()
+        s = self.block.__repr__()
         return s
 
 class createVar(SimpleStatement):
@@ -94,6 +94,13 @@ class setValue(SimpleStatement):
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
         return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2)
+
+class DisplayOptions(Enum):
+    INT = "INT"
+    CHAR = "CHAR"
+    STRING = "STRING"
+    NEWLINE = "NEWLINE"
+    NONEWLINE = "NONEWLINE"
 
 
 class displayValue(SimpleStatement):
@@ -345,11 +352,11 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(MinValue(token.parameter1,token.parameter2, token.parameter3))
     elif isinstance(token, TXT):
         if isinstance(token, rdc):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, rds):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, eof):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
             pass
         elif isinstance(token, dss):
