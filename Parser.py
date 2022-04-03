@@ -1,4 +1,7 @@
+from lib2to3.pgen2.token import EQUAL, GREATER, GREATEREQUAL, LESS, LESSEQUAL, NOTEQUAL
 from typing import List, Tuple
+
+from numpy import greater_equal, not_equal
 from tokens import *
 from lexer import *
 
@@ -6,7 +9,8 @@ from lexer import *
 class SimpleStatement:
     """statement that every statement is inherted
     """    
-    #def __init__(self):
+    def __init__(self):
+        pass
 
 #repeatStr :: String -> Integer -> String
 def repeatStr(s : str, i : int):
@@ -66,44 +70,36 @@ class createVar(SimpleStatement):
     def __init__(self, name):
         self.name = name
 
-    # __repr__ :: IncrementPointer -> String
+    # __repr__ :: createVar -> String
     def __repr__(self) -> str:
         return "create var with name: " + str(self.name)
 
-class tempBinFunction(SimpleStatement):
-    def __init__(self, parameter1,parameter2):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-
-    # __repr__ :: IncrementPointer -> String
-    def __repr__(self) -> str:
-        return "bin function: para1: " + str(self.parameter1) + " para2: " + str(self.parameter2)
-
-class tempMissingValue(SimpleStatement):
-    def __init__(self):
-        pass
-    # __repr__ :: IncrementPointer -> String
-    def __repr__(self) -> str:
-        return "missing action"
-
 class deleteVar(SimpleStatement):
-    def __init__(self, name):
+    """Class that is used for deleting a certain variable from memory and set the register to zero
+    """    
+    def __init__(self, name: str):
+        """Name of the variable that needs deleting"""   
         self.name = name
 
-    # __repr__ :: IncrementPointer -> String
+    # __repr__ :: deleteVar -> String
     def __repr__(self) -> str:
         return "delete var with name: " + str(self.name)
 
 class setValue(SimpleStatement):
-    def __init__(self, parameter1, parameter2):
+    """Class that is used to set a variable to a value of to a value of a other variable.
+    """    
+    def __init__(self, parameter1 : string, parameter2):
+        """parameter 1 is a name of the variable and is used to get the correct spot in memory"""
         self.parameter1 = parameter1
+        """can be a integer or a variable name"""
         self.parameter2 = parameter2
     
-    # __repr__ :: IncrementPointer -> String
+    # __repr__ :: setValue -> String
     def __repr__(self) -> str:
         return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2)
 
 class DisplayOptions(Enum):
+    """Enum of all the display options that displaying can have used by the 'displayValue' class"""    
     INT = "INT"
     CHAR = "CHAR"
     STRING = "STRING"
@@ -112,48 +108,46 @@ class DisplayOptions(Enum):
 
 
 class displayValue(SimpleStatement):
+    """class used to display string and integer to the console."""    
     def __init__(self, value : int, isChar: bool):
         self.value = value
+        """value is the item that needs to be displayed to the console"""
         self.isChar = isChar
+        """isChar is a boollian, if True it interpreted the the variable: 'value' as ascii char"""
     
-    # __repr__ :: IncrementPointer -> String
+    # __repr__ :: displayValue -> String
     def __repr__(self) -> str:
         if self.isChar == True:
             return "Display the char: " + chr((self.value))
         else:
             return "Display the value: " + str(self.value)
 
-class addValue(SimpleStatement):
-    def __init__(self, parameter1, parameter2, parameter3):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-    
-    # __repr__ :: IncrementPointer -> String
-    def __repr__(self) -> str:
-        return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " and " + str(self.parameter3)
 
 class operatorsList(Enum):
-    plus = 1
-    minus = 2
-    multiply = 3
-    divide = 4
-    modulo = 5
-    andOp = 6
-    orb = 7
-    xor = 8
-    xad = 9
-    nad = 10
-    nor = 11
+    """Enum used by the 'operators' class to give to correct operator
+    """    
+    plus = 1#add subset in Dirst
+    minus = 2#sub subset in Dirst
+    multiply = 3#mul subset in Dirst
+    divide = 4#div subset in Dirst
+    modulo = 5#mod subset in Dirst
+    andOp = 6#and subset in Dirst
+    orb = 7#orb subset in Dirst
+    xor = 8#xor subset in Dirst
+    xad = 9#xad subset in Dirst
+    nad = 10#nad subset in Dirst
+    nor = 11#nor subset in Dirst
 
 class operators(SimpleStatement):
-    def __init__(self, parameter1, parameter2, parameter3, operatorType: operatorsList ):
+    """Class used to calculate a value using the operators from operatorList
+    """    
+    def __init__(self, parameter1 : string, parameter2, parameter3, operatorType: operatorsList ):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.operatorType = operatorType
     
-    # __repr__ :: IncrementPointer -> String
+    # __repr__ :: operators -> String
     def __repr__(self) -> str:
         match self.operatorType:
             case operatorsList.plus:
@@ -182,38 +176,41 @@ class operators(SimpleStatement):
                 return "Operator not supported or not found."
 
 class valuePosConv(SimpleStatement):
-    def __init__(self, parameter1, parameter2,toABS=True):
+    def __init__(self, parameter1 : string, parameter2,toABS: bool =True):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.toABS = toABS
+        self.toABS  = toABS
     
-    # __repr__ :: IncrementPointer -> String
+    # __repr__ :: valuePosConv -> String
     def __repr__(self) -> str:
         if self.toABS == True:
             return "parameter1: " + str(self.parameter1) + " wil have the absolute value of parameter 2: " + str(self.parameter2)
         else:
             return "parameter1: " + str(self.parameter1) + " wil have the negative value of parameter 2: " + str(self.parameter2)
 
+
+class IfStatementsList(Enum):#enum class not working in match statement? so now it is half inplemented
+    """All if statement operators that can be used by the 'IfStatement' class
+    """    
+    GREATER = '>'
+    LESS = '<'
+    EQUAL = '=='
+    NOTEQUAL = '!='
+    GREATEREQUAL = '>='
+    LESSEQUAL = '<='
+
 class IfStatement(SimpleStatement):
-    #__match_args__ = ('condition')
-    def __init__(self, parameter1, parameter2, parameter3, condition):
+    """Class used for if statements with a operator from enum: 'ifStatementList'
+    """    
+    def __init__(self, parameter1 : string, parameter2, parameter3, condition : IfStatementsList):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
-        self.condition = condition
+        self.condition : IfStatementsList = condition
+
     # __repr__ :: IfStatement -> String
     def __repr__(self):
-        return "IfStatement"
-    
-class valueCompare(SimpleStatement):
-    def __init__(self, parameter1, parameter2, parameter3):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-
-    # __repr__ :: IncrementPointer -> String
-    def __repr__(self) -> str:
-        return "parameter1: " + str(self.parameter1) + " parameter2: " + str(self.parameter2) + " parameter3: " + str(self.parameter3)
+        return "IfStatement: " + str(self.parameter1) + " will have the value of -1 if: " + str(self.parameter2) + str(self.condition) + str(self.parameter3) + " otherwise has the value of: 0"
 
 class RunFunction(SimpleStatement):
     def __init__(self, result, argument, function):
@@ -221,14 +218,14 @@ class RunFunction(SimpleStatement):
         self.argument = argument
         self.function = function
     
-    # __repr__ :: LoopOpen -> String
+    # __repr__ :: RunFunction -> String
     def __repr__(self):
         return "run a function in an other file"
 
 class NotImplemented(SimpleStatement):
     #def __init__(self):
     
-    # __repr__ :: LoopOpen -> String
+    # __repr__ :: NotImplemented -> String
     def __repr__(self):
         return "function not implemented"
     
@@ -236,52 +233,56 @@ class ReturnFunction(SimpleStatement):
     def __init__(self, parameter1):
        self.parameter1 = parameter1
     
-    # __repr__ :: LoopOpen -> String
+    # __repr__ :: ReturnFunction -> String
     def __repr__(self):
         return "return a variable after running a function"
 
 class MaxValue(SimpleStatement):
-    def __init__(self, parameter1,parameter2,parameter3):
+    def __init__(self, parameter1 : string, parameter2, parameter3):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
     
-    # __repr__ :: LoopOpen -> String
+    # __repr__ :: MaxValue -> String
     def __repr__(self):
         return "Sets parameter1: " + str(self.parameter1) + " to the higher value out of parameter2: " + str(self.parameter2) + "and parameter3: " + str(self.parameter3)
 
 class MinValue(SimpleStatement):
-    def __init__(self, parameter1,parameter2,parameter3):
+    def __init__(self, parameter1 : string,parameter2,parameter3):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
     
-    # __repr__ :: LoopOpen -> String
+    # __repr__ :: MinValue -> String
     def __repr__(self):
         return "Sets parameter1: " + str(self.parameter1) + " to the lower value out of parameter2: " + str(self.parameter2) + "and parameter3: " + str(self.parameter3)
 
 class ReturnIFFunction(SimpleStatement):
-    def __init__(self, parameter1,parameter2,parameter3):
+    def __init__(self, parameter1 : string,parameter2,parameter3):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
     
-    # __repr__ :: LoopOpen -> String
+    # __repr__ :: ReturnIFFunction -> String
     def __repr__(self):
-        return "return parameter3 from a function if parameter1 is equal to parameter2"
+        return "Return parameter3 from a function if parameter1 is equal to parameter2"
 
 
 # parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
 def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
-    #print(code)
+    """Function used to parse a block of code to correct function to be used by the runner
+
+    Args:
+        tokens (List[Token]): list of tokens used to 
+        code (CodeBlock): block of code
+
+    Returns:
+        Tuple[List[Token], CodeBlock]: the list of tokens and the block of code
+    """    
     if tokens == None or len(tokens) == 0:
-        #print("end")
         return None, code
     token, *rest = tokens
-    #print(token)
-    #print(token.isInALoop)
     if isinstance(token, Directory):
-        #print(token.isInALoop)
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
         if isinstance(token,fnc):
             code.addStatement(Loop(block, token.varname,False,True,True))
@@ -305,49 +306,45 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, neg):
             code.addStatement(valuePosConv(token.parameter1,token.parameter2, False))
         elif isinstance(token, add):
-            #code.addStatement(addValue(token.parameter1, token.parameter2, token.parameter3))
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.plus))#maybe in other class not in same class ass bitwise
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.plus))#maybe in other class not in same class ass bitwise
         elif isinstance(token, sub_):
-            #code.addStatement(subValue(token.parameter1, token.parameter2, token.parameter3))
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.minus))#maybe in other class not in same class ass bitwise
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.minus))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mul):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.multiply))#maybe in other class not in same class ass bitwise
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.multiply))#maybe in other class not in same class ass bitwise
         elif isinstance(token, div):#check for interferance
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.divide))#maybe in other class not in same class ass bitwise
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.divide))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mod):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.modulo))#maybe in other class not in same class ass bitwise
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.modulo))#maybe in other class not in same class ass bitwise
         elif isinstance(token, and_):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.andOp))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.andOp))
         elif isinstance(token, orb):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.orb))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.orb))
         elif isinstance(token, xor):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.xor))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.xor))
         elif isinstance(token, xad):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.xad))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.xad))
         elif isinstance(token, nad):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.nad))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.nad))
         elif isinstance(token, nor):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.nor))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.nor))
         elif isinstance(token, not_):
-            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3,operatorsList.nor))
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.nor))
         elif isinstance(token, mor):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, ">"))
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.GREATER))
         elif isinstance(token, les):
-            #code.addStatement(valueCompare(token.parameter1, token.parameter2, token.parameter3))
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, "<"))
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.LESS))
         elif isinstance(token, equ):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, "=="))
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.EQUAL))
         elif isinstance(token, neq):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, "!="))#maybe enum
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.NOTEQUAL))
         elif isinstance(token, get):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, ">="))
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.GREATEREQUAL))
         elif isinstance(token, let):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, "<="))
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.LESSEQUAL))
         elif isinstance(token, rdi):
             code.addStatement(NotImplemented())
         elif isinstance(token, ric):
             code.addStatement(NotImplemented())
-            #code.addStatement(displayValue(token.parameter1))#temp moet nog functie aan hangen die goed overeenkomt met standaard
         elif isinstance(token, dsi):
             code.addStatement(displayValue(token.parameter1, False))
         elif isinstance(token, dic):
@@ -366,76 +363,66 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, eof):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, dss):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, dsl):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, dec):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, del_):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, clr):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, cat):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, idx):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, ids):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, lid):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, rep):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, sub_):#check if correct class
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, rmv):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, ins):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, tou):
-            pass
+            code.addStatement(NotImplemented())
         elif isinstance(token, tol):
-            pass
+            code.addStatement(NotImplemented())
         
         
-        code.addStatement(displayValue(token.name))
+        #code.addStatement(displayValue(token.name))
     elif isinstance(token, BIN):
-        #print("bin")
-        #return rest, code
         if isinstance(token, gte):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, ">="))
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.GREATEREQUAL))
         else:
-            code.addStatement(tempBinFunction(token.parameter1,token.parameter2))
+            code.addStatement(NotImplemented())
     elif isinstance(token, ZIP):
-        code.addStatement(tempMissingValue())
+        code.addStatement(NotImplemented())
     elif isinstance(token, EXE):
-        code.addStatement(tempMissingValue())
+        code.addStatement(NotImplemented())
     elif isinstance(token, DLL):
-        code.addStatement(tempMissingValue())
+        code.addStatement(NotImplemented())
     elif isinstance(token, CSV):
-        #print("csv")
         if isinstance(token,div):
             code.addStatement(deleteVar(token.name))
         elif isinstance(token,dfv): 
-            code.addStatement(displayValue(token.parameter1))
+            code.addStatement(displayValue(token.parameter1, False))
         else: 
-            #print("adding: ", token.name)
             code.addStatement(createVar(token.name))
     elif isinstance(token, LNK):
         if isinstance(token,run):
             code.addStatement(RunFunction(token.result,token.argument,token.function))
-        if isinstance(token,rtn):
+        elif isinstance(token,rtn):
             code.addStatement(ReturnFunction(token.parameter1))
-        if isinstance(token,ifrtn):
+        elif isinstance(token,ifrtn):
             code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
-    #print("things")
-    
     if len(tokens) >= 2:
-        #print("(rest[0].isInALoop) - (token.isInALoop): ",((rest[0].isInALoop) - (token.isInALoop)))
-        #print("token.isInALoop: ",token.isInALoop)
-        #print("tokens[0].isInALoop: ",rest[0].isInALoop)
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest,code
-    return parseCodeBlock(rest, code)   
-        
+    return parseCodeBlock(rest, code)

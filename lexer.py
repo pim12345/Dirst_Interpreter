@@ -108,121 +108,122 @@ def giveCorrectClass(operator : list, isInALoop : int):
     if operator[-1] == Instruction_Subsets.DAT.value:
         if operator[0] == "abs":
             return abs(operator[1],operator[2],isInALoop)
-        if operator[0] == "neg":
+        elif operator[0] == "neg":
             return neg(operator[1],operator[2],isInALoop)
-        if operator[0] == "add":
+        elif operator[0] == "add":
             return add(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "sub":
+        elif operator[0] == "sub":
             return sub_(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "mul":
+        elif operator[0] == "mul":
             return mul(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "div":
+        elif operator[0] == "div":
             return div(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "mod":
+        elif operator[0] == "mod":
             return mod(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "and":
+        elif operator[0] == "and":
             return and_(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "orb":
+        elif operator[0] == "orb":
             return orb(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "xor":
+        elif operator[0] == "xor":
             return xor(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "xad":
+        elif operator[0] == "xad":
             return xad(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "nad":
+        elif operator[0] == "nad":
             return nad(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "nor":
+        elif operator[0] == "nor":
             return nor(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "not":
+        elif operator[0] == "not":
             return not_(operator[1],operator[2],isInALoop)
-        if operator[0] == "mor":
+        elif operator[0] == "mor":
             return mor(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "les":
+        elif operator[0] == "les":
             return les(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "equ":
+        elif operator[0] == "equ":
             return equ(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "neq":
+        elif operator[0] == "neq":
             return neq(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "gets":
+        elif operator[0] == "gets":
             return get(operator[1],operator[2],operator[3],isInALoop)    
-        if operator[0] == "let":
+        elif operator[0] == "let":
             return let(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "rdi":
+        elif operator[0] == "rdi":
             return rdi(operator[1],isInALoop)
-        if operator[0] == "ric":
+        elif operator[0] == "ric":
             return ric(operator[1],isInALoop)
-        if operator[0] == "dsi":
+        elif operator[0] == "dsi":
             return dsi(operator[1],isInALoop)
-        if operator[0] == "dic":
+        elif operator[0] == "dic":
             return dic(operator[1],isInALoop)
-        if operator[0] == "dic":
+        elif operator[0] == "dic":
             return dic(operator[1],isInALoop)
-        if operator[0] == "set":
+        elif operator[0] == "set":
             return set(operator[1],operator[2],isInALoop)
-        if operator[0] == "max":
+        elif operator[0] == "max":
             return max(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "min":
+        elif operator[0] == "min":
             return min(operator[1],operator[2],operator[3],isInALoop)
     
-    if operator[-1] == Instruction_Subsets.TXT.value:
+    elif operator[-1] == Instruction_Subsets.TXT.value:
         if operator[0] == "rdc":
             return rdc(operator[1],isInALoop)
-        if operator[0] == "rds":
+        elif operator[0] == "rds":
             return rds(operator[1],isInALoop) 
-        if operator[0] == "eof":
+        elif operator[0] == "eof":
             return eof(operator[1],isInALoop)
-        if operator[0] == "dsc":
+        elif operator[0] == "dsc":
             return dsc(operator[1],operator[2],isInALoop)
-        if operator[0] == "dss":
+        elif operator[0] == "dss":
            return dss(operator[1],isInALoop)
-        if operator[0] == "dsl":
+        elif operator[0] == "dsl":
            return dsl(operator[1],isInALoop)
-        if operator[0] == "dec":
+        elif operator[0] == "dec":
            return dec(operator[1],operator[2],isInALoop)
-        if operator[0] == "des":
+        elif operator[0] == "des":
            return des(operator[1],isInALoop)
-        if operator[0] == "del":
+        elif operator[0] == "del":
            return del_(operator[1],isInALoop)
-        if operator[0] == "clr":
+        elif operator[0] == "clr":
            return clr(operator[1],isInALoop)
-        if operator[0] == "cat":
+        elif operator[0] == "cat":
            return cat(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "idx":
+        elif operator[0] == "idx":
            return idx(operator[1],operator[2],operator[3],isInALoop)
-        if operator[0] == "ids":
+        elif operator[0] == "ids":
            return ids(operator[1],operator[2],operator[3],operator[4],isInALoop)
 
-    if operator[-1] == Instruction_Subsets.CSV.value:
+    elif operator[-1] == Instruction_Subsets.CSV.value:
         if operator[0] == "csv":
             return csv(operator[1],isInALoop)       
-        if operator[0] == "civ":
+        elif operator[0] == "civ":
             return civ(operator[1],isInALoop)
-        if operator[0] == "dsv":
+        elif operator[0] == "dsv":
             return dsv(operator[1],isInALoop)
-        if operator[0] == "div":
+        elif operator[0] == "div":
             return div(operator[1],isInALoop)
-        if operator[0] == "cfv":
+        elif operator[0] == "cfv":
             return cfv(operator[1],isInALoop)
-        if operator[0] == "dfv":
+        elif operator[0] == "dfv":
             return dfv(operator[1],isInALoop)
-    if operator[-1] == Instruction_Subsets.EXE.value:
+    elif operator[-1] == Instruction_Subsets.EXE.value:
         if operator[0] == "itf":
             return itf(operator[1], operator[2], isInALoop)
-        if operator[0] == "fti":
+        elif operator[0] == "fti":
             return fti(operator[1], operator[2], isInALoop)
-    if operator[-1] == Instruction_Subsets.BIN.value:
+    elif operator[-1] == Instruction_Subsets.BIN.value:
         if operator[0] == "pwr":
             return pwr(operator[1], operator[2],operator[3], isInALoop)
-        if operator[0] == "dfv":
+        elif operator[0] == "dfv":
             return dfv(operator[1],isInALoop)
-        if operator[0] == "gte":
+        elif operator[0] == "gte":
             return gte(operator[1], operator[2],operator[3], isInALoop)
-    if operator[-1] == Instruction_Subsets.LNK.value:
+    elif operator[-1] == Instruction_Subsets.LNK.value:
         if operator[0] == "run":
             return run(operator[1], operator[2],operator[3], isInALoop)
-        if operator[0] == "ifrtn":
+        elif operator[0] == "ifrtn":
             return ifrtn(operator[1], operator[2],operator[3], isInALoop)
-        if operator[0] == "rtn":
+        elif operator[0] == "rtn":
             return rtn(operator[1],isInALoop)
+    return NotImplemented()
 
 
 def recursiveInstructionClassList(argumentlist : list):

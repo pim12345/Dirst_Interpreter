@@ -53,37 +53,37 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             #print(test)
             #print(statement.name)
             return runABlock(code,codePtr+1,state,output)
-        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=">"):
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementsList.GREATER):
             if parameter2_value > parameter3_value:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
             return runABlock(code,codePtr+1,state,output)
-        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="<"):
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementsList.LESS):
             if parameter2_value < parameter3_value:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
             return runABlock(code,codePtr+1,state,output)
-        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="=="):
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementsList.EQUAL):
             if parameter2_value == parameter3_value:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
             return runABlock(code,codePtr+1,state,output)
-        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="!="):
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementsList.NOTEQUAL):
             if parameter2_value != parameter3_value:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
             return runABlock(code,codePtr+1,state,output)
-        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=">="):
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementsList.GREATEREQUAL):
             if parameter2_value >= parameter3_value:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = 0
             return runABlock(code,codePtr+1,state,output)
-        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition="<="):
+        case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementsList.LESSEQUAL):
             if parameter2_value <= parameter3_value:
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = -1
             else:
@@ -131,12 +131,12 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         case displayValue():
             #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
-            output("output in block: ", state.memory[state.variablenamesDictionary[statement.value]])
+            output("output: ", state.memory[state.variablenamesDictionary[statement.value]])
             #output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
         case deleteVar():
             state.memory[state.variablenamesDictionary[statement.name]] = 0
-            del state.variablenamesDictionary[statement.name]#check if it gives no errors
+            del state.variablenamesDictionary[statement.name]
             return runABlock(code,codePtr+1,state,output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
             statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
@@ -151,25 +151,17 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=False):#lpc # check if logic is good with if statement
             state_, output = runLoopWhileNotZero(code.statements[codePtr].block, state, output, statement.varname)
-            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
-            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=False):#lpn
             state_, output = runLoopWhileZero(code.statements[codePtr].block, state, output, statement.varname)# check if logic is good with if statement in function
-            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]#check if still vallid code
-            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=False):#dlw
             statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop at least once
             state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname)
-            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=True,onlyOneTime=False):#dlu
             statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop at least once
             state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
-            #state_.memory[state.variablenamesDictionary[statement.varname]] = state_.memory[0]
-            #state_.memory[0] = state.memory[0]
             return runABlock(code, codePtr+1, state_, output)
         case RunFunction():
             state.memory[state.variablenamesDictionary[statement.result]],output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
