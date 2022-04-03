@@ -2,8 +2,57 @@ import re
 from typing import List, Tuple
 from tokens import *
 
-def split(line):
-    line = line.replace('\n',"") #remove newline from string.
+def split(line : str):
+    """Function to interpreter the Escape codes of the Dirst programming language
+    +-------------+---------------+
+    | Escape Code | Literal Value |
+    +-------------+---------------+
+    |     -u      |       ?       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -t      |      Tab      |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -s      |       *       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -r      |Carriage Return|
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -q      |       "       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -p      |       |       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -n      |Newline/Linefeed|
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -l      |       <       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -g      |       >       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -e      |       !       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -d      |       _       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     -c      |       :       |
+    +-------------+---------------+
+    +-------------+---------------+
+    |     --      |       -       |
+    +-------------+---------------+
+
+    Args:
+        line (str): Line of the Dirst scripting programming language
+
+    Returns:
+        str:  String line of the Dirst programming language with intpreterd Escape Codes 
+    """    
+    line = line.replace('--','-')
     line = line.replace('-c',':')
     line = line.replace('-s','*')
     line = line.replace('-u','?')
@@ -11,35 +60,51 @@ def split(line):
     line = line.replace('-l','<')
     line = line.replace('-p','|')
     line = line.replace('-e','!')
-    #line = line.replace('-d','_')
-    #line = line.replace('-t'," ")
-    #line = line.replace('-r','\r')
-    #line = line.replace('-n','\n')
-    #line = line.replace('-q','\"')
-    line = line.replace('--','-')
-    #print(re.split(r'([\t\._])', line))#met de punten en _ in de lijst 
-    #print(re.split(r'_|\.|\t', line))#zonder punten en _ in de lijst
+    line = line.replace('-d','_')
+    line = line.replace('-t'," ")
+    line = line.replace('-r','\r')
+    line = line.replace('\n',"") #remove newline from string.
+    line = line.replace('-q','\"')
     return re.split(r'_|\.|\t', line)
     
 
-def giveCorrectClass(operator, isInALoop):
-    if isInALoop > 0:
-        #print("operator: ", operator)
-        if operator[0] == "fnc":
-            return fnc(operator[1], isInALoop)
-        if operator[0] == "dif":
-            return dif_(operator[1], isInALoop)
-        if operator[0] == "nif":
-            return nif(operator[1], isInALoop)
-        if operator[0] == "lpc":
-            return lpc(operator[1], isInALoop)
-        if operator[0] == "lpn":
-            return lpn(operator[1], isInALoop)
-        if operator[0] == "dlw":
-            return dlw(operator[1], isInALoop)
-        if operator[0] == "dlu":
-            return dlu(operator[1], isInALoop)
+def giveCorrectClass(operator : list, isInALoop : int):
+    """Checks with class is correct by operator and returns the correct class
 
+    Args:
+        operator (list): List of strings with the operators needed to return the correct class used for lexing the language
+        isInALoop (int): Number of how nested the function is 
+
+    Returns:
+        class: Returns the class assosiated with the operators given by given by call
+    """    
+    match operator:
+        #DIRECTORY
+        case ["fnc",operator1] if isInALoop > 0:
+            return fnc(operator1, isInALoop)
+        case ["dif", operator1] if isInALoop > 0:
+            return dif_(operator1, isInALoop)
+        case ["nif", operator1] if isInALoop > 0:
+            return nif(operator1, isInALoop)
+        case ["lpc", operator1] if isInALoop > 0:
+            return lpc(operator1, isInALoop)
+        case ["lpn", operator1] if isInALoop > 0:
+            return lpn(operator1, isInALoop)
+        case ["dlw", operator1] if isInALoop > 0:
+            return dlw(operator1, isInALoop)
+        case ["dlu", operator1] if isInALoop > 0:
+            return dlu(operator1, isInALoop)
+        #DAT
+        case ["abs", operator1,operator2,Instruction_Subsets.DAT.value]:
+            return abs(operator1,operator2,isInALoop)
+        case ["neg", operator1,operator2,Instruction_Subsets.DAT.value]:
+            return neg(operator1,operator2,isInALoop)
+        case ["add", operator1,operator2,operator3,Instruction_Subsets.DAT.value]:
+            return add(operator1,operator2,operator3,isInALoop)
+        #case ["", operator1,operator2,Instruction_Subsets.DAT.value]:
+        #    return (operator1,operator2,isInALoop)
+        #case ["", operator1,operator2,operator3,Instruction_Subsets.DAT.value]:
+        #    return (operator1,operator2,operator3,isInALoop)
     if operator[-1] == Instruction_Subsets.DAT.value:
         if operator[0] == "abs":
             return abs(operator[1],operator[2],isInALoop)
@@ -160,7 +225,15 @@ def giveCorrectClass(operator, isInALoop):
             return rtn(operator[1],isInALoop)
 
 
-def recursiveInstructionClassList(argumentlist):
+def recursiveInstructionClassList(argumentlist : list):
+    """Recursive function used as a map function to build up a list of all the lexed code in the Dirst programming language
+
+    Args:
+        argumentlist (list): A list of lines of the scripting language of Dist
+
+    Returns:
+        list: A list of lexed classes of Dirst
+    """    
     #isInALoop = 0
     isInALoop = argumentlist[0].count("")
     #print("inrecursive fun: ", argumentlist[0], "space: ", argumentlist[0].count(""), "test" )
@@ -178,5 +251,13 @@ def recursiveInstructionClassList(argumentlist):
         return [giveCorrectClass(argumentlist[0], isInALoop)] + recursiveInstructionClassList(argumentlist[1:])
 
 
-def lex(file):
+def lex(file : list):
+    """Function that lex the given file
+
+    Args:
+        file (list): A text file according to the Dist scripting language
+
+    Returns:
+        list: A list with all the correct classes and parameters(lexed of the Dirst scripting language)
+    """    
     return recursiveInstructionClassList(list(map(split,file)))

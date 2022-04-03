@@ -1,18 +1,12 @@
-#from ast import operator
-#from re import L
 from typing import List, Tuple
 from tokens import *
 from lexer import *
 
-#def parsen(tokens):
-#    if len(tokens) == 0:
-#        return None, code
-#    token, *rest = tokens
 
 class SimpleStatement:
-    def __init__(self, num=1):
-        #self.name = name
-        self.number = num
+    """statement that every statement is inherted
+    """    
+    #def __init__(self):
 
 #repeatStr :: String -> Integer -> String
 def repeatStr(s : str, i : int):
@@ -21,15 +15,29 @@ def repeatStr(s : str, i : int):
     return s + repeatStr(s, i - 1)
 
 class CodeBlock:
-    def __init__(self, nest=0):
-        self.statements = []
-        self.nestlevel = nest
+    """Function that holds a code block of subsets of Dirst
+    """    
+    def __init__(self, nest : int =0):
+        self.statements : list = []
+        """Creates a empty list used for statements of Dist code"""        
+        self.nestlevel : int = nest
+        """Interger used to track how nested this block of Dirst code is"""   
+        
 
     #addStatement :: CodeBlock -> SimpleStatement -> CodeBlock
     def addStatement(self, statement : SimpleStatement):
+        """"Function used to add statement to the code block
+
+        Args:
+            statement (SimpleStatement): A statement that is inherted from simplestatement that you need to add
+
+        Returns:
+            CodeBlock: Returns itself(CodeBlock) after adding a statement
+        """        
         self.statements.append(statement)
         return self
-
+        
+    #__repr__ :: CodeBlock -> String
     def __str__(self):
         return self.__repr__()
 
@@ -40,8 +48,10 @@ class CodeBlock:
         return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + "End Block"
 
 class Loop(SimpleStatement):
-    def __init__(self, block, varname, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
-        self.block = block
+    """a loop statement used to as the Directory subset of Dirst
+    """    
+    def __init__(self, block : CodeBlock, varname : str, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
+        self.block = block     
         self.varname = varname
         self.whileZero = whileZero
         self.loopAtLeastOnce = loopAtLeastOnce
@@ -55,7 +65,6 @@ class Loop(SimpleStatement):
 class createVar(SimpleStatement):
     def __init__(self, name):
         self.name = name
-        #self.number = 1
 
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
@@ -80,7 +89,6 @@ class tempMissingValue(SimpleStatement):
 class deleteVar(SimpleStatement):
     def __init__(self, name):
         self.name = name
-        #self.number = 1
 
     # __repr__ :: IncrementPointer -> String
     def __repr__(self) -> str:
