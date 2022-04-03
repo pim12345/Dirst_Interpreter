@@ -268,7 +268,7 @@ class ReturnIFFunction(SimpleStatement):
         return "Return parameter3 from a function if parameter1 is equal to parameter2"
 
 
-# parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
+#parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
 def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
     """Function used to parse a block of code to correct function to be used by the runner
 

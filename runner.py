@@ -182,13 +182,9 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
             #print(statement)
             #print(type(statement))
             raise Exception('method not implemented')
-    #print("end")
-    #state.memory[state.pointer]=0 #idk misch weg
-    #return code, codePtr, state, output
     
 def runAFunction(filename : str, argument1 : int, output : str):
-    #eerst andere code lexen uit andere file daarna parsen en daarna door de runAvblock halen. 
-    fileTree = open((filename + ".txt"), "r")
+    fileTree = open(( "./" + filename + ".txt"), "r")
     lexoutput = lex(fileTree)
     fileTree.close()
     state = ProgramState()

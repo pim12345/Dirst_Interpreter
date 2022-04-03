@@ -2,7 +2,8 @@ import re
 from typing import List, Tuple
 from tokens import *
 
-def split(line : str):
+#split :: String -> String
+def split(line : str) -> str:
     """Function to interpreter the Escape codes of the Dirst programming language
     +-------------+---------------+
     | Escape Code | Literal Value |
@@ -45,6 +46,9 @@ def split(line : str):
     +-------------+---------------+
     |     --      |       -       |
     +-------------+---------------+
+    +-------------+---------------+
+    |     -h      |       /       | this is added by this interpreter, not in original
+    +-------------+---------------+
 
     Args:
         line (str): Line of the Dirst scripting programming language
@@ -65,10 +69,11 @@ def split(line : str):
     line = line.replace('-r','\r')
     line = line.replace('\n',"") #remove newline from string.
     line = line.replace('-q','\"')
+    line = line.replace('-h','\\')
     return re.split(r'_|\.|\t', line)
     
-
-def giveCorrectClass(operator : list, isInALoop : int):
+#giveCorrectClass :: list[String] -> Token
+def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
     """Checks with class is correct by operator and returns the correct class
 
     Args:
@@ -225,8 +230,8 @@ def giveCorrectClass(operator : list, isInALoop : int):
             return rtn(operator[1],isInALoop)
     return NotImplemented()
 
-
-def recursiveInstructionClassList(argumentlist : list):
+#recursiveInstructionClassList :: list[String] -> String
+def recursiveInstructionClassList(argumentlist : list[str]) -> str:
     """Recursive function used as a map function to build up a list of all the lexed code in the Dirst programming language
 
     Args:
@@ -235,24 +240,16 @@ def recursiveInstructionClassList(argumentlist : list):
     Returns:
         list: A list of lexed classes of Dirst
     """    
-    #isInALoop = 0
     isInALoop = argumentlist[0].count("")
-    #print("inrecursive fun: ", argumentlist[0], "space: ", argumentlist[0].count(""), "test" )
     if argumentlist[0][0] == "":
-        #print(argumentlist[0].count(""))
-        #isInALoop = argumentlist[0].count("")
-        #print(argumentlist[0])
         argumentlist[0] = list(filter(lambda str: (str != "") ,argumentlist[0]))
-        #print(argumentlist[0])
-       
-        #del argumentlist[0][0]#remove tab from list and put a boolian expression in the place. only support for one loop
     if len(argumentlist) == 1:
         return [giveCorrectClass(argumentlist[0], isInALoop)]
     else:
         return [giveCorrectClass(argumentlist[0], isInALoop)] + recursiveInstructionClassList(argumentlist[1:])
 
-
-def lex(file : list):
+#lex :: list[String] -> list[Token]
+def lex(file : list[str]) -> list[Token]:
     """Function that lex the given file
 
     Args:
