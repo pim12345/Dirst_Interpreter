@@ -14,13 +14,13 @@ Gekozen taal: [Dirst](https://esolangs.org/wiki/Dirst)
 
 Turing-compleet omdat: Het in de categorie van turing complete staat
 
-Code is geschreven in functionele stijl.
+Code is geschreven in functionele stijl.(redelijk)
 
 Taal ondersteunt:
 
-Loops? Voorbeeld: [file] - [regel]
+Loops? Voorbeeld: [/Examples/Fib_seq.txt] - [7-12]
 
-Goto-statements? Voorbeeld: [file] - [regel]
+Goto-statements? Voorbeeld: [/Examples/even.txt] - [3]
 
 Lambda-calculus? Voorbeeld: [files] - [regels]
 
@@ -30,7 +30,7 @@ Classes met inheritance: bijvoorbeeld [tokens.py] - [36-40]
 
 Object-printing voor elke class: [ja/nee]
 
-Decorator: functiedefinitie op [file] - [regel], toegepast op [file] - [regel]
+Decorator: functiedefinitie op (nu nog niet aanwezig) [file] - [regel], toegepast op [file] - [regel]
 
 Type-annotatie: Haskell-stijl in comments: [ja/nee]; Python-stijl in functiedefinities: [ja/nee]
 
