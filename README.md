@@ -10,7 +10,7 @@ In this project is has also added functions calls in the project
 
 # === README CHECKLIST ===
 
-Gekozen taal: [Dirst](https://esolangs.org/wiki/Dirst)
+Gekozen taal: [Dirst](https://esolangs.org/wiki/Dirst) moet nog werken aan bewijs
 
 Turing-compleet omdat: Het in de categorie van turing complete staat
 
@@ -22,7 +22,7 @@ Loops? Voorbeeld: [/Examples/Fib_seq.txt] - [7-12]
 
 Goto-statements? Voorbeeld: [/Examples/even.txt] - [3]
 
-Lambda-calculus? Voorbeeld: [files] - [regels]
+Lambda-calculus? Voorbeeld: [/Examples/even.txt] - [3]
 
 Bevat:
 

@@ -16,264 +16,300 @@ class Instruction_Subsets(Enum):
 
 ########## Tokens ###############
 class Token:
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         self.isInALoop = isInALoop
-
-    def __str__(self):
+    #__str__ :: Token -> String
+    def __str__(self) -> str:
         return "Token"
 ##################################
 ########## Directory Tokens ######
 class Directory(Token):
-    def __str__(self):
+    #__str__ :: Directory -> String
+    def __str__(self) -> str:
         return "Handles looping, conditionals and code separation"
 
 class fnc(Directory):
-    def __init__(self, varname, isInALoop):
+    def __init__(self, varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: fnc -> String
+    def __str__(self) -> str:
         return "Execute all subitems in the directory"
 class dif_(Directory):
-    def __init__(self, varname, isInALoop):
+    def __init__(self, varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__repr__ :: dif_ -> String
+    def __str__(self) -> str:
         return "Execute directory subitems only if the specified integer value is not zero"
 class nif(Directory):
-    def __init__(self, varname, isInALoop):
+    def __init__(self, varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: nif -> String
+    def __str__(self) -> str:
         return "Execute directory subitems only if the specified integer value is zero"
 class lpc(Directory):
-    def __init__(self, varname, isInALoop):
+    def __init__(self, varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: lpc -> String
+    def __str__(self) -> str:
         return "Loop through directory subitems while the specified integer value is not zero"
 class lpn(Directory):
-    def __init__(self, varname, isInALoop):
+    def __init__(self, varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: lpn -> String
+    def __str__(self) -> str:
         return "Loop through directory subitems while the specified integer value is zero"
 class dlw(Directory):
-    def __init__(self,varname, isInALoop):
+    def __init__(self,varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dlw -> String
+    def __str__(self) -> str:
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
 class dlu(Directory):
-    def __init__(self, varname, isInALoop):
+    def __init__(self, varname, isInALoop : int):
         self.varname = varname
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dlu -> String
+    def __str__(self) -> str:
         return "Do loop through directory subitems while the specified integer value is zero (loop at least once)"
 ##################################
 ########## DAT Tokens ############
 class DAT(Token):
-    def __str__(self):
+    #__str__ :: DAT -> String
+    def __str__(self) -> str:
         return "Contains all integer functionality and logic"
 class abs(DAT):
-    def __str__(self):
+    #__str__ :: abs -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: " + str(self.parameter1) + " to the absolute value of parameter 2: " + str(self.parameter2)
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class neg(DAT):
-    def __str__(self):
+    #__str__ :: neg -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the negative value of parameter 2:"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class add(DAT):
-    def __str__(self):
+    #__str__ :: add -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: plus parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class sub_(DAT):
-    def __str__(self):
+    #__str__ :: sub_ -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: minus parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class mul(DAT):
-    def __str__(self):
+    #__str__ :: mul -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: times parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class div(DAT):
-    def __str__(self):
+    #__str__ :: div -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: divided by parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class mod(DAT):
-    def __str__(self):
+    #__str__ :: mod -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: modulo parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class and_(DAT):
-    def __str__(self):
+    #__str__ :: and_ -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise and parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class orb(DAT):
-    def __str__(self):
+    #__str__ :: orb -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise or parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class xor(DAT):
-    def __str__(self):
+    #__str__ :: xor -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise xor parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class xad(DAT):
-    def __str__(self):
+    #__str__ :: xad -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise xand parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class nad(DAT):
-    def __str__(self):
+    #__str__ :: nad -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise nand parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class nor(DAT):
-    def __str__(self):
+    #__str__ :: nor -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise nor parameter 3:"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class not_(DAT):
-    def __str__(self):
+    #__str__ :: not_ -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to the value of the bitwise not of parameter 2:"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class mor(DAT):
-    def __str__(self):
+    #__str__ :: mor -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is greater than parameter 3:, otherwise 0"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class les(DAT):
-    def __str__(self):
+    #__str__ :: les -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is less than parameter 3:, otherwise 0"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class equ(DAT):
-    def __str__(self):
+    #__str__ :: equ -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is equal to parameter 3:, otherwise 0"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class neq(DAT):
-    def __str__(self):
+    #__str__ :: neq -> String
+    def __str__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is not equal to parameter 3:, otherwise 0"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class get(DAT):
-    def __str__(self):
+    #__str__ :: get -> String
+    def __str__(self) -> str:
         return "Sets parameter 1 to -1 if parameter 2 is greater than or equal to parameter 3, otherwise 0"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class let(DAT):
-    def __str__(self):
+    #__str__ :: let -> String
+    def __str__(self) -> str:
         return "Sets parameter 1 to -1 if parameter 2 is less than or equal to parameter 3, otherwise 0"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class rdi(DAT):
-    def __str__(self):
+    #__str__ :: rdi -> String
+    def __str__(self) -> str:
         return "Reads an integer from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class ric(DAT):
-    def __str__(self):
+    #__str__ :: ric -> String
+    def __str__(self) -> str:
         return "Read a character from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is set to -1."
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dsi(DAT):
-    def __str__(self):
+    #__str__ :: dsi -> String
+    def __str__(self) -> str:
         return "Display the specified integer value to the console"
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dic(DAT):
-    def __str__(self):
+    #__str__ :: dic -> String
+    def __str__(self) -> str:
         return "Display the character specified by the integer value to the console"
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class set(DAT):
-    def __str__(self):
+    #__str__ :: set -> String
+    def __str__(self) -> str:
         return "Sets parameter 1 to the value of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class max(DAT):
-    def __str__(self):
+    #__str__ :: max -> String
+    def __str__(self) -> str:
         return "Sets parameter 1 to the higher value out of parameter 2 and parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class min(DAT):
-    def __str__(self):
+    #__str__ :: min -> String
+    def __str__(self) -> str:
         return "Sets parameter 1 to the lower value out of parameter 2 and parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
@@ -282,279 +318,316 @@ class min(DAT):
 ##################################
 ########## TXT Tokens ############
 class TXT(Token):
-    def __str__(self):
+    #__str__ :: TXT -> String
+    def __str__(self) -> str:
         return "Contains all string functionality and logic as well as advanced console IO"
 class rdc(TXT):
-    def __str__(self):
+    #__str__ :: rdc -> String
+    def __str__(self) -> str:
         return "Reads a character from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class rds(TXT):
-    def __str__(self):
+    #__str__ :: rds -> String
+    def __str__(self) -> str:
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class eof(TXT):
-    def __str__(self):
+    #__str__ :: eof -> String
+    def __str__(self) -> str:
         return "Sets the given integer variable to -1 it EOF has been reached, 0 otherwise"
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dsc(TXT):
-    def __str__(self):
+    #__str__ :: dsc -> String
+    def __str__(self) -> str:
         return "Displays the character from string parameter 1 at index parameter 2 (base 0) to the console"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class dss(TXT):
-    def __str__(self):
+    #__str__ :: dss -> String
+    def __str__(self) -> str:
         return "Displays the given string variable to the console with no newline following"
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class dsl(TXT):
-    def __str__(self):
+    #__str__ :: dsl -> String
+    def __str__(self) -> str:
         return "Displays the given string variable to the console followed by a newline"
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class dec(TXT):
-    def __str__(self):
+    #__str__ :: dec -> String
+    def __str__(self) -> str:
         return "Displays the character from string parameter 1 at index parameter 2 (base 0) to STDERR"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class des(TXT):
-    def __str__(self):
+    #__str__ :: des -> String
+    def __str__(self) -> str:
         return "Displays the given string variable to STDERR with no newline following"
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class del_(TXT):
-    def __str__(self):
+    #__str__ :: del_ -> String
+    def __str__(self) -> str:
         return "Displays the given string variable to STDERR followed by a newline"
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class clr(TXT):
-    def __str__(self):
+    #__str__ :: clr -> String
+    def __str__(self) -> str:
         return "Clears the given string variable: " + str(self.name)
-    def __init__(self, name, isInALoop):
+    def __init__(self, name, isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
 class cat(TXT):
-    def __str__(self):
+    #__str__ :: cat -> String
+    def __str__(self) -> str:
         return "Concats parameter 2 and parameter 3 and sets parameter 1 to the result"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class idx(TXT):
-    def __str__(self):
+    #__str__ :: idx -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the index of the first occurrence of parameter 3 in parameter 2, or -1 if not found"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class ids(TXT):
-    def __str__(self):
+    #__str__ :: ids -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the index of the first occurrence of parameter 3 in parameter 2 after specified index parameter 4, or -1 if not found"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class lid(TXT):
-    def __str__(self):
+    #__str__ :: lid -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the index of the last occurrence of parameter 3 in parameter 2, or -1 if not found"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class rep(TXT):
-    def __str__(self):
+    #__str__ :: rep -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2, replacing every occurrence of parameter 3 with parameter 4"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class sub(TXT):
-    def __str__(self):
+    #__str__ :: sub -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the substring of parameter 2 from index parameter 3 (base 0) of length parameter 4"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class rmv(TXT):
-    def __str__(self):
+    #__str__ :: rmv -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 removing characters from index parameter 3 (base 0) of length parameter 4"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class ins(TXT):
-    def __str__(self):
+    #__str__ :: ins -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 inserting substring parameter 4 at index parameter 3 (base 0)"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class tou(TXT):
-    def __str__(self):
+    #__str__ :: tou -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the all uppercase value of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class tol(TXT):
-    def __str__(self):
+    #__str__ :: tol -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the all lowercase value of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class pdl(TXT):
-    def __str__(self):
+    #__str__ :: pdl -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the left-hand side with spaces until length parameter 3 is reached"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class cpl(TXT):
-    def __str__(self):
+    #__str__ :: cpl -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the left-hand side with the character value parameter 4 until length parameter 3 is reached"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class pdr(TXT):
-    def __str__(self):
+    #__str__ :: pdr -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the right-hand side with spaces until length parameter 3 is reached"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class cpr(TXT):
-    def __str__(self):
+    #__str__ :: cpr -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the right-hand side with the character value parameter 4 until length parameter 3 is reached"
-    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, parameter4, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
 class sam(TXT):
-    def __str__(self):
+    #__str__ :: sam -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is equal to parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class dif(TXT):
-    def __str__(self):
+    #__str__ :: dif -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is not equal to parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class hiv(TXT):
-    def __str__(self):
+    #__str__ :: hiv -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically after parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class lov(TXT):
-    def __str__(self):
+    #__str__ :: lov -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically before parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class hev(TXT):
-    def __str__(self):
+    #__str__ :: hev -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically after or equal to parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class lev(TXT):
-    def __str__(self):
+    #__str__ :: lev -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically before or equal to parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class ssw(TXT):
-    def __str__(self):
+    #__str__ :: ssw -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 starts with parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class sew(TXT):
-    def __str__(self):
+    #__str__ :: sew -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 ends with parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class trm(TXT):
-    def __str__(self):
+    #__str__ :: trm -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 trimming all leading and trailing occurrences of the characters in parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class tms(TXT):
-    def __str__(self):
+    #__str__ :: tms -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 trimming all leading occurrences of the characters in parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class tme(TXT):
-    def __str__(self):
+    #__str__ :: tme -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to parameter 2 trimming all trailing occurrences of the characters in parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class ses(TXT):
-    def __str__(self):
+    #__str__ :: ses -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
@@ -562,402 +635,408 @@ class ses(TXT):
 ##################################
 ########## BIN Tokens ############
 class BIN(Token):
-    def __str__(self):
+    #__str__ :: BIN -> String
+    def __str__(self) -> str:
         return "Contains all floating point functionality and logic as well as advanced math operations"
 
 class pls(BIN):
-    def __str__(self):
+    #__str__ :: pls -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 plus parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class mns(BIN):
-    def __str__(self):
+    #__str__ :: mns -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 minus parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)   
 class tms(BIN):
-    def __str__(self):
+    #__str__ :: tms -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 times parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
 class dvb(BIN):
-    def __str__(self):
+    #__str__ :: dvb -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 divided by parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class pwr(BIN):
-    def __str__(self):
+    #__str__ :: pwr -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 to the power of parameter 3"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class sgn(BIN):
-    def __str__(self):
+    #__str__ :: sgn -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the sign of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class sqr(BIN):
-    def __str__(self):
+    #__str__ :: sqr -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the square root of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class sin(BIN):
-    def __str__(self):
+    #__str__ :: sin -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the sine of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class cos(BIN):
-    def __str__(self):
+    #__str__ :: cos -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the cosine of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class tan(BIN):
-    def __str__(self):
+    #__str__ :: tan -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the tangent of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class snh(BIN):
-    def __str__(self):
+    #__str__ :: snh -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the hyperbolic sine of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class csh(BIN):
-    def __str__(self):
+    #__str__ :: csh -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the hyperbolic cosine of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-    
 class tnh(BIN):
-    def __str__(self):
+    #__str__ :: tnh -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the hyperbolic tangent of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class cil(BIN):
-    def __str__(self):
+    #__str__ :: cil -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the ceiling of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class flr(BIN):
-    def __str__(self):
+    #__str__ :: flr -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the floor of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class log(BIN):
-    def __str__(self):
+    #__str__ :: log -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the base 10 logarithm of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class lge(BIN):
-    def __str__(self):
+    #__str__ :: lge -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the natural logarithm of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class lbq(BIN):
-    def __str__(self):
+    #__str__ :: lbq -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the base parameter 3 logarithm of parameter 2"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class epw(BIN):
-    def __str__(self):
+    #__str__ :: epw -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of e to the power of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class avl(BIN):
-    def __str__(self):
+    #__str__ :: avl -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of the absolute value of parameter 2"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class rnd(BIN):
-    def __str__(self):
+    #__str__ :: rnd -> String
+    def __str__(self) -> str:
         return "Set the given float variable to a random value between 0.0 and 1.0 inclusive"
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class rou(BIN):
-    def __str__(self):
+    #__str__ :: rou -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 rounded to the nearest whole number"
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class asn(BIN):
-    def __str__(self):
+    #__str__ :: asn -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class acs(BIN):
-    def __str__(self):
+    #__str__ :: acs -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class atn(BIN):
-    def __str__(self):
+    #__str__ :: atn -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class mks(BIN):
-    def __str__(self):
+    #__str__ :: mks -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class fmx(BIN):
-    def __str__(self):
+    #__str__ :: fmx -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class fmn(BIN):
-    def __str__(self):
+    #__str__ :: fmn -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class grt(BIN):
-    def __str__(self):
+    #__str__ :: grt -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class lst(BIN):
-    def __str__(self):
+    #__str__ :: lst -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class eqt(BIN):
-    def __str__(self):
+    #__str__ :: eqt -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class net(BIN):
-    def __str__(self):
+    #__str__ :: net -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class gte(BIN):
-    def __str__(self):
+    #__str__ :: gte -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is greater than or equal to parameter 3, 0 otherwise"
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class lte(BIN):
-    def __str__(self):
+    #__str__ :: lte -> String
+    def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is less than or equal to parameter 3, 0 otherwise. Wrong in original Dirst documentation."
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class rfv(BIN):
-    def __str__(self):
+    #__str__ :: rfv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class dfv(BIN):
-    def __str__(self):
+    #__str__ :: dfv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 
 ##################################
 ########## ZIP Tokens ############
 class ZIP(Token):
-    def __str__(self):
+    #__str__ :: ZIP -> String
+    def __str__(self) -> str:
         return "Manages arrays and array values"
-
+        
 class giv(ZIP):
-    def __str__(self):
+    #__str__ :: giv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class siv(ZIP):
-    def __str__(self):
+    #__str__ :: siv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class gsv(ZIP):
-    def __str__(self):
+    #__str__ :: gsv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 #dubblicate siv class in original documenation
-
 class gfv(ZIP):
-    def __str__(self):
+    #__str__ :: gfv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class sfv(ZIP):
-    def __str__(self):
+    #__str__ :: sfv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class fia(ZIP):
-    def __str__(self):
+    #__str__ :: fia -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class zia(ZIP):
-    def __str__(self):
+    #__str__ :: zia -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class fsa(ZIP):
-    def __str__(self):
+    #__str__ :: fsa -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class zsa(ZIP):
-    def __str__(self):
+    #__str__ :: zsa -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class ffa(ZIP):
-    def __str__(self):
+    #__str__ :: ffa -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class zfa(ZIP):
-    def __str__(self):
+    #__str__ :: zfa -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
@@ -966,103 +1045,105 @@ class zfa(ZIP):
 ##################################
 ########## EXE Tokens ############
 class EXE(Token):
-    def __str__(self):
+    #__str__ :: EXE -> String
+    def __str__(self) -> str:
         return "Handles type conversion and value/array transcoding"
 
 class sia(EXE):
-    def __str__(self):
+    #__str__ :: sia -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class ssa(EXE):
-    def __str__(self):
+    #__str__ :: ssa -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class sti(EXE):
-    def __str__(self):
+    #__str__ :: sti -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class stf(EXE):
-    def __str__(self):
+    #__str__ :: stf -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class stc(EXE):
-    def __str__(self):
+    #__str__ :: stc -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, parameter3, isInALoop):
+    def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-
 class its(EXE):
-    def __str__(self):
+    #__str__ :: its -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class itf(EXE):
-    def __str__(self):
+    #__str__ :: itf -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class ias(EXE):
-    def __str__(self):
+    #__str__ :: ias -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class aif(EXE):
-    def __str__(self):
+    #__str__ :: aif -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class fts(EXE):
-    def __str__(self):
+    #__str__ :: fts -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class fti(EXE):
-    def __str__(self):
+    #__str__ :: fti -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-
 class afi(EXE):
-    def __str__(self):
+    #__str__ :: afi -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, parameter2, isInALoop):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
@@ -1070,244 +1151,265 @@ class afi(EXE):
 ##################################
 ########## DLL Tokens ############
 class DLL(Token):
-    def __str__(self):
+    #__str__ :: DLL -> String
+    def __str__(self) -> str:
         return "Contains all extensions and specialized instructions, such as exception handling and abstract data structures"
 
 class psh(DLL):
-    def __str__(self):
+    #__str__ :: psh -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class pop(DLL):
-    def __str__(self):
+    #__str__ :: pop -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class spk(DLL):
-    def __str__(self):
+    #__str__ :: spk -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
-
 class ssz(DLL):
-    def __str__(self):
+    #__str__ :: ssz -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class enq(DLL):
-    def __str__(self):
+    #__str__ :: enq -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class deq(DLL):
-    def __str__(self):
+    #__str__ :: deq -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class qpk(DLL):
-    def __str__(self):
+    #__str__ :: qpk -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class qsz(DLL):
-    def __str__(self):
+    #__str__ :: qsz -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-
 class tpl(DLL):
-    def __str__(self):
+    #__str__ :: tpl -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class tpr(DLL):
-    def __str__(self):
+    #__str__ :: tpr -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class tsv(DLL):
-    def __str__(self):
+    #__str__ :: tsv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self,parameter1, isInALoop):
+    def __init__(self,parameter1, isInALoop : int):
         super().__init__(isInALoop)
         self.parameter1 = parameter1
-
 class tgv(DLL):
-    def __str__(self):
+    #__str__ :: tgv -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self,parameter1, isInALoop):
+    def __init__(self,parameter1, isInALoop : int):
         super().__init__(isInALoop)
         self.parameter1 = parameter1
-
 class gbe(DLL):
-    def __str__(self):
+    #__str__ :: gbe -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class gen(DLL):
-    def __str__(self):
+    #__str__ :: gen -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class gef(DLL):
-    def __str__(self):
+    #__str__ :: gef -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class lce(DLL):
-    def __str__(self):
+    #__str__ :: lce -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class lcn(DLL):
-    def __str__(self):
+    #__str__ :: lcn -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class lcf(DLL):
-    def __str__(self):
+    #__str__ :: lcf -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
-
 class ges(DLL):
-    def __str__(self):
+    #__str__ :: ges -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self,parameter1 ,isInALoop):
+    def __init__(self,parameter1 ,isInALoop : int):
         super().__init__(isInALoop)
         self.parameter1 = parameter1
-
 class ces(DLL):
-    def __str__(self):
+    #__str__ :: ces -> String
+    def __str__(self) -> str:
         return ""
-    def __init__(self, isInALoop):
+    def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 
 ##################################
 ########## CSV Tokens used for variables and arrays ######
 class CSV(Token):
-    def __str__(self):
+    #__str__ :: CSV -> String
+    def __str__(self) -> str:
         return "Manages, creates, and destroys variables and arrays"
 
 class cia(CSV):
-    def __str__(self):
+    def __init__(self, name,isInALoop : int):
+        self.name = name
+        super().__init__(isInALoop)
+    #__str__ :: cia -> String
+    def __str__(self) -> str:
         return "Creates an integer array with the specified variable name"
 class civ(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: civ -> String
+    def __str__(self) -> str:
         return "Creates an integer variable with the specified variable name"
 class csa(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: csa -> String
+    def __str__(self) -> str:
         return "Creates a string array with the specified variable name"
 class csv(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: csv -> String
+    def __str__(self) -> str:
         return self.name #Creates a string variable with the specified variable name
 class cfa(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: cfa -> String
+    def __str__(self) -> str:
         return "Creates a float array with the specified variable name"
 class cfv(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: cfv -> String
+    def __str__(self) -> str:
         return "Creates a float variable with the specified variable name"
 class dia(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dia -> String
+    def __str__(self) -> str:
         return "Deletes an integer array with the specified variable name"
 class div(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: div -> String
+    def __str__(self) -> str:
         return "Deletes an integer variable with the specified variable name"
 class dsa(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dsa -> String
+    def __str__(self) -> str:
         return "Deletes a string array with the specified variable name"
 class dsv(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dsv -> String
+    def __str__(self) -> str:
         return "Deletes a string variable with the specified variable name"
 class dfa(CSV):
-    def __init__(self, name,isInALoop):
+    def __init__(self, name,isInALoop : int):
         self.name = name
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dfa -> String
+    def __str__(self) -> str:
         return "Deletes a float array with the specified variable name"
 class dfv(CSV):
-    def __init__(self, parameter1,isInALoop):
+    def __init__(self, parameter1,isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: dfv -> String
+    def __str__(self) -> str:
         return "Deletes a float variable with the specified variable name"
 
 ##################################
 ########## LNK Tokens are used for function calls and the like ######
 class LNK(Token):
-    def __str__(self):
+    #__str__ :: LNK -> String
+    def __str__(self) -> str:
         return "function calls and the like. Not in orignal Dirst"
 
 class run(LNK):
-    def __init__(self, result,argument,function,isInALoop):
+    def __init__(self, result,argument,function,isInALoop : int):
         self.result = result
         self.argument = argument
         self.function = function
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: run -> String
+    def __str__(self) -> str:
         return "run a function with 1 argument(second parameter) and save the result to first parameter. third argument is filename of function to run"
 
 class ifrtn(LNK):
-    def __init__(self, parameter1,parameter2,parameter3,isInALoop):
+    def __init__(self, parameter1,parameter2,parameter3,isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: ifrtn -> String
+    def __str__(self) -> str:
         return "return parameter3 from a function if parameter1 is equal to parameter2"
 
 class rtn(LNK):
-    def __init__(self, parameter1,isInALoop):
+    def __init__(self, parameter1,isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
-    def __str__(self):
+    #__str__ :: rtn -> String
+    def __str__(self) -> str:
         return "return parameter 1 to function."

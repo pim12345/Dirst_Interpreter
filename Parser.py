@@ -213,7 +213,7 @@ class IfStatement(SimpleStatement):
         return "IfStatement: " + str(self.parameter1) + " will have the value of -1 if: " + str(self.parameter2) + str(self.condition) + str(self.parameter3) + " otherwise has the value of: 0"
 
 class RunFunction(SimpleStatement):
-    def __init__(self, result, argument, function):
+    def __init__(self, result : str, argument, function : str):
         self.result = result
         self.argument = argument
         self.function = function
@@ -248,7 +248,7 @@ class MaxValue(SimpleStatement):
         return "Sets parameter1: " + str(self.parameter1) + " to the higher value out of parameter2: " + str(self.parameter2) + "and parameter3: " + str(self.parameter3)
 
 class MinValue(SimpleStatement):
-    def __init__(self, parameter1 : string,parameter2,parameter3):
+    def __init__(self, parameter1 : string, parameter2, parameter3):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
@@ -258,7 +258,7 @@ class MinValue(SimpleStatement):
         return "Sets parameter1: " + str(self.parameter1) + " to the lower value out of parameter2: " + str(self.parameter2) + "and parameter3: " + str(self.parameter3)
 
 class ReturnIFFunction(SimpleStatement):
-    def __init__(self, parameter1 : string,parameter2,parameter3):
+    def __init__(self, parameter1: string, parameter2, parameter3):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
@@ -373,7 +373,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, del_):
             code.addStatement(NotImplemented())
         elif isinstance(token, clr):
-            code.addStatement(NotImplemented())
+            code.addStatement(deleteVar(token.name))
         elif isinstance(token, cat):
             code.addStatement(NotImplemented())
         elif isinstance(token, idx):

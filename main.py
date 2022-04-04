@@ -7,7 +7,7 @@ from Parser import *
 import logging
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
 
-fileTree = open("./Examples/sommigExample.txt", "r")
+fileTree = open("./sommigExample.txt", "r")
 console_printing_INFO = lambda *args: print(*args)
 
 

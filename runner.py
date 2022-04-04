@@ -3,10 +3,6 @@ from tokens import *
 from lexer import *
 from Parser import *
 
-
-def runner(parse):
-    pass
-
 class ProgramState:
     def __init__(self):
         self.pointer = 1#need to clear register 0 for loops and arguments
@@ -15,11 +11,11 @@ class ProgramState:
 
     #__repr__ :: ProgramState -> String
     def __repr__(self) -> str:
-        return "ptr: " + str(self.pointer) + " val: " + str(self.memory)
+        return "ptr: " + str(self.pointer) + " val: " + str(self.memory) + " varname dictionary: " + str(self.variablenamesDictionary)
 
 
 #runABlock :: CodeBlock -> Integer -> ProgramState -> String -> (ProgramState, String) <-old check if still correct
-def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : string) -> Tuple[CodeBlock,int, ProgramState, str]:
+def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: string) -> Tuple[CodeBlock, int, ProgramState, str]:
     #print(state)
     #print(code.statements)
     #print("len statments: " + str(len(code.statements)) + " len codePtr: " + str(codePtr))
@@ -39,14 +35,13 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
     except ValueError:
         parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
     except AttributeError:
-        pass #there is no parameter 3, so it can't convert it
+        pass #there is no parameter 3, so it can't convert it. So it will ignore it
     
     match statement:
         case createVar():
-            #print("test")
             if statement.name in state.variablenamesDictionary:
-                print("error systeem nog niet in plaats, maar var bestaat al ")
-                return code, codePtr, state, "error"
+                output("error: ", statement.name , " allready created")
+                return code, codePtr, state, output
             state.memory[state.pointer]=0
             state.variablenamesDictionary[statement.name] = state.pointer
             state.pointer+=1
@@ -121,7 +116,7 @@ def runABlock(code : CodeBlock, codePtr : int, state : ProgramState, output : st
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.xad):
             #state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value  parameter3_value
             output("not yet implented")
-            return runABlock(code,codePtr+1,state,output)
+            return code, codePtr, state, output
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.nad):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value & parameter3_value)
             return runABlock(code,codePtr+1,state,output)
