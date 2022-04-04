@@ -4,7 +4,7 @@ from runner import *
 from Parser import *
 import sys
 
-
+#main :: None -> None
 def main():
     match sys.argv:
         case [_,'-f', scriptLocation]:

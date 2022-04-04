@@ -422,7 +422,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(ReturnFunction(token.parameter1))
         elif isinstance(token,ifrtn):
             code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
-    if len(tokens) >= 2:
+    if len(tokens) >= 2:#needed because if loop closes 2 times it will not correctly work because it will not close the loop 2 times
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest,code
     return parseCodeBlock(rest, code)

@@ -126,7 +126,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: string
         case displayValue():
             #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
-            output("output: ", state.memory[state.variablenamesDictionary[statement.value]])
+            output(state.memory[state.variablenamesDictionary[statement.value]])
             #output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
         case deleteVar():
@@ -136,7 +136,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: string
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
             statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
             return runABlock(code, codePtr+1, state, output)
-        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif #maybe implent if statement in switch case
+        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
             if state.memory[state.variablenamesDictionary[statement.parameter1]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
                 statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)
             return runABlock(code, codePtr+1, state_, output)
@@ -177,8 +177,9 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: string
             #print(statement)
             #print(type(statement))
             raise Exception('method not implemented')
-    
-def runAFunction(filename : str, argument1 : int, output : str):
+
+#runAFunction :: str -> int -> function -> (int, function)
+def runAFunction(filename : str, argument1 : int, output : function) -> Tuple[int,function]:
     fileTree = open(( "./" + filename + ".txt"), "r")
     lexoutput = lex(fileTree)
     fileTree.close()
@@ -187,12 +188,10 @@ def runAFunction(filename : str, argument1 : int, output : str):
     state.variablenamesDictionary["result"] = 9
     state.memory[0] = argument1
     code, codePtr, state, output = runABlock(parseCodeBlock(lexoutput, CodeBlock())[1], 0, state, output)
-    
-    #return number of string in ieder geval 1 arg en output
     return state.memory[state.variablenamesDictionary["result"]],output
 
-    #runloop :: Loop -> ProgramState -> String -> (ProgramState, String)
-def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, str, str]:#loop : Loop
+#runLoopWhileZero :: CodeBlock -> ProgramState -> function -> String -> (ProgramState, function)
+def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : function, loopname : str) -> Tuple[ProgramState, function]:
     #print("loop")
     #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
@@ -202,7 +201,8 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : str, loopna
         code_, codePtr_, state_, output_ = runABlock(loop.code,0,state,output)
         return runLoopWhileZero(loop, state_, output_, loopname)
 
-def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, str]:#loop : Loop
+#runLoopWhileNotZero :: CodeBlock -> ProgramState -> function -> String -> (ProgramState, function)
+def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, function]:
     #print("loop")
     #print(state.pointer)
     #if(state.memory[state.pointer]!=0):

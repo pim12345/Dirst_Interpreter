@@ -22,17 +22,17 @@ Loops? Voorbeeld: [/Examples/Fib_seq.txt] - [7-12]
 
 Goto-statements? Voorbeeld: [/Examples/even.txt] - [3]
 
-Lambda-calculus? Voorbeeld: [/Examples/even.txt] - [3]
+Lambda-calculus? Voorbeeld: [/Examples/even.txt] - [3](denk ik?)
 
 Bevat:
 
 Classes met inheritance: bijvoorbeeld [tokens.py] - [36-40]
 
-Object-printing voor elke class: [ja/nee]
+Object-printing voor elke class: [ja]
 
 Decorator: functiedefinitie op (nu nog niet aanwezig) [file] - [regel], toegepast op [file] - [regel]
 
-Type-annotatie: Haskell-stijl in comments: [ja/nee]; Python-stijl in functiedefinities: [ja/nee]
+Type-annotatie: Haskell-stijl in comments: [ja]; Python-stijl in functiedefinities: [ja/nee]
 
 Minstens drie toepassingen van hogere-orde functies:
 

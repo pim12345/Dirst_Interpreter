@@ -231,7 +231,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
     return NotImplemented()
 
 #recursiveInstructionClassList :: list[String] -> String
-def recursiveInstructionClassList(argumentlist : list[str]) -> str:
+def recursiveInstructionClassList(argumentlist: list[str]) -> str:
     """Recursive function used as a map function to build up a list of all the lexed code in the Dirst programming language
 
     Args:
