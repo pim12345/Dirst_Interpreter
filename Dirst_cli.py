@@ -5,7 +5,7 @@ from Parser import *
 import sys
 
 #main :: None -> None
-def main():
+def main() -> None:
     match sys.argv:
         case [_,'-f', scriptLocation]:
             console_printing_INFO = lambda *args: print(*args)

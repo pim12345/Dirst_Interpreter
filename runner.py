@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Callable, Any
 from tokens import *
 from lexer import *
 from Parser import *
@@ -14,8 +14,8 @@ class ProgramState:
         return "ptr: " + str(self.pointer) + " val: " + str(self.memory) + " varname dictionary: " + str(self.variablenamesDictionary)
 
 
-#runABlock :: CodeBlock -> Integer -> ProgramState -> String -> (ProgramState, String) <-old check if still correct
-def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: string) -> Tuple[CodeBlock, int, ProgramState, str]:
+#runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> (CodeBlock, int, ProgramState, Callable)
+def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callable) -> Tuple[CodeBlock, int, ProgramState, Callable]:
     #print(state)
     #print(code.statements)
     #print("len statments: " + str(len(code.statements)) + " len codePtr: " + str(codePtr))
@@ -178,8 +178,8 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: string
             #print(type(statement))
             raise Exception('method not implemented')
 
-#runAFunction :: str -> int -> function -> (int, function)
-def runAFunction(filename : str, argument1 : int, output : function) -> Tuple[int,function]:
+#runAFunction :: str -> int -> Callable -> (int, Callable)
+def runAFunction(filename : str, argument1 : int, output: Callable) -> Tuple[int,Callable]:
     fileTree = open(( "./" + filename + ".txt"), "r")
     lexoutput = lex(fileTree)
     fileTree.close()
@@ -190,8 +190,8 @@ def runAFunction(filename : str, argument1 : int, output : function) -> Tuple[in
     code, codePtr, state, output = runABlock(parseCodeBlock(lexoutput, CodeBlock())[1], 0, state, output)
     return state.memory[state.variablenamesDictionary["result"]],output
 
-#runLoopWhileZero :: CodeBlock -> ProgramState -> function -> String -> (ProgramState, function)
-def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : function, loopname : str) -> Tuple[ProgramState, function]:
+#runLoopWhileZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
+def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, loopname : str) -> Tuple[ProgramState, Callable]:
     #print("loop")
     #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
@@ -201,8 +201,8 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : function, l
         code_, codePtr_, state_, output_ = runABlock(loop.code,0,state,output)
         return runLoopWhileZero(loop, state_, output_, loopname)
 
-#runLoopWhileNotZero :: CodeBlock -> ProgramState -> function -> String -> (ProgramState, function)
-def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : str, loopname : str) -> Tuple[ProgramState, function]:
+#runLoopWhileNotZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
+def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : Callable, loopname : str) -> Tuple[ProgramState, Callable]:
     #print("loop")
     #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
