@@ -36,7 +36,7 @@ Type-annotatie: Haskell-stijl in comments: [ja]; Python-stijl in functiedefiniti
 
 Minstens drie toepassingen van hogere-orde functies:
 
-1. [file] - [regel]
+1. [lexer.py] - [261]
 2. [file] - [regel]
 3. [file] - [regel]
 
