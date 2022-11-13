@@ -122,7 +122,22 @@ class displayValue(SimpleStatement):
         else:
             return "Display the value: " + str(self.value)
 
-
+class roundValue(SimpleStatement):
+    """Class that is used to round a variable to ceiling or floor.
+    """    
+    def __init__(self, parameter1 : string, parameter2, roundToCeiling : bool):
+        """parameter 1 is a name of the variable and is used to get the correct spot in memory"""
+        self.parameter1 = parameter1
+        """the value that needs to be rounded"""
+        self.parameter2 = parameter2
+        """Boolean if True it rounds to the ceiling if False it rounds to the floor"""
+        self.roundToCeiling = roundToCeiling
+    
+    def __repr__(self) -> str:
+        if self.roundToCeiling == True:
+            return "Existing var with name: " + str(self.parameter1) + " will be rounded to the ceiling of: " + str(self.parameter2)
+        else:
+            return "Existing var with name: " + str(self.parameter1) + " will be rounded to the floor of: " + str(self.parameter2)
 class operatorsList(Enum):
     """Enum used by the 'operators' class to give to correct operator
     """    
@@ -363,9 +378,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, eof):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
-            code.addStatement(NotImplemented())
+            code.addStatement(displayValue(token.parameter1, True))#implent now good according to spec @todo
         elif isinstance(token, dss):
-            code.addStatement(NotImplemented())
+            code.addStatement(displayValue(token.parameter1, True))#implent
         elif isinstance(token, dsl):
             code.addStatement(NotImplemented())
         elif isinstance(token, dec):
@@ -373,7 +388,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, del_):
             code.addStatement(NotImplemented())
         elif isinstance(token, clr):
-            code.addStatement(deleteVar(token.name))
+            code.addStatement(deleteVar(token.name))# verang door var op 0 te zetten of nullptr
         elif isinstance(token, cat):
             code.addStatement(NotImplemented())
         elif isinstance(token, idx):
@@ -394,27 +409,238 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(NotImplemented())
         elif isinstance(token, tol):
             code.addStatement(NotImplemented())
-        
+        elif isinstance(token, pdl):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, cpl):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, pdr):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, cpr):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, sam):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, dif):#check if correct dif class also in lexer
+            code.addStatement(NotImplemented())
+        elif isinstance(token, hiv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lov):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, hev):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lev):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ssw):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, sew):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, trm):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, tms):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, tme):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ses):
+            code.addStatement(NotImplemented())
         
         #code.addStatement(displayValue(token.name))
     elif isinstance(token, BIN):
-        if isinstance(token, gte):
-            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.GREATEREQUAL))
-        else:
+        if isinstance(token, pls):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.plus))
+        elif isinstance(token, mns):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.minus))
+        elif isinstance(token, tms):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.multiply))
+        elif isinstance(token, dvb):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.divide))
+        elif isinstance(token, pwr):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.power))
+        elif isinstance(token, sgn):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.sign))#parameter 3 niet nodig kijk of error geeft
+        elif isinstance(token, sqr):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.square))
+        elif isinstance(token, sin):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.sin))
+        elif isinstance(token, cos):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.cos))
+        elif isinstance(token, tan):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.tan))
+        elif isinstance(token, snh):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.sinh))
+        elif isinstance(token, csh):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.cosh))
+        elif isinstance(token, tnh):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.tanh))
+        elif isinstance(token, cil):
+            code.addStatement(roundValue(token.parameter1, token.parameter2, True))
+        elif isinstance(token, flr):
+            code.addStatement(roundValue(token.parameter1, token.parameter2, False))
+        elif isinstance(token, log):
             code.addStatement(NotImplemented())
+        elif isinstance(token, lge):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lbq):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, epw):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, avl):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, rnd):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, rou):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, asn):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.sini))
+        elif isinstance(token, acs):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.cosi))
+        elif isinstance(token, atn):
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsList.tani))
+        elif isinstance(token, mks):
+            code.addStatement(setValue(token.parameter1, token.parameter2))#check if good?
+        elif isinstance(token, fmx):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, fmn):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, grt):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lst):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, eqt):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, net):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, gte):
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.GREATEREQUAL))
+        elif isinstance(token, lte):
+            code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.LESS))
+        elif isinstance(token, rfv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, dfv):
+            code.addStatement(NotImplemented())
+        #else: #properly not needed
+        #    code.addStatement(NotImplemented())
+        
     elif isinstance(token, ZIP):
-        code.addStatement(NotImplemented())
+        if isinstance(token, giv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, siv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, gsv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, siv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, gfv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, sfv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, fia):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, zia):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, fsa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, zsa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ffa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, zfa):
+            code.addStatement(NotImplemented())
+        #code.addStatement(NotImplemented())
     elif isinstance(token, EXE):
-        code.addStatement(NotImplemented())
+        if isinstance(token, sia):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ssa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, sti):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, stf):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, stc):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, its):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, itf):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ias):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, aif):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, fts):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, fti):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, afi):
+            code.addStatement(NotImplemented())
+        #code.addStatement(NotImplemented())
     elif isinstance(token, DLL):
-        code.addStatement(NotImplemented())
+        if isinstance(token, psh):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, pop):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, spk):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ssz):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, enq):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, deq):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, qpk):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, qsz):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, tpl):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, tpr):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, tsv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, tgv):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, gbe):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, gen):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, gef):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lce):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lcn):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, lcf):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ges):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, ces):
+            code.addStatement(NotImplemented())
+        #code.addStatement(NotImplemented())
     elif isinstance(token, CSV):
-        if isinstance(token,div):
-            code.addStatement(deleteVar(token.name))
-        elif isinstance(token,dfv): 
-            code.addStatement(displayValue(token.parameter1, False))
-        else: 
+        if isinstance(token, cia):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, civ):
             code.addStatement(createVar(token.name))
+        elif isinstance(token, csa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, csv):
+            code.addStatement(createVar(token.name))#string and var now no differrence dont know if a problem
+        elif isinstance(token, cfa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, cfv):
+            code.addStatement(createVar(token.name))#float and var now no differrence dont know if a problem
+        elif isinstance(token, dia):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, div):
+            code.addStatement(deleteVar(token.name))
+        elif isinstance(token, dsa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, dsv):
+            code.addStatement(deleteVar(token.name))
+        elif isinstance(token, dfa):
+            code.addStatement(NotImplemented())
+        elif isinstance(token, dfv): 
+            code.addStatement(deleteVar(token.name))
+            #code.addStatement(displayValue(token.parameter1, False))?????
+        #else: 
+        #    code.addStatement(createVar(token.name))
     elif isinstance(token, LNK):
         if isinstance(token,run):
             code.addStatement(RunFunction(token.result,token.argument,token.function))

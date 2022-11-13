@@ -409,14 +409,6 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
             return ges(operator[1],isInALoop)
         elif operator[0] == "ces":
             return ces(isInALoop)
-        
-    # elif operator[-1] == Instruction_Subsets.BIN.value:
-    #     if operator[0] == "pwr":
-    #         return pwr(operator[1], operator[2],operator[3], isInALoop)
-    #     elif operator[0] == "dfv":
-    #         return dfv(operator[1],isInALoop)
-    #     elif operator[0] == "gte":
-    #         return gte(operator[1], operator[2],operator[3], isInALoop)
     
     elif operator[-1] == Instruction_Subsets.CSV.value: #complete not checked (array also extra check if good implementation)
         if operator[0] == "cia":
@@ -441,8 +433,6 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
             return dsv(operator[1],isInALoop)
         elif operator[0] == "dfa":
             return dfa(operator[1],isInALoop)
-        elif operator[0] == "dfv":
-            return dfv(operator[1],isInALoop)
         elif operator[0] == "dfv":
             return dfv(operator[1],isInALoop)
     

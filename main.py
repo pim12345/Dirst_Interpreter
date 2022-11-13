@@ -5,9 +5,17 @@ from lexer import *
 from runner import *
 from Parser import *
 import logging
+import os
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
-
-fileTree = open("./sommigExample.txt", "r")
+#function to remove last file from string path
+# def removeLastFileFromPath(path: str) -> str:
+#     for i in range(len(path) - 1, 0, -1):
+#         if path[i] == "/":
+#             return path[:i]
+#     return path
+file = "./TestCode/loopigeFunction/sommigExample.txt"
+os.chdir('./TestCode/loopigeFunction/')
+fileTree = open("sommigExample.txt", "r")
 console_printing_INFO = lambda *args: print(*args)
 
 
