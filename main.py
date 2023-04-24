@@ -4,6 +4,7 @@ from tokens import *
 from lexer import *
 from runner import *
 from Parser import *
+from tools import *
 import logging
 import os
 #dectorator met decorator syntax toevoegen. hoofdstuk 3.5
@@ -15,7 +16,9 @@ import os
 #     return path
 file = "./TestCode/loopigeFunction/sommigExample.txt"
 os.chdir('./TestCode/loopigeFunction/')
-fileTree = open("sommigExample.txt", "r")
+#fileTree = open("sommigExample.txt", "r")
+fileTree = readFile("sommigExample.txt")
+print(fileTree)
 console_printing_INFO = lambda *args: print(*args)
 
 
@@ -32,5 +35,5 @@ code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_print
 #print("output: ", output)
 #print("output2: ", out2)
 #runner(parse)
-fileTree.close()
+#fileTree.close()
 print("end of program")

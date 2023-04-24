@@ -2,6 +2,7 @@ from typing import List, Tuple, Callable, Any
 from tokens import *
 from lexer import *
 from Parser import *
+from tools import *
 
 class ProgramState:
     def __init__(self):
@@ -180,9 +181,8 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
 
 #runAFunction :: str -> int -> Callable -> (int, Callable)
 def runAFunction(filename : str, argument1 : int, output: Callable) -> Tuple[int,Callable]:
-    fileTree = open(( "./" + filename + ".txt"), "r")
+    fileTree = readFile(filename + ".txt")
     lexoutput = lex(fileTree)
-    fileTree.close()
     state = ProgramState()
     state.variablenamesDictionary["argument1"] = 0
     state.variablenamesDictionary["result"] = 9

@@ -9,12 +9,11 @@ In this project is has also added functions calls in the project
 # Requirements
 
 # === README CHECKLIST ===
-
 Gekozen taal: [Dirst](https://esolangs.org/wiki/Dirst) moet nog werken aan bewijs
 
-Turing-compleet omdat: Het in de categorie van turing complete staat
+Turing-compleet omdat:
 
-Code is geschreven in functionele stijl.(redelijk)
+Code is geschreven in functionele stijl.
 
 Taal ondersteunt:
 
@@ -36,7 +35,7 @@ Type-annotatie: Haskell-stijl in comments: [ja]; Python-stijl in functiedefiniti
 
 Minstens drie toepassingen van hogere-orde functies:
 
-1. [lexer.py] - [261]
+1. [lexer.py] - [477] - map
 2. [file] - [regel]
 3. [file] - [regel]
 

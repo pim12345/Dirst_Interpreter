@@ -1384,9 +1384,9 @@ class dfv(CSV):
 class LNK(Token):
     #__str__ :: LNK -> String
     def __str__(self) -> str:
-        return "function calls and the like. Not in orignal Dirst"
+        return "function calls and the like. Not in orignal Dirst added for requirement for ATP school project"
 
-class run(LNK):
+class run(LNK):#todo: add documentation and examples
     def __init__(self, result,argument,function,isInALoop : int):
         self.result = result
         self.argument = argument
@@ -1394,9 +1394,9 @@ class run(LNK):
         super().__init__(isInALoop)
     #__str__ :: run -> String
     def __str__(self) -> str:
-        return "run a function with 1 argument(second parameter) and save the result to first parameter. third argument is filename of function to run"
+        return "run a function with 1 argument(second parameter) and save the result to first parameter. Third argument is filename of the function to run"
 
-class ifrtn(LNK):
+class ifrtn(LNK):#todo: maybe change or remove
     def __init__(self, parameter1,parameter2,parameter3,isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1406,7 +1406,7 @@ class ifrtn(LNK):
     def __str__(self) -> str:
         return "return parameter3 from a function if parameter1 is equal to parameter2"
 
-class rtn(LNK):
+class rtn(LNK):#todo: maybe change or remove
     def __init__(self, parameter1,isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
