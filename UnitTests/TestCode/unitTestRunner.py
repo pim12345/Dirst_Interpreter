@@ -6,34 +6,37 @@ from Lexer.lexer import *
 from Runner.runner import *
 from Parser.parser import *
 from Tools.tools import *
+import os
 
-class UnitTestCode(unittest.TestCase):
-    def dubbeleRecursiveFunctionTestEven0(self):
-        fileTree = readFile("./TestCode/dubbleRecursiveFunction/test_even_0.txt")
+
+class TestRunner(unittest.TestCase):
+    def test_dubbeleRecursiveFunctionTestEven0(self):
+        fileTree = readFile("test_even_0.txt")
         #console_printing_INFO = lambda *args: print(*args)
         test = ""
         lex_output = lex(fileTree)
         tree = CodeBlock()
         parse = parseCodeBlock(lex_output, tree)[1]
         code, codePtr, state, output = runABlock(parse, 0, ProgramState(), test)
-        self.assertEqual(output, "0\n")
+        self.assertEqual(output, "1\n")#0 is even
         
-        
-    def dubbeleRecursiveFunctionTestOdd39(self):
+    def test_dubbeleRecursiveFunctionTestOdd39(self):
         fileTree = readFile("./TestCode/dubbleRecursiveFunction/test_odd_39.txt")
         console_printing_INFO = lambda *args: print(*args)
         lex_output = lex(fileTree)
         tree = CodeBlock()
         parse = parseCodeBlock(lex_output, tree)[1]
         code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_printing_INFO)
+        self.assertEqual(output, "1\n")
     
-    def dubbeleRecursiveFunctionTestEven40(self):
+    def test_dubbeleRecursiveFunctionTestEven40(self):
         fileTree = readFile("./TestCode/dubbleRecursiveFunction/test_even_40.txt")
         console_printing_INFO = lambda *args: print(*args)
         lex_output = lex(fileTree)
         tree = CodeBlock()
         parse = parseCodeBlock(lex_output, tree)[1]
         code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_printing_INFO)
+        self.assertEqual(output, "0\n")
         
         
 # class TestSubroutine(unittest.TestCase):
