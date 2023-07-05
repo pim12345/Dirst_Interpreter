@@ -1,7 +1,7 @@
-from tokens import *
-from lexer import *
-from runner import *
-from Parser import *
+from Lexer.tokens import *
+from Lexer.lexer import *
+from Runner.runner import *
+from Parser.parser import *
 import sys
 
 #main :: None -> None

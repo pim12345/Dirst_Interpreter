@@ -2,8 +2,8 @@ from lib2to3.pgen2.token import EQUAL, GREATER, GREATEREQUAL, LESS, LESSEQUAL, N
 from typing import List, Tuple
 
 from numpy import greater_equal, not_equal
-from tokens import *
-from lexer import *
+from Lexer.tokens import *
+from Lexer.lexer import *
 
 
 class SimpleStatement:

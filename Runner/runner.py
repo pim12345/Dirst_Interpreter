@@ -1,8 +1,8 @@
 from typing import List, Tuple, Callable, Any
-from tokens import *
-from lexer import *
-from Parser import *
-from tools import *
+from Lexer.tokens import *
+from Lexer.lexer import *
+from Parser.parser import *
+from Tools.tools import *
 
 class ProgramState:
     def __init__(self):

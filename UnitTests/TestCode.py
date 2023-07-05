@@ -1,13 +1,12 @@
 import unittest
 
-# from . import readFile
 from Lexer.tokens import *
 from Lexer.lexer import *
 from Runner.runner import *
 from Parser.parser import *
 from Tools.tools import *
 
-class UnitTestCode(unittest.TestCase):
+class TestRunner(unittest.TestCase):
     def dubbeleRecursiveFunctionTestEven0(self):
         fileTree = readFile("./TestCode/dubbleRecursiveFunction/test_even_0.txt")
         #console_printing_INFO = lambda *args: print(*args)
@@ -34,18 +33,3 @@ class UnitTestCode(unittest.TestCase):
         tree = CodeBlock()
         parse = parseCodeBlock(lex_output, tree)[1]
         code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_printing_INFO)
-        
-        
-# class TestSubroutine(unittest.TestCase):
-#     def dubbleRecursiveFunctionTest(self):
-#         fileTree = open("../TestCode/loopigeFunction/sommigExample.txt", "r")
-#         console_printing_INFO = lambda *args: print(*args)
-#         lex_output = lex(fileTree)
-#         tree = CodeBlock()
-#         parse = parseCodeBlock(lex_output, tree)[1]
-#         code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_printing_INFO)
-#         fileTree.close()
-#         # self.assertEqual 
-        
-# if __name__ == '__main__':
-#     unittest.main()

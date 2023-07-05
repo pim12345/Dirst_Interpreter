@@ -1,6 +1,6 @@
 import re
 from typing import List, Tuple
-from tokens import *
+from Lexer.tokens import *
 
 #split :: String -> String
 def split(line : str) -> str:
