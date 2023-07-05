@@ -27,7 +27,7 @@ import unittest
 #     case _:
 #         print("fail")
 
-from UnitTests.TestCode.unitTestRunner import *
+from UnitTests.unitTestRunner import *
 
 
 if __name__ == '__main__':

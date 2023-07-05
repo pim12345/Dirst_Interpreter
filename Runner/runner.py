@@ -127,7 +127,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         case displayValue():
             #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
-            output(state.memory[state.variablenamesDictionary[statement.value]])
+            output(state.memory[state.variablenamesDictionary[statement.nameVar]])
             #output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
         case deleteVar():

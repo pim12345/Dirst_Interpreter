@@ -264,15 +264,17 @@ class rdi(DAT):
     #__str__ :: rdi -> String
     def __str__(self) -> str:
         return "Reads an integer from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, parameter1, isInALoop : int):
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
         self.parameter1 = parameter1
+        self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class ric(DAT):
     #__str__ :: ric -> String
     def __str__(self) -> str:
         return "Read a character from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is set to -1."
-    def __init__(self, parameter1, isInALoop : int):
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
         self.parameter1 = parameter1
+        self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class dsi(DAT):
     #__str__ :: dsi -> String
@@ -325,15 +327,17 @@ class rdc(TXT):
     #__str__ :: rdc -> String
     def __str__(self) -> str:
         return "Reads a character from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, isInALoop : int):
+    def __init__(self, name, consoleInput, isInALoop : int):
         self.name = name
+        self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class rds(TXT):
     #__str__ :: rds -> String
     def __str__(self) -> str:
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, isInALoop : int):
+    def __init__(self, name, consoleInput, isInALoop : int):
         self.name = name
+        self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class eof(TXT):
     #__str__ :: eof -> String
@@ -928,8 +932,9 @@ class rfv(BIN):
     #__str__ :: rfv -> String
     def __str__(self) -> str:
         return ""
-    def __init__(self, parameter1, isInALoop : int):
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
         self.parameter1 = parameter1
+        self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class dfv(BIN):
     #__str__ :: dfv -> String

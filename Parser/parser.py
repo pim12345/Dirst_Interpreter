@@ -108,19 +108,21 @@ class DisplayOptions(Enum):
 
 
 class displayValue(SimpleStatement):
-    """class used to display string and integer to the console."""    
-    def __init__(self, value : int, isChar: bool):
-        self.value = value
-        """value is the item that needs to be displayed to the console"""
-        self.isChar = isChar
-        """isChar is a boollian, if True it interpreted the the variable: 'value' as ascii char"""
-    
+    """class used to display string or integer from an variable to the console."""    
+    def __init__(self, nameVar : int, newLine: bool):
+        
+        """the name of the variable that needs to be displayed"""
+        self.nameVar = nameVar
+        
+        """ if True it will display a new line after the value is displayed"""
+        self.newLine = newLine
+        
     # __repr__ :: displayValue -> String
     def __repr__(self) -> str:
-        if self.isChar == True:
-            return "Display the char: " + chr((self.value))
+        if self.newLine == True:
+            return "Display the string or integer of the var with the name: " + self.name + "with a new line"
         else:
-            return "Display the value: " + str(self.value)
+            return "Display the string or integer of the var with the name: " + self.name 
 
 class roundValue(SimpleStatement):
     """Class that is used to round a variable to ceiling or floor.
@@ -361,9 +363,10 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, ric):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsi):
-            code.addStatement(displayValue(token.parameter1, False))
+            code.addStatement(displayValue(token.name, False))
         elif isinstance(token, dic):
-            code.addStatement(displayValue(token.parameter1, True))
+            code.addStatement(NotImplemented())
+            # code.addStatement(displayValue(token.name))
         elif isinstance(token, set):
             code.addStatement(setValue(token.parameter1, token.parameter2))
         elif isinstance(token, max):
@@ -378,15 +381,18 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, eof):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
-            code.addStatement(displayValue(token.parameter1, True))#implent now good according to spec @todo
-        elif isinstance(token, dss):
-            code.addStatement(displayValue(token.parameter1, True))#implent
-        elif isinstance(token, dsl):
+            #code.addStatement(displayValue(token.name, True))#implent now good according to spec @todo
             code.addStatement(NotImplemented())
+        elif isinstance(token, dss):
+            code.addStatement(displayValue(token.name, False))#implent
+        elif isinstance(token, dsl):
+            code.addStatement(displayValue(token.name, True))
         elif isinstance(token, dec):
             code.addStatement(NotImplemented())
+        elif isinstance(token, des):
+            code.addStatement(displayValue(token.name, False))
         elif isinstance(token, del_):
-            code.addStatement(NotImplemented())
+            code.addStatement(displayValue(token.name, True))
         elif isinstance(token, clr):
             code.addStatement(deleteVar(token.name))# verang door var op 0 te zetten of nullptr
         elif isinstance(token, cat):

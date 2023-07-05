@@ -15,31 +15,17 @@ import os
 #             return path[:i]
 #     return path
 
-def get_segment_combinations(arr, num_segments):
-    if num_segments == 1:
-        return [[arr]]
-    segment_options = []
-    for i in range(1, len(arr) - num_segments + 2):
-        segment = arr[:i]
-        remaining_segments = get_segment_combinations(arr[i:], num_segments - 1)
-        for seg in remaining_segments:
-            segment_options.append([segment] + seg)
-    return segment_options
-
-my_array = [1, 2, 3, 4, 5]
-num_segments = 3
-segment_combinations = get_segment_combinations(my_array, num_segments)
-print(segment_combinations)
 
 file = "./TestCode/loopigeFunction/sommigExample.txt"
-os.chdir('./TestCode/loopigeFunction/')
+#os.chdir('./TestCode/loopigeFunction/')
 #fileTree = open("sommigExample.txt", "r")
-fileTree = readFile("sommigExample.txt")
+#fileTree = readFile("./UnitTests/TestCode/loopigeFunction/sommigExample.txt")
+fileTree = readFile("./Greeter.txt")
 print(fileTree)
 console_printing_INFO = lambda *args: print(*args)
+consoleInput = {"pim", "test"}
 
-
-lex_output = lex(fileTree)
+lex_output = lex(fileTree, consoleInput)
 #print(lex_output)
 #print("lexed")
 

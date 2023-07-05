@@ -73,7 +73,7 @@ def split(line : str) -> str:
     return re.split(r'_|\.|\t', line)
     
 #giveCorrectClass :: list[String] -> Token
-def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
+def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) -> Token:
     """Checks with class is correct by operator and returns the correct class
        Not all classes are implemented yet.
     Args:
@@ -152,9 +152,9 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
         elif operator[0] == "let":
             return let(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "rdi":
-            return rdi(operator[1],isInALoop)
+            return rdi(operator[1],consoleInput, isInALoop)
         elif operator[0] == "ric":
-            return ric(operator[1],isInALoop)
+            return ric(operator[1],consoleInput, isInALoop)
         elif operator[0] == "dsi":
             return dsi(operator[1],isInALoop)
         elif operator[0] == "dic":
@@ -170,9 +170,9 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
     
     elif operator[-1] == Instruction_Subsets.TXT.value: #complete not checked
         if operator[0] == "rdc":
-            return rdc(operator[1],isInALoop)
+            return rdc(operator[1],consoleInput,isInALoop)
         elif operator[0] == "rds":
-            return rds(operator[1],isInALoop) 
+            return rds(operator[1],consoleInput,isInALoop) 
         elif operator[0] == "eof":
             return eof(operator[1],isInALoop)
         elif operator[0] == "dsc":
@@ -312,7 +312,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
         elif operator[0] == "lte":
             return lte(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "rfv":
-            return rfv(operator[1],isInALoop)
+            return rfv(operator[1],consoleInput ,isInALoop)
         elif operator[0] == "dfv":
             return dfv(operator[1],isInALoop)
     
@@ -447,7 +447,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int) -> Token:
     return NotImplemented()
 
 #recursiveInstructionClassList :: list[String] -> String
-def recursiveInstructionClassList(argumentlist: list[str]) -> str:
+def recursiveInstructionClassList(argumentlist: list[str], consoleInput : str) -> str:
     """Recursive function used as a map function to build up a list of all the lexed code in the Dirst programming language
 
     Args:
@@ -460,12 +460,12 @@ def recursiveInstructionClassList(argumentlist: list[str]) -> str:
     if argumentlist[0][0] == "":
         argumentlist[0] = list(filter(lambda str: (str != "") ,argumentlist[0]))
     if len(argumentlist) == 1:
-        return [giveCorrectClass(argumentlist[0], isInALoop)]
+        return [giveCorrectClass(argumentlist[0], isInALoop, consoleInput)]
     else:
-        return [giveCorrectClass(argumentlist[0], isInALoop)] + recursiveInstructionClassList(argumentlist[1:])
+        return [giveCorrectClass(argumentlist[0], isInALoop, consoleInput)] + recursiveInstructionClassList(argumentlist[1:], consoleInput)
 
 #lex :: list[String] -> list[Token]
-def lex(file : list[str]) -> list[Token]:
+def lex(file : list[str], consoleInput : str) -> list[Token]:
     """Function that lex the given file
 
     Args:
@@ -474,4 +474,4 @@ def lex(file : list[str]) -> list[Token]:
     Returns:
         list: A list with all the correct classes and parameters(lexed of the Dirst scripting language)
     """    
-    return recursiveInstructionClassList(list(map(split,file)))
+    return recursiveInstructionClassList(list(map(split,file)), consoleInput)
