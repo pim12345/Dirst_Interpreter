@@ -5,6 +5,13 @@ def readFile(filename : str) -> str:
     with open(filename, 'r') as f:
         return f.readlines()
 
+class PrintingOutput:
+    def __init__(self) -> None:
+        self.output = ""
+    
+    def __call__(self, text):
+        self.output += text
+        return self.output
 
 #add haskall notation todo
 # def readFile(filename : str) -> str:
