@@ -28,10 +28,14 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     try:
         parameter2_value = int(statement.parameter2)#better name and explaining wat to do and explaining that if 
     except ValueError:
-        if isinstance(statement.parameter2, str):
-            parameter2_value = statement.parameter2
-        else:
+        try:
             parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+        except KeyError:#key has not be found so the var has not been created
+            parameter2_value = statement.parameter2#language is not very clear when to specifi if it is a variable or a value, so if it not created it assumes it is a value, this can be a problem if expect it to be a variable, but forget to create it. But I won't fix this because otherwise it is out of spec with the language
+        #if isinstance(statement.parameter2, str):
+        #parameter2_value = statement.parameter2
+        #else:
+        #    parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
     except AttributeError:
         pass #there is no parameter 2, so it can't convert it
     try:
@@ -44,7 +48,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     match statement:
         case createVar():
             if statement.name in state.variablenamesDictionary:
-                output("error: ", statement.name , " allready created")
+                output("error: ", statement.name , " already created")
                 return code, codePtr, state, output
             state.memory[state.pointer]=0
             state.variablenamesDictionary[statement.name] = state.pointer
@@ -130,10 +134,17 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         case displayValue():
             #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
+            
             if statement.nameVar in state.variablenamesDictionary:#todo check if good
-                output(state.memory[state.variablenamesDictionary[statement.nameVar]])
+                if statement.newLine:
+                    output(state.memory[state.variablenamesDictionary[statement.nameVar]] + '\n')
+                else:
+                    output(state.memory[state.variablenamesDictionary[statement.nameVar]])
             else:
-                output(statement.nameVar)
+                if statement.newLine:
+                    output(statement.nameVar + '\n')
+                else:
+                    output(statement.nameVar)
             #output(state.memory[state.variablenamesDictionary[statement.nameVar]])
             #output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
@@ -145,11 +156,11 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)#loop only once needs work!!!!!!!!!!!!!!!
             return runABlock(code, codePtr+1, state, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
-            if state.memory[state.variablenamesDictionary[statement.parameter1]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
+            if state.memory[state.variablenamesDictionary[statement.varname]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
                 statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=True):#nif
-            if state.memory[state.variablenamesDictionary[statement.parameter1]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
+            if state.memory[state.variablenamesDictionary[statement.varname]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
                 statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output)
             return runABlock(code, codePtr+1, state_, output)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=False):#lpc # check if logic is good with if statement
@@ -173,7 +184,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, state, output_)
         case ReturnFunction():
             return code, codePtr, state, output
-        case ReturnIFFunction():#returnIFEquealFunction
+        case ReturnIFFunction():#returnIFEqualFunction
             #print(statement.parameter1)
             if state.memory[state.variablenamesDictionary[statement.parameter1]] == parameter2_value:
                 state.memory[state.variablenamesDictionary["result"]] = int(statement.parameter3)
@@ -189,12 +200,12 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
 #runAFunction :: str -> int -> Callable -> (int, Callable)
 def runAFunction(filename : str, argument1 : int, output: Callable) -> Tuple[int,Callable]:
     fileTree = readFile(filename + ".txt")
-    lexoutput = lex(fileTree)
+    lexOutput = lex(fileTree)
     state = ProgramState()
     state.variablenamesDictionary["argument1"] = 0
     state.variablenamesDictionary["result"] = 9
     state.memory[0] = argument1
-    code, codePtr, state, output = runABlock(parseCodeBlock(lexoutput, CodeBlock())[1], 0, state, output)
+    code, codePtr, state, output = runABlock(parseCodeBlock(lexOutput, CodeBlock())[1], 0, state, output)
     return state.memory[state.variablenamesDictionary["result"]],output
 
 #runLoopWhileZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)

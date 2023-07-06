@@ -272,23 +272,23 @@ class ric(DAT):
     #__str__ :: ric -> String
     def __str__(self) -> str:
         return "Read a character from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is set to -1."
-    def __init__(self, parameter1, consoleInput, isInALoop : int):
-        self.parameter1 = parameter1
+    def __init__(self, name, consoleInput, isInALoop : int):
+        self.name = name
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class dsi(DAT):
     #__str__ :: dsi -> String
     def __str__(self) -> str:
         return "Display the specified integer value to the console"
-    def __init__(self, parameter1, isInALoop : int):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop : int):
+        self.name = name
         super().__init__(isInALoop)
 class dic(DAT):
     #__str__ :: dic -> String
     def __str__(self) -> str:
         return "Display the character specified by the integer value to the console"
-    def __init__(self, parameter1, isInALoop : int):
-        self.parameter1 = parameter1
+    def __init__(self, name, isInALoop : int):
+        self.name = name
         super().__init__(isInALoop)
 class set(DAT):
     #__str__ :: set -> String

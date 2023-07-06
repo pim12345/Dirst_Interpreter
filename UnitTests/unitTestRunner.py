@@ -10,6 +10,17 @@ import os
 
 
 class TestRunner(unittest.TestCase):
+    
+    def test_helloWorld(self):
+        fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/hello-world.txt"))
+        consoleInput = ""
+        test = ""
+        lex_output = lex(fileTree, consoleInput)
+        tree = CodeBlock()
+        parse = parseCodeBlock(lex_output, tree)[1]
+        code, codePtr, state, output = runABlock(parse, 0, ProgramState(), test)
+        self.assertEqual(output, "Hello, world!")#0 is even
+        
     def test_dubbeleRecursiveFunctionTestEven0(self):
         fileTree = readFile("test_even_0.txt")
         #console_printing_INFO = lambda *args: print(*args)

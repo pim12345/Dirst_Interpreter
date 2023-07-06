@@ -20,10 +20,10 @@ file = "./TestCode/loopigeFunction/sommigExample.txt"
 #os.chdir('./TestCode/loopigeFunction/')
 #fileTree = open("sommigExample.txt", "r")
 #fileTree = readFile("./UnitTests/TestCode/loopigeFunction/sommigExample.txt")
-fileTree = readFile("./Greeter.txt")
+fileTree = readFile("./hello-world.txt")
 print(fileTree)
-console_printing_INFO = lambda *args: print(*args)
-consoleInput = "pim"
+console_printing_INFO = lambda *args: print(*args, end="")
+consoleInput = "10"
 
 lex_output = lex(fileTree, consoleInput)
 #print(lex_output)

@@ -295,7 +295,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
 
     Returns:
         Tuple[List[Token], CodeBlock]: the list of tokens and the block of code
-    """    
+    """
     if tokens == None or len(tokens) == 0:
         return None, code
     token, *rest = tokens
@@ -303,7 +303,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
         if isinstance(token,fnc):
             code.addStatement(Loop(block, token.varname,False,True,True))
-        elif isinstance(token,dif):
+        elif isinstance(token,dif_):
             code.addStatement(Loop(block, token.varname,False,False,True))
         elif isinstance(token,nif):
             code.addStatement(Loop(block, token.varname,True,False,True))
@@ -316,8 +316,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token,dlu):
             code.addStatement(Loop(block, token.varname,True,True,False))
         return parseCodeBlock(newrest, code)
-        
-    if isinstance(token, DAT):
+    if token.isInALoop is not code.nestlevel:
+        return tokens, code     
+    elif isinstance(token, DAT):
         if isinstance(token, abs):
             code.addStatement(valuePosConv(token.parameter1,token.parameter2, True))
         elif isinstance(token, neg):
@@ -359,13 +360,13 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         elif isinstance(token, let):
             code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementsList.LESSEQUAL))
         elif isinstance(token, rdi):
-            code.addStatement(NotImplemented())
+            code.addStatement(setValue(token.name, token.consoleInput))
         elif isinstance(token, ric):
-            code.addStatement(NotImplemented())
+            code.addStatement(setValue(token.name, token.consoleInput))#set to -1 if eof not implemented
         elif isinstance(token, dsi):
             code.addStatement(displayValue(token.name, False))
         elif isinstance(token, dic):
-            code.addStatement(NotImplemented())
+            code.addStatement(displayValue(token.name, False))
             # code.addStatement(displayValue(token.name))
         elif isinstance(token, set):
             code.addStatement(setValue(token.parameter1, token.parameter2))
