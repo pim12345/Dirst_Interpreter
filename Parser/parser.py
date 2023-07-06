@@ -376,8 +376,8 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     elif isinstance(token, TXT):
         if isinstance(token, rdc):
             code.addStatement(NotImplemented())
-        elif isinstance(token, rds):
-            code.addStatement(NotImplemented())
+        elif isinstance(token, rds):#no input from console beacause of functional programming is that not allowed
+            code.addStatement(setValue(token.name, token.consoleInput))
         elif isinstance(token, eof):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsc):

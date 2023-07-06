@@ -28,7 +28,10 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     try:
         parameter2_value = int(statement.parameter2)#better name and explaining wat to do and explaining that if 
     except ValueError:
-        parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+        if isinstance(statement.parameter2, str):
+            parameter2_value = statement.parameter2
+        else:
+            parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
     except AttributeError:
         pass #there is no parameter 2, so it can't convert it
     try:
@@ -127,7 +130,11 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         case displayValue():
             #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))
-            output(state.memory[state.variablenamesDictionary[statement.nameVar]])
+            if statement.nameVar in state.variablenamesDictionary:#todo check if good
+                output(state.memory[state.variablenamesDictionary[statement.nameVar]])
+            else:
+                output(statement.nameVar)
+            #output(state.memory[state.variablenamesDictionary[statement.nameVar]])
             #output = str(state.memory[state.variablenamesDictionary[statement.value]]) + '\n'
             return runABlock(code,codePtr+1,state,output)
         case deleteVar():

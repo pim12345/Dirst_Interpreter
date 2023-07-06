@@ -23,7 +23,7 @@ file = "./TestCode/loopigeFunction/sommigExample.txt"
 fileTree = readFile("./Greeter.txt")
 print(fileTree)
 console_printing_INFO = lambda *args: print(*args)
-consoleInput = {"pim", "test"}
+consoleInput = "pim"
 
 lex_output = lex(fileTree, consoleInput)
 #print(lex_output)
