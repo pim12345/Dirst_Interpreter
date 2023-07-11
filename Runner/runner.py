@@ -46,7 +46,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     #     pass #there is no parameter 3, so it can't convert it. So it will ignore it
     
     match statement:
-        case DeclareFunction():
+        #case DeclareFunction():
             #todo check if there is already a function with that name(with count or something)
             # if statement.functionName in state.variablenamesDictionary:
             #     output("error function with the name: ", statement.name , " is already created")
@@ -54,16 +54,23 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             # state.memory[state.pointer]=0#todo check of wel goed doe en of wel nodig is, misch apparte dictionary of gewoon ignoren en alleen checken bij call
             # state.variablenamesDictionary[statement.functionName] = state.pointer
             # state.pointer+=1
-            return runABlock(code, codePtr+1, state,output, functions)
+            #return runABlock(code, codePtr+1, state,output, functions)
         case CallFunction():
             functionCodeBlock = list(filter(lambda x: isinstance(x, DeclareFunction) and x.varName == statement.varName, functions.statements))[0].codeBlock
-            output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]], output)
+            # create a new state for the function
+            functionState = ProgramState()
+            functionState.memory[functionState.pointer]=state.memory[state.variablenamesDictionary[statement.functionInputVar]]
+            functionState.variablenamesDictionary[statement.functionInputVar] = functionState.pointer
+            functionState.pointer+=1
+            code_, codePtr_, functionState_, output, functions = runABlock(functionCodeBlock, 0, functionState, output, functions)
+            return runABlock(code, codePtr+1, state, output, functions)
+            #output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]],functions, output)
             
             return code, codePtr, state, output, functions
         case createVar():
             if statement.name in state.variablenamesDictionary:
                 output("error variable with the name: ", statement.name , " is already created")
-                return code, codePtr, state, output
+                return code, codePtr, state, output, functions
             state.memory[state.pointer]=0
             state.variablenamesDictionary[statement.name] = state.pointer
             state.pointer+=1
@@ -214,8 +221,8 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             #raise Exception('method not implemented')
 
 #runAFunction :: str -> int -> Callable -> (int, Callable)
-def runAFunction(argument1 : int, output: Callable) -> Tuple[int,Callable]:
-    print("doe dingen")
+#def runAFunction(functionInputVar ,output: Callable) -> Tuple[int,Callable]:
+#    print("doe dingen")
     # fileTree = readFile(filename + ".txt")
     # lexOutput = lex(fileTree)
     # state = ProgramState()

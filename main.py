@@ -32,8 +32,8 @@ lex_output = lex(filterdFileTree, consoleInput)
 #print(lex_output)
 #print("lexed")
 
-tree = CodeBlock()#todo will be changed what not is allowed so change that code block only returns a list of statements, and this will not be changed
-tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, tree)
+#tree = CodeBlock()#todo will be changed what not is allowed so change that code block only returns a list of statements, and this will not be changed
+tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())#tree
 #print("parsed")
 #print(parse)
 #print("begin run a block")
