@@ -83,33 +83,21 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     Returns:
         class: Returns the class assosiated with the operators given by given by call
     """    
-    match operator:
-        #DIRECTORY
-        case ["fnc",operator1] if isInALoop > 0:
-            return fnc(operator1, isInALoop)
-        case ["dif", operator1] if isInALoop > 0:
-            return dif_(operator1, isInALoop)
-        case ["nif", operator1] if isInALoop > 0:
-            return nif(operator1, isInALoop)
-        case ["lpc", operator1] if isInALoop > 0:
-            return lpc(operator1, isInALoop)
-        case ["lpn", operator1] if isInALoop > 0:
-            return lpn(operator1, isInALoop)
-        case ["dlw", operator1] if isInALoop > 0:
-            return dlw(operator1, isInALoop)
-        case ["dlu", operator1] if isInALoop > 0:
-            return dlu(operator1, isInALoop)
-        #DAT
-        # case ["abs", operator1,operator2,Instruction_Subsets.DAT.value]: ? kan weg?
-        #     return abs(operator1,operator2,isInALoop)
-        # case ["neg", operator1,operator2,Instruction_Subsets.DAT.value]:
-        #     return neg(operator1,operator2,isInALoop)
-        # case ["add", operator1,operator2,operator3,Instruction_Subsets.DAT.value]:
-        #     return add(operator1,operator2,operator3,isInALoop)
-        #case ["", operator1,operator2,Instruction_Subsets.DAT.value]:
-        #    return (operator1,operator2,isInALoop)
-        #case ["", operator1,operator2,operator3,Instruction_Subsets.DAT.value]:
-        #    return (operator1,operator2,operator3,isInALoop)
+    if operator[0] == "fnc" and isInALoop > 0:
+        return fnc(operator[1],operator[2], isInALoop)
+    elif operator[0] == "dif" and isInALoop > 0:
+        return dif_(operator[1], isInALoop)
+    elif operator[0] == "nif" and isInALoop > 0:
+        return nif(operator[1], isInALoop)
+    elif operator[0] == "lpc" and isInALoop > 0:
+        return lpc(operator[1], isInALoop)
+    elif operator[0] == "lpn" and isInALoop > 0:
+        return lpn(operator[1], isInALoop)
+    elif operator[0] == "dlw" and isInALoop > 0:
+        return dlw(operator[1], isInALoop)
+    elif operator[0] == "dlu" and isInALoop > 0:
+        return dlu(operator[1], isInALoop)
+
     if operator[-1] == Instruction_Subsets.DAT.value: #complete
         if operator[0] == "abs":
             return abs(operator[1],operator[2],isInALoop)
@@ -437,12 +425,15 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
             return dfv(operator[1],isInALoop)
     
     elif operator[-1] == Instruction_Subsets.LNK.value:
-        if operator[0] == "run":
-            return run(operator[1], operator[2],operator[3], isInALoop)
-        elif operator[0] == "ifrtn":
-            return ifrtn(operator[1], operator[2],operator[3], isInALoop)
-        elif operator[0] == "rtn":
+        if operator[0] == "call":
+            return call(operator[1], operator[2],operator[3], isInALoop)
+        elif operator[0] == "rtn":#todo check if good this and make 1 line in logic
             return rtn(operator[1],isInALoop)
+        elif operator[0] == "run":#todo delete this and make 1 line in logic
+            return run(operator[1], operator[2],operator[3], isInALoop)
+        elif operator[0] == "ifrtn":#todo delete this and make 1 line in logic
+            return ifrtn(operator[1], operator[2],operator[3], isInALoop)
+        
         
     return NotImplemented()
 

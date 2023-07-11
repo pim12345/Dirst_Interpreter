@@ -29,8 +29,9 @@ class Directory(Token):
         return "Handles looping, conditionals and code separation"
 
 class fnc(Directory):
-    def __init__(self, varname, isInALoop : int):
+    def __init__(self, varname, functionInput ,isInALoop : int):
         self.varname = varname
+        self.functionInput = functionInput
         super().__init__(isInALoop)
     #__str__ :: fnc -> String
     def __str__(self) -> str:
@@ -264,8 +265,8 @@ class rdi(DAT):
     #__str__ :: rdi -> String
     def __str__(self) -> str:
         return "Reads an integer from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, parameter1, consoleInput, isInALoop : int):
-        self.parameter1 = parameter1
+    def __init__(self, name, consoleInput, isInALoop : int):
+        self.name = name
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class ric(DAT):
@@ -1412,9 +1413,20 @@ class ifrtn(LNK):#todo: maybe change or remove
         return "return parameter3 from a function if parameter1 is equal to parameter2"
 
 class rtn(LNK):#todo: maybe change or remove
-    def __init__(self, parameter1,isInALoop : int):
+    def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: rtn -> String
     def __str__(self) -> str:
         return "return parameter 1 to function."
+    
+class call(LNK):#todo: add documentation and examples
+    def __init__(self, functionName, parameterVar, returnVar ,isInALoop : int):
+        self.functionName = functionName
+        self.parameterVar = parameterVar
+        self.returnVar = returnVar
+        super().__init__(isInALoop)
+    
+    #__str__ :: rtn -> String
+    def __str__(self) -> str:
+        return "call function with name functionName and pass parameterVar as parameter and save result to returnVar"

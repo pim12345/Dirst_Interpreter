@@ -20,21 +20,24 @@ file = "./TestCode/loopigeFunction/sommigExample.txt"
 #os.chdir('./TestCode/loopigeFunction/')
 #fileTree = open("sommigExample.txt", "r")
 #fileTree = readFile("./UnitTests/TestCode/loopigeFunction/sommigExample.txt")
-fileTree = readFile("./hello-world.txt")
-print(fileTree)
+fileTree = readFile("./evenOnEven2.txt")
+#print(fileTree)
+filterdFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
+
+print(filterdFileTree)
 console_printing_INFO = lambda *args: print(*args, end="")
 consoleInput = "10"
 
-lex_output = lex(fileTree, consoleInput)
+lex_output = lex(filterdFileTree, consoleInput)
 #print(lex_output)
 #print("lexed")
 
-tree = CodeBlock()
-parse = parseCodeBlock(lex_output, tree)[1]
+tree = CodeBlock()#todo will be changed what not is allowed so change that code block only returns a list of statements, and this will not be changed
+tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, tree)
 #print("parsed")
 #print(parse)
 #print("begin run a block")
-code, codePtr, state, output = runABlock(parse, 0, ProgramState(), console_printing_INFO)
+code, codePtr, state, output = runABlock(parsedCode, 0, ProgramState(), console_printing_INFO, parsedFunctions)
 #print("output: ", output)
 #print("output2: ", out2)
 #runner(parse)

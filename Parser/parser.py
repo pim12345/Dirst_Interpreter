@@ -1,5 +1,6 @@
 from lib2to3.pgen2.token import EQUAL, GREATER, GREATEREQUAL, LESS, LESSEQUAL, NOTEQUAL
 from typing import List, Tuple
+import copy#todo check if this lib is needed and if included in requirements.txt
 
 from numpy import greater_equal, not_equal
 from Lexer.tokens import *
@@ -50,6 +51,33 @@ class CodeBlock:
         nstr = repeatStr("   ", self.nestlevel)
         statestr = ''.join(map(lambda st: nstr + str(st) + "\n", self.statements))
         return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + "End Block"
+
+class DeclareFunction(SimpleStatement):
+    """class that holds a function what is callable by the call syntax
+        will run so long that the function is not returned
+    """
+    def __init__(self, block : CodeBlock, functionName : str, functionInputVar : str):
+        self.block = block
+        self.functionName = functionName
+        self.functionInputVar = functionInputVar
+    
+    #__repr__ :: Function -> String
+    def __repr__(self) -> str:
+        s = "declare an function with name: " + self.functionName + " and input: " + self.functionInputVar + "\n" + "with code block: \n"
+        s += self.block.__repr__()
+        return s
+        
+class CallFunction(SimpleStatement):
+    """class that holds a function call what is callable by the call syntax
+    """
+    def __init__(self, functionName : str, functionInputVar : str, functionReturnVar : str):
+        self.functionName = functionName
+        self.functionInputVar = functionInputVar
+        self.functionReturnVar = functionReturnVar
+        
+    #__repr__ :: CallFunction -> String
+    def __repr__(self) -> str:
+        return "call function: " + self.functionName + " with input: " + self.functionInputVar + " and return var: " + self.functionReturnVar
 
 class Loop(SimpleStatement):
     """a loop statement used to as the Directory subset of Dirst
@@ -286,7 +314,7 @@ class ReturnIFFunction(SimpleStatement):
 
 
 #parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
-def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
+def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -> Tuple[List[Token], CodeBlock, CodeBlock]:
     """Function used to parse a block of code to correct function to be used by the runner
 
     Args:
@@ -296,13 +324,22 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
     Returns:
         Tuple[List[Token], CodeBlock]: the list of tokens and the block of code
     """
+ #   print("test")
+
+    
     if tokens == None or len(tokens) == 0:
-        return None, code
+        return None, code, functions
     token, *rest = tokens
+    
+    
+    if isinstance(token, fnc) and code.nestlevel == 1 and token.isInALoop == 1:
+        #an other function is declared, but not be added to the current function
+        return tokens, code, functions
+    
     if isinstance(token, Directory):
-        newrest, block = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop))
+        newrest, block, functions_ = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop), functions)
         if isinstance(token,fnc):
-            code.addStatement(Loop(block, token.varname,False,True,True))
+            functions_.addStatement(DeclareFunction(block, token.varname, token.functionInput))
         elif isinstance(token,dif_):
             code.addStatement(Loop(block, token.varname,False,False,True))
         elif isinstance(token,nif):
@@ -315,9 +352,11 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(Loop(block, token.varname,False,True,False))
         elif isinstance(token,dlu):
             code.addStatement(Loop(block, token.varname,True,True,False))
-        return parseCodeBlock(newrest, code)
+        return parseCodeBlock(newrest, code, functions_)
+    
     if token.isInALoop is not code.nestlevel:
-        return tokens, code     
+        return tokens, code, functions
+      
     elif isinstance(token, DAT):
         if isinstance(token, abs):
             code.addStatement(valuePosConv(token.parameter1,token.parameter2, True))
@@ -406,7 +445,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
             code.addStatement(NotImplemented())
         elif isinstance(token, rep):
             code.addStatement(NotImplemented())
-        elif isinstance(token, sub_):#check if correct class
+        elif isinstance(token, sub):#check if correct class
             code.addStatement(NotImplemented())
         elif isinstance(token, rmv):
             code.addStatement(NotImplemented())
@@ -649,13 +688,16 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], C
         #else: 
         #    code.addStatement(createVar(token.name))
     elif isinstance(token, LNK):
-        if isinstance(token,run):
-            code.addStatement(RunFunction(token.result,token.argument,token.function))
+        if isinstance(token, call):
+            code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))
         elif isinstance(token,rtn):
-            code.addStatement(ReturnFunction(token.parameter1))
-        elif isinstance(token,ifrtn):
-            code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
+            code.addStatement(ReturnFunction(token.parameter1))    
+        #elif isinstance(token,run):
+        #    code.addStatement(RunFunction(token.result,token.argument,token.function))
+        
+        #elif isinstance(token,ifrtn):
+        #    code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
     if len(tokens) >= 2:#needed because if loop closes 2 times it will not correctly work because it will not close the loop 2 times
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
-            return rest,code
-    return parseCodeBlock(rest, code)
+            return rest, code, functions
+    return parseCodeBlock(rest, code, functions)
