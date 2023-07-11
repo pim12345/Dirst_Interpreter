@@ -324,7 +324,8 @@ def runAFunction(functionInputVar: str, functionReturnVar : str, functionName: s
     functionState.variablenamesDictionary[statement.functionReturnVar] = functionState.pointer
     functionState.pointer+=1
             
-            code_, codePtr_, functionState_, output, functions = runABlock(functionCode.block, 0, functionState, output, functions)
+    code_, codePtr_, functionState_, output, functions = runABlock(functionCode.block, 0, functionState, output, functions)
+    return functionState_.memory[functionState_.variablenamesDictionary[functionCode.functionReturnVar]], output
 #    print("doe dingen")
     # fileTree = readFile(filename + ".txt")
     # lexOutput = lex(fileTree)
