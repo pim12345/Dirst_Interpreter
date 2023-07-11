@@ -45,6 +45,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     # except AttributeError:
     #     pass #there is no parameter 3, so it can't convert it. So it will ignore it
     
+    
     match statement:
         #case DeclareFunction():
             #todo check if there is already a function with that name(with count or something)
@@ -56,17 +57,10 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             # state.pointer+=1
             #return runABlock(code, codePtr+1, state,output, functions)
         case CallFunction():
-            functionCodeBlock = list(filter(lambda x: isinstance(x, DeclareFunction) and x.varName == statement.varName, functions.statements))[0].codeBlock
-            # create a new state for the function
-            functionState = ProgramState()
-            functionState.memory[functionState.pointer]=state.memory[state.variablenamesDictionary[statement.functionInputVar]]
-            functionState.variablenamesDictionary[statement.functionInputVar] = functionState.pointer
-            functionState.pointer+=1
-            code_, codePtr_, functionState_, output, functions = runABlock(functionCodeBlock, 0, functionState, output, functions)
+            runAFunction(statement.functionInputVar, statement.functionReturnVar, statement.functionName,  output, functions )
             return runABlock(code, codePtr+1, state, output, functions)
             #output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]],functions, output)
-            
-            return code, codePtr, state, output, functions
+
         case createVar():
             if statement.name in state.variablenamesDictionary:
                 output("error variable with the name: ", statement.name , " is already created")
@@ -116,40 +110,133 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         case setValue():
             #print(statement.name + "= " + str(state.variablenamesDictionary[statement.name]))
             #print(type(statement.parameter1))
-            state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value
+            if statement.parameter2.isdigit():
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = int(statement.parameter2)
+            else:
+                state.memory[state.variablenamesDictionary[statement.parameter1]] = state.memory[state.variablenamesDictionary[statement.parameter2]]
             return runABlock(code,codePtr+1,state,output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.plus):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value + parameter3_value
             return runABlock(code,codePtr+1,state,output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.minus):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value - parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.multiply):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value * parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.divide):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value / parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.modulo):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value % parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.andOp):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value & parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.orb):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value | parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.xor):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value ^ parameter3_value
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.xad):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             #state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value  parameter3_value
-            output("not yet implented")
+            output("error: not yet implented")
             return code, codePtr, state, output
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.nad):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value & parameter3_value)
             return runABlock(code, codePtr+1, state, output, functions)
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsList.nor):
+            if statement.parameter2.isdigit():#todo fix code duplication for this if statement
+                parameter2_value = int(statement.parameter2)
+            else:
+                parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
+            if statement.parameter3.isdigit():
+                parameter3_value = int(statement.parameter3)
+            else:
+                parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
+            
             state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value | parameter3_value)
             return runABlock(code, codePtr+1, state, output, functions)
         case displayValue():
@@ -174,16 +261,18 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             del state.variablenamesDictionary[statement.name]
             return runABlock(code, codePtr+1, state, output, functions)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
-            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop only once needs work!!!!!!!!!!!!!!!
+            statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop only once needs work!!!!!!!!!!!!!!!
             return runABlock(code, codePtr+1, state, output, functions)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
             if state.memory[state.variablenamesDictionary[statement.varname]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
-                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output, functions)
-            return runABlock(code, codePtr+1, state_, output, functions)
+                statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)
+                return runABlock(code, codePtr+1, state_, output, functions)
+            return runABlock(code, codePtr+1, state, output, functions)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=True):#nif
             if state.memory[state.variablenamesDictionary[statement.varname]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
-                statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output, functions)
-            return runABlock(code, codePtr+1, state_, output, functions)
+                statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)
+                return runABlock(code, codePtr+1, state_, output, functions)
+            return runABlock(code, codePtr+1, state, output, functions)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=False):#lpc # check if logic is good with if statement
             state_, output = runLoopWhileNotZero(code.statements[codePtr].block, state, output, statement.varname)
             return runABlock(code, codePtr+1, state_, output, functions)
@@ -191,11 +280,11 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             state_, output = runLoopWhileZero(code.statements[codePtr].block, state, output, statement.varname)# check if logic is good with if statement in function
             return runABlock(code, codePtr+1, state_, output, functions)
         case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=False):#dlw
-            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
+            statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
             state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname)
             return runABlock(code, codePtr+1, state_, output, functions)
         case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=True,onlyOneTime=False):#dlu
-            statementLoop, codePtr_, state_, output = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
+            statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
             state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname)
             return runABlock(code, codePtr+1, state_, output, functions)
         case RunFunction():
@@ -221,7 +310,21 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             #raise Exception('method not implemented')
 
 #runAFunction :: str -> int -> Callable -> (int, Callable)
-#def runAFunction(functionInputVar ,output: Callable) -> Tuple[int,Callable]:
+def runAFunction(functionInputVar: str, functionReturnVar : str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:
+    
+    functionCode = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == statement.functionName, functions.statements))[0]#.block
+    # create a new state for the function
+    functionState = ProgramState()
+    # copy the variables from the current state to the function state(input and return var)
+    functionState.memory[functionState.pointer]=state.memory[state.variablenamesDictionary[statement.functionInputVar]]
+    functionState.variablenamesDictionary[functionCode.functionInputVar] = functionState.pointer
+    functionState.pointer+=1
+    
+    functionState.memory[functionState.pointer]=state.memory[state.variablenamesDictionary[statement.functionReturnVar]]
+    functionState.variablenamesDictionary[statement.functionReturnVar] = functionState.pointer
+    functionState.pointer+=1
+            
+            code_, codePtr_, functionState_, output, functions = runABlock(functionCode.block, 0, functionState, output, functions)
 #    print("doe dingen")
     # fileTree = readFile(filename + ".txt")
     # lexOutput = lex(fileTree)
