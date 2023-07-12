@@ -50,7 +50,7 @@ class CodeBlock:
     def __repr__(self) -> str:
         nstr = repeatStr("   ", self.nestlevel)
         statestr = ''.join(map(lambda st: nstr + str(st) + "\n", self.statements))
-        return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + "End Block"
+        return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + " End Block"
 
 class DeclareFunction(SimpleStatement):
     """class that holds a function what is callable by the call syntax
@@ -148,7 +148,7 @@ class displayValue(SimpleStatement):
     # __repr__ :: displayValue -> String
     def __repr__(self) -> str:
         if self.newLine == True:
-            return "Display the string or integer of the var with the name: " + self.name + "with a new line"
+            return "Display the string or integer of the var with the name: " + self.name + " with a new line"
         else:
             return "Display the string or integer of the var with the name: " + self.name 
 
@@ -182,6 +182,8 @@ class operatorsList(Enum):
     xad = 9#xad subset in Dirst
     nad = 10#nad subset in Dirst
     nor = 11#nor subset in Dirst
+    maxVal = 12#max in dat subset in Dirst
+    minVal = 13#min in dat subset in Dirst
 
 class operators(SimpleStatement):
     """Class used to calculate a value using the operators from operatorList
@@ -217,6 +219,10 @@ class operators(SimpleStatement):
                 return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise nand " + str(self.parameter3)
             case operatorsList.nor:
                 return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise nor " + str(self.parameter3)
+            case operatorsList.maxVal:
+                return "Sets parameter1: " + str(self.parameter1) + " to the higher value out of parameter2: " + str(self.parameter2) + " and parameter3: " + str(self.parameter3)
+            case operatorsList.minVal:
+                return "Sets parameter1: " + str(self.parameter1) + " to the lower value out of parameter2: " + str(self.parameter2) + " and parameter3: " + str(self.parameter3)
             case _:
                 return "Operator not supported or not found."
 
@@ -281,26 +287,6 @@ class ReturnFunction(SimpleStatement):
     # __repr__ :: ReturnFunction -> String
     def __repr__(self):
         return "return a variable after running a function"
-
-class MaxValue(SimpleStatement):
-    def __init__(self, parameter1 : string, parameter2, parameter3):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-    
-    # __repr__ :: MaxValue -> String
-    def __repr__(self):
-        return "Sets parameter1: " + str(self.parameter1) + " to the higher value out of parameter2: " + str(self.parameter2) + "and parameter3: " + str(self.parameter3)
-
-class MinValue(SimpleStatement):
-    def __init__(self, parameter1 : string, parameter2, parameter3):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-    
-    # __repr__ :: MinValue -> String
-    def __repr__(self):
-        return "Sets parameter1: " + str(self.parameter1) + " to the lower value out of parameter2: " + str(self.parameter2) + "and parameter3: " + str(self.parameter3)
 
 class ReturnIFFunction(SimpleStatement):
     def __init__(self, parameter1: string, parameter2, parameter3):
@@ -409,10 +395,10 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             # code.addStatement(displayValue(token.name))
         elif isinstance(token, set):
             code.addStatement(setValue(token.parameter1, token.parameter2))
-        elif isinstance(token, max):
-            code.addStatement(MaxValue(token.parameter1,token.parameter2, token.parameter3))
-        elif isinstance(token, min):
-            code.addStatement(MinValue(token.parameter1,token.parameter2, token.parameter3))
+        elif isinstance(token, max_):
+            code.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsList.maxVal))
+        elif isinstance(token, min_):
+            code.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsList.minVal))
     elif isinstance(token, TXT):
         if isinstance(token, rdc):
             code.addStatement(NotImplemented())
@@ -688,15 +674,10 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         #else: 
         #    code.addStatement(createVar(token.name))
     elif isinstance(token, LNK):
-        if isinstance(token, call):
+        if isinstance(token, run):
             code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))
         elif isinstance(token,rtn):
             code.addStatement(ReturnFunction(token.parameter1))    
-        #elif isinstance(token,run):
-        #    code.addStatement(RunFunction(token.result,token.argument,token.function))
-        
-        #elif isinstance(token,ifrtn):
-        #    code.addStatement(ReturnIFFunction(token.parameter1,token.parameter2,token.parameter3))
     if len(tokens) >= 2:#needed because if loop closes 2 times it will not correctly work because it will not close the loop 2 times
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest, code, functions

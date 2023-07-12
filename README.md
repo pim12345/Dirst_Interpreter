@@ -11,17 +11,17 @@ In this project is has also added functions calls in the project
 # === ADDED LANGUAGE OPERATORS ===
 veranderd aan de taal is dat de instructie: fnc normaal alleen 1 keer de sub items uitvoert, nu de mogelijkheid heeft om aangeroepen te worden met een argument, dit argument wordt dan gebruikt om de sub items uit te voeren(meer naar een functie), nu is de syntax van de fnc als volgt:
 ```- fnc_[functienaam]_[functieargument naam in functie]``` - gebruikt om een functie te defineren
-```- call_[functienaam]_[functieargument]_[functie return variable].LNK``` - gebruikt om een functie aan te roepen, de functie return variable is de variable waar de return van de functie in wordt opgeslagen
+```- cal_[functienaam]_[functieargument]_[functie return variable].LNK``` - gebruikt om een functie aan te roepen, de functie return variable is de variable waar de return van de functie in wordt opgeslagen
 ```-rtn_[functieargument].LNK``` - gebruikt om een functie te returnen
 door de functie def_ te gebruiken kan je een functie definiëren, de functie call_ kan je gebruiken om een functie aan te roepen
 de functie deff en call kan als volgt gebruikt worden:
 ```- def_[functienaam]_[functieargument type]_[functieargument] ``` - gebruikt om een functie te defineren
-```- call_[functienaam]_[functieargument]``` - gebruikt om een functie aan te roepen
+```- cal_[functienaam]_[functieargument]``` - gebruikt om een functie aan te roepen
 ```-rtn_[functieargument]``` - gebruikt om een functie te returnen
 ondersteunende type is momenteel: int
 voorbeeld:
 ```- def_ print_int_1```
-```- call_ print_int_1_1```
+```- cal_ print_int_1_1```
 ```-rtn 1```
 
 

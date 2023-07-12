@@ -83,7 +83,10 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     Returns:
         class: Returns the class assosiated with the operators given by given by call
     """    
-    if operator[0] == "fnc" and isInALoop > 0:
+    if len(operator[0]) > 3:
+        # Instructions are three letters long, if longer the instruction is not valid
+        return ERR()
+    elif operator[0] == "fnc" and isInALoop > 0:
         return fnc(operator[1],operator[2], isInALoop)
     elif operator[0] == "dif" and isInALoop > 0:
         return dif_(operator[1], isInALoop)
@@ -135,7 +138,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
             return equ(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "neq":
             return neq(operator[1],operator[2],operator[3],isInALoop)
-        elif operator[0] == "gets":
+        elif operator[0] == "get":
             return get(operator[1],operator[2],operator[3],isInALoop)    
         elif operator[0] == "let":
             return let(operator[1],operator[2],operator[3],isInALoop)
@@ -152,9 +155,9 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "set":
             return set(operator[1],operator[2],isInALoop)
         elif operator[0] == "max":
-            return max(operator[1],operator[2],operator[3],isInALoop)
+            return max_(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "min":
-            return min(operator[1],operator[2],operator[3],isInALoop)
+            return min_(operator[1],operator[2],operator[3],isInALoop)
     
     elif operator[-1] == Instruction_Subsets.TXT.value: #complete not checked
         if operator[0] == "rdc":
@@ -425,14 +428,14 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
             return dfv(operator[1],isInALoop)
     
     elif operator[-1] == Instruction_Subsets.LNK.value:
-        if operator[0] == "call":
-            return call(operator[1], operator[2],operator[3], isInALoop)
+        if operator[0] == "run":
+            return run(operator[1], operator[2],operator[3], isInALoop)
         elif operator[0] == "rtn":#todo check if good this and make 1 line in logic
             return rtn(operator[1],isInALoop)
-        elif operator[0] == "run":#todo delete this and make 1 line in logic
-            return run(operator[1], operator[2],operator[3], isInALoop)
-        elif operator[0] == "ifrtn":#todo delete this and make 1 line in logic
-            return ifrtn(operator[1], operator[2],operator[3], isInALoop)
+        # elif operator[0] == "run":#todo delete this and make 1 line in logic
+        #     return run(operator[1], operator[2],operator[3], isInALoop)
+        # elif operator[0] == "ifrtn":#todo delete this and make 1 line in logic
+        #     return ifrtn(operator[1], operator[2],operator[3], isInALoop)
         
         
     return NotImplemented()

@@ -1,4 +1,0 @@
-ifrtn_argument1_0_1.lnk
-sub_argument1_argument1_1.dat
-run_result_argument1_odd.lnk
-rtn_result.lnk

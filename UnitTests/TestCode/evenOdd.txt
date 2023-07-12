@@ -2,20 +2,22 @@
 		nif_n
 		rtn_0.lnk
 	sub_n_n_1.dat
-	call_even_n_result.lnk
+	civ_result.csv
+	run_even_n_result.lnk
 	rtn_result.lnk
 
 	fnc_even_n
 		nif_n
 		rtn_1.lnk
 	sub_n_n_1.dat
-	call_odd_n_result.lnk
+	civ_result.csv
+	run_odd_n_result.lnk
 	rtn_result.lnk
 
 civ_inputN.csv
 civ_result.csv
 rdi_inputN.dat
-call_even_inputN_result.lnk
+run_even_inputN_result.lnk
 dsi_result.dat
-div_result.csv
+
 div_inputN.csv

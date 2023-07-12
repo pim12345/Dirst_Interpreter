@@ -299,7 +299,7 @@ class set(DAT):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-class max(DAT):
+class max_(DAT):#is max_ because max is a python function
     #__str__ :: max -> String
     def __str__(self) -> str:
         return "Sets parameter 1 to the higher value out of parameter 2 and parameter 3"
@@ -308,7 +308,7 @@ class max(DAT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-class min(DAT):
+class min_(DAT):#is min_ because min is a python function
     #__str__ :: min -> String
     def __str__(self) -> str:
         return "Sets parameter 1 to the lower value out of parameter 2 and parameter 3"
@@ -1393,14 +1393,15 @@ class LNK(Token):
         return "function calls and the like. Not in orignal Dirst added for requirement for ATP school project"
 
 class run(LNK):#todo: add documentation and examples
-    def __init__(self, result,argument,function,isInALoop : int):
-        self.result = result
-        self.argument = argument
-        self.function = function
+    def __init__(self, functionName, parameterVar, returnVar ,isInALoop : int):
+        self.functionName = functionName
+        self.parameterVar = parameterVar
+        self.returnVar = returnVar
         super().__init__(isInALoop)
+    
     #__str__ :: run -> String
     def __str__(self) -> str:
-        return "run a function with 1 argument(second parameter) and save the result to first parameter. Third argument is filename of the function to run"
+        return "call function with name functionName and pass parameterVar as parameter and save result to returnVar"
 
 class ifrtn(LNK):#todo: maybe change or remove
     def __init__(self, parameter1,parameter2,parameter3,isInALoop : int):
@@ -1408,6 +1409,7 @@ class ifrtn(LNK):#todo: maybe change or remove
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
+        
     #__str__ :: ifrtn -> String
     def __str__(self) -> str:
         return "return parameter3 from a function if parameter1 is equal to parameter2"
@@ -1419,14 +1421,8 @@ class rtn(LNK):#todo: maybe change or remove
     #__str__ :: rtn -> String
     def __str__(self) -> str:
         return "return parameter 1 to function."
-    
-class call(LNK):#todo: add documentation and examples
-    def __init__(self, functionName, parameterVar, returnVar ,isInALoop : int):
-        self.functionName = functionName
-        self.parameterVar = parameterVar
-        self.returnVar = returnVar
-        super().__init__(isInALoop)
-    
-    #__str__ :: rtn -> String
+
+class ERR(Token):
+    #__str__ :: LNK -> String
     def __str__(self) -> str:
-        return "call function with name functionName and pass parameterVar as parameter and save result to returnVar"
+        return "token used to indicate an error"

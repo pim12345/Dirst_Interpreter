@@ -22,13 +22,13 @@ file = "./TestCode/loopigeFunction/sommigExample.txt"
 #fileTree = readFile("./UnitTests/TestCode/loopigeFunction/sommigExample.txt")
 fileTree = readFile("./evenOnEven2.txt")
 #print(fileTree)
-filterdFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
+filteredFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
 
-print(filterdFileTree)
+print(filteredFileTree)
 console_printing_INFO = lambda *args: print(*args, end="")
 consoleInput = "11"
 
-lex_output = lex(filterdFileTree, consoleInput)
+lex_output = lex(filteredFileTree, consoleInput)
 #print(lex_output)
 #print("lexed")
 
