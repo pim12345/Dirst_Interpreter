@@ -17,34 +17,9 @@ class ProgramState:
 
 #runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> (CodeBlock, int, ProgramState, Callable)
 def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callable, functions: CodeBlock) -> Tuple[CodeBlock, int, ProgramState, Callable, CodeBlock]:
-    #print(state)
-    #print(code.statements)
-    #print("len statments: " + str(len(code.statements)) + " len codePtr: " + str(codePtr))
     if(codePtr >= len(code.statements) or codePtr < 0):
         return code, codePtr, state, output, functions
     statement = code.statements[codePtr]
-    #print(str(statement))
-    #print(type(statement))
-    # try:
-    #     parameter2_value = int(statement.parameter2)#better name and explaining wat to do and explaining that if 
-    # except ValueError:
-    #     try:
-    #         parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
-    #     except KeyError:#key has not be found so the var has not been created
-    #         parameter2_value = statement.parameter2#language is not very clear when to specifi if it is a variable or a value, so if it not created it assumes it is a value, this can be a problem if expect it to be a variable, but forget to create it. But I won't fix this because otherwise it is out of spec with the language
-    #     #if isinstance(statement.parameter2, str):
-    #     #parameter2_value = statement.parameter2
-    #     #else:
-    #     #    parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
-    # except AttributeError:
-    #     pass #there is no parameter 2, so it can't convert it
-    # try:
-    #     parameter3_value = int(statement.parameter3)
-    # except ValueError:
-    #     parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
-    # except AttributeError:
-    #     pass #there is no parameter 3, so it can't convert it. So it will ignore it
-    
     
     match statement:
         #case DeclareFunction():
@@ -57,12 +32,11 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             # state.pointer+=1
             #return runABlock(code, codePtr+1, state,output, functions)
         case CallFunction():
-            result, output = runAFunction(state.memory[state.variablenamesDictionary[statement.functionInputVar]], statement.functionReturnVar,statement.functionName,  output, functions )
+            result, output_ = runAFunction(state.memory[state.variablenamesDictionary[statement.functionInputVar]], statement.functionReturnVar,statement.functionName,  output, functions )
             state.memory[state.variablenamesDictionary[statement.functionReturnVar]] = result
             # codePtr = len(code.statements)+1#todo change after running a function to set the pointer to end of all the underlinging functions
             # return code, codePtr, state, output, functions
-            return runABlock(code, codePtr+1, state, output, functions)#todo change after running a function to set the pointer to end of all the underlinging functions
-            #output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]],functions, output)
+            return runABlock(code, codePtr+1, state, output_, functions)#todo change after running a function to set the pointer to end of all the underlinging functions
 
         case createVar():
             if statement.name in state.variablenamesDictionary:

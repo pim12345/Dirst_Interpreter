@@ -26,7 +26,7 @@ filterdFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines
 
 print(filterdFileTree)
 console_printing_INFO = lambda *args: print(*args, end="")
-consoleInput = "10"
+consoleInput = "11"
 
 lex_output = lex(filterdFileTree, consoleInput)
 #print(lex_output)
