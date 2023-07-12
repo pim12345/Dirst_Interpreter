@@ -57,8 +57,8 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             # state.pointer+=1
             #return runABlock(code, codePtr+1, state,output, functions)
         case CallFunction():
-            runAFunction(statement.functionInputVar, statement.functionReturnVar, statement.functionName,  output, functions )
-            return runABlock(code, codePtr+1, state, output, functions)
+            runAFunction(state.memory[state.variablenamesDictionary[statement.functionInputVar]], statement.functionReturnVar,state.memory[state.variablenamesDictionary[statement.functionReturnVar]] ,statement.functionName,  output, functions )
+            return runABlock(code, codePtr+1, state, output, functions)#todo change after running a function to set the pointer to end of all the underlinging functions
             #output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]],functions, output)
 
         case createVar():
@@ -310,18 +310,18 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             #raise Exception('method not implemented')
 
 #runAFunction :: str -> int -> Callable -> (int, Callable)
-def runAFunction(functionInputVar: str, functionReturnVar : str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:
+def runAFunction(functionInputVarValue: str, functionReturnVar : str,functionReturnVarValue : str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:
     
-    functionCode = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == statement.functionName, functions.statements))[0]#.block
+    functionCode = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == functionName, functions.statements))[0]#.block
     # create a new state for the function
     functionState = ProgramState()
     # copy the variables from the current state to the function state(input and return var)
-    functionState.memory[functionState.pointer]=state.memory[state.variablenamesDictionary[statement.functionInputVar]]
+    functionState.memory[functionState.pointer]=functionInputVarValue
     functionState.variablenamesDictionary[functionCode.functionInputVar] = functionState.pointer
     functionState.pointer+=1
     
-    functionState.memory[functionState.pointer]=state.memory[state.variablenamesDictionary[statement.functionReturnVar]]
-    functionState.variablenamesDictionary[statement.functionReturnVar] = functionState.pointer
+    functionState.memory[functionState.pointer]=functionReturnVarValue
+    functionState.variablenamesDictionary[functionReturnVar] = functionState.pointer
     functionState.pointer+=1
             
     code_, codePtr_, functionState_, output, functions = runABlock(functionCode.block, 0, functionState, output, functions)
