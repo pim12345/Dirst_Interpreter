@@ -60,8 +60,8 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             result, output = runAFunction(state.memory[state.variablenamesDictionary[statement.functionInputVar]], statement.functionReturnVar,statement.functionName,  output, functions )
             state.memory[state.variablenamesDictionary[statement.functionReturnVar]] = result
             # codePtr = len(code.statements)+1#todo change after running a function to set the pointer to end of all the underlinging functions
-            return code, codePtr, state, output, functions
-            # return runABlock(code, codePtr+1, state, output, functions)#todo change after running a function to set the pointer to end of all the underlinging functions
+            # return code, codePtr, state, output, functions
+            return runABlock(code, codePtr+1, state, output, functions)#todo change after running a function to set the pointer to end of all the underlinging functions
             #output_ = runAFunction(statement.function,state.memory[state.variablenamesDictionary[statement.argument]],functions, output)
 
         case createVar():
