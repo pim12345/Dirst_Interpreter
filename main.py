@@ -37,7 +37,7 @@ tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), Co
 #print("parsed")
 #print(parse)
 #print("begin run a block")
-code, codePtr, state, output = runABlock(parsedCode, 0, ProgramState(), console_printing_INFO, parsedFunctions)
+code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), console_printing_INFO, parsedFunctions)
 #print("output: ", output)
 #print("output2: ", out2)
 #runner(parse)
