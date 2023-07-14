@@ -1,13 +1,12 @@
-import unittest
-
-# from . import readFile
-from Lexer.tokens import *
-from Lexer.lexer import *
-from Runner.runner import *
-from Parser.parser import *
-from Tools.tools import *
 import os
 import sys
+import unittest
+
+from Lexer.lexer import *
+from Lexer.tokens import *
+from Parser.parser import *
+from Runner.runner import *
+from Tools.tools import *
 
 
 class TestHelloWorld(unittest.TestCase):
@@ -111,7 +110,7 @@ class TestLoopigeFuncties(unittest.TestCase):
         code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
         self.assertEqual(int(output.output), self.SommigInPython(int(consoleInput)))
         
-    def test_SommigeFunctie_1000(self):       
+    def test_SommigeFunctie_900(self):       
         fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/sommig.txt"))
         filteredFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
         consoleInput = "900"#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
@@ -192,3 +191,19 @@ class TestFibonacciSequence(unittest.TestCase):
         tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
         code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
         self.assertEqual(int(output.output), self.fibonacciSeqInPython(int(consoleInput)))
+        
+
+class TestGreeter(unittest.TestCase):
+    def test_greeter(self):
+        fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/Greeter.txt"))
+        filteredFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
+        consoleInput = "Herman"#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consolePrinting = PrintingOutput()
+        lex_output = lex(filteredFileTree, consoleInput)
+        tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
+        code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
+        self.assertEqual(output.output, "What is your name? Hello Herman!")
+        
+        
+if __name__ == '__main__':
+    unittest.main()

@@ -13,6 +13,10 @@ class Instruction_Subsets(Enum):
     CSV = 'csv'
     LNK = 'lnk'
     DIRECTORY = ""
+    
+    @staticmethod
+    def list():
+        return list(map(lambda instruction: instruction.value, Instruction_Subsets))
 
 ########## Tokens ###############
 class Token:
@@ -1423,6 +1427,8 @@ class rtn(LNK):#todo: maybe change or remove
         return "return parameter 1 to function."
 
 class ERR(Token):
+    def __init__(self):
+        super().__init__(-1)#needed for uper class to work, but not used, because this is an error
     #__str__ :: LNK -> String
     def __str__(self) -> str:
         return "token used to indicate an error"

@@ -100,7 +100,9 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         return dlw(operator[1], isInALoop)
     elif operator[0] == "dlu" and isInALoop > 0:
         return dlu(operator[1], isInALoop)
-
+    if operator[-1] not in Instruction_Subsets.list():
+        #if instruction is not an directory and not in the instruction subset enum or is missing, is it not an vallid instruction, return an error
+        return ERR()
     if operator[-1] == Instruction_Subsets.DAT.value: #complete
         if operator[0] == "abs":
             return abs(operator[1],operator[2],isInALoop)

@@ -4,11 +4,11 @@ import unittest
 # from functools import reduce
 
 
-# from tokens import *
-# from lexer import *
-# from runner import *
-# from Parser import *
-# from tools import *
+from Lexer.tokens import *
+from Lexer.lexer import *
+from Runner.runner import *
+from Parser.parser import *
+from Tools.tools import *
 
 
 

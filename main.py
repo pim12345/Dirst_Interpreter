@@ -20,13 +20,13 @@ file = "./TestCode/loopigeFunction/sommigExample.txt"
 #os.chdir('./TestCode/loopigeFunction/')
 #fileTree = open("sommigExample.txt", "r")
 #fileTree = readFile("./UnitTests/TestCode/loopigeFunction/sommigExample.txt")
-fileTree = readFile("./evenOnEven2.txt")
+fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/Greeter.txt"))
 #print(fileTree)
 filteredFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
 
 print(filteredFileTree)
 console_printing_INFO = lambda *args: print(*args, end="")
-consoleInput = "11"
+consoleInput = "pim"
 
 lex_output = lex(filteredFileTree, consoleInput)
 #print(lex_output)
