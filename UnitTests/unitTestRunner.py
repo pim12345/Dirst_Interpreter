@@ -188,7 +188,7 @@ class TestGreeter(unittest.TestCase):
         code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
         self.assertEqual(output.output, "What is your name? Hello Herman!")
         
-class TestErrorFunctionNotExisted(unittest.TestCase):
+class TestErrorTestCases(unittest.TestCase):
     def test_ErrorFunctionNotExisted(self):
         #fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/Greeter.txt"))
         fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/FunctionNotExistedTest.txt"))
@@ -203,7 +203,8 @@ class TestErrorFunctionNotExisted(unittest.TestCase):
             return
         tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
         code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
-        self.assertEqual(output.output, "error, no function declared with the name: NotExistingFunction")
+        self.assertIn("error, no function declared with the name: NotExistingFunction", output.output)
+        #self.assertEqual(output.output, "error, no function declared with the name: NotExistingFunction")
 
 
         

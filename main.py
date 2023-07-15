@@ -22,13 +22,12 @@ file = "./TestCode/loopigeFunction/sommigExample.txt"
 #fileTree = readFile("./UnitTests/TestCode/loopigeFunction/sommigExample.txt")
 fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/Greeter.txt"))
 #print(fileTree)
-filteredFileTree = list(filter(lambda x: x != "\n", fileTree))#remove empty lines with only \n in them, filter is an higher order function
 
-print(filteredFileTree)
+print(fileTree)
 console_printing_INFO = lambda *args: print(*args, end="")
 consoleInput = "pim"
 
-lex_output = lex(filteredFileTree, consoleInput)
+lex_output = lex(fileTree, consoleInput)
 #print(lex_output)
 #print("lexed")
 
