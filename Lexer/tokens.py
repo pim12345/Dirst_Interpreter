@@ -2,6 +2,23 @@ from enum import Enum
 import string
 from typing import NamedTuple, Union
 
+class Instruction_Variable_Type(Enum):
+    #an enum to describe an instruction input type
+    #this is made because there is a lot of dubble instruction like the add instruction (add 2 int together) and the pls instruction to add 2 floats together
+    Unknown = None,#todo convert str functies van elk statement i.p.v van str convert naar goede type voor debug 
+    Integer = int,
+    String = str,
+    Float = float,
+    Function = "function",
+    
+    @staticmethod
+    def ListValues() -> list:#return list of all values of this enum
+        return list(map(lambda instruction: instruction.value, Instruction_Variable_Type))
+    
+    @staticmethod
+    def ListNames() -> list:
+        return list(map(lambda instruction: instruction.name, Instruction_Variable_Type))
+
 #nog toevoegen __repr__ ook toevoegen denk i.p.v __str__
 class Instruction_Subsets(Enum):
     DAT = "dat"
@@ -15,8 +32,12 @@ class Instruction_Subsets(Enum):
     DIRECTORY = ""
     
     @staticmethod
-    def list():
+    def ListValues() -> list:#return list of all values of this enum
         return list(map(lambda instruction: instruction.value, Instruction_Subsets))
+    
+    @staticmethod
+    def ListNames() -> list:
+        return list(map(lambda instruction: instruction.name, Instruction_Subsets))
 
 ########## Tokens ###############
 class Token:
