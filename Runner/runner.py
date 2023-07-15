@@ -386,7 +386,13 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
 #runAFunction :: str -> int -> Callable -> (int, Callable)
 def runAFunction(functionInputVarValue: str, functionReturnVar : str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:
     
-    functionCode = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == functionName, functions.statements))[0]#.block
+    functionCodes = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == functionName, functions.statements))#.block
+    if len(functionCodes) == 0:
+        #no function declared with that name
+        output("error, no function declared with the name: " + functionName + '\n')
+        return -1, output#todo add return code if error encountered
+    else:
+        functionCode = functionCodes[0]
     # create a new state for the function
     functionState = ProgramState()
     # copy the variables from the current state to the function state(input and return var)
@@ -403,9 +409,6 @@ def runAFunction(functionInputVarValue: str, functionReturnVar : str, functionNa
 
 #runLoopWhileZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
 def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, loopname : str, functions: CodeBlock) -> Tuple[ProgramState, Callable]:
-    #print("loop")
-    #print(state.pointer)
-    #if(state.memory[state.pointer]!=0):
     if state.memory[state.variablenamesDictionary[loopname]] == 0:
         code_, codePtr_, state_, output_, functions_ = runABlock(loop.code,0,state,output, functions)
         return runLoopWhileZero(loop, state_, output_, loopname, functions_)
@@ -414,9 +417,6 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, l
 
 #runLoopWhileNotZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
 def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : Callable, loopname : str, functions: CodeBlock) -> Tuple[ProgramState, Callable]:
-    #print("loop")
-    #print(state.pointer)
-    #if(state.memory[state.pointer]!=0):
     if state.memory[state.variablenamesDictionary[loopname]] != 0:
         code_, codePtr_, state_, output_, functions_ = runABlock(loop, 0, state, output, functions)
         return runLoopWhileNotZero(loop, state_, output_, loopname, functions_)

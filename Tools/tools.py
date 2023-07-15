@@ -3,7 +3,7 @@ import os
 #add haskall notation todo
 def readFile(filename : str) -> str:
     with open(filename, 'r') as f:
-        return f.readlines()
+        return list(map(lambda line: line.replace("    ", "\t"), filter(lambda x: not x.isspace(), f.readlines())))#remove empty lines with only \n in them, filter is an higher order function also convert 4 spaces to 1 tab
 
 class PrintingOutput:
     def __init__(self) -> None:
@@ -11,6 +11,9 @@ class PrintingOutput:
     
     def __call__(self, text):
         self.output += text
+        return self.output
+    
+    def __str__(self) -> str:
         return self.output
 
 #add haskall notation todo

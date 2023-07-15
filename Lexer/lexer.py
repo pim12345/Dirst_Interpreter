@@ -85,7 +85,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     """    
     if len(operator[0]) > 3:
         # Instructions are three letters long, if longer the instruction is not valid
-        return ERR()
+        return ERR("an instruction is longer then 3 characters, so it is not an valid instruction")
     elif operator[0] == "fnc" and isInALoop > 0:
         return fnc(operator[1],operator[2], isInALoop)
     elif operator[0] == "dif" and isInALoop > 0:
@@ -102,7 +102,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         return dlu(operator[1], isInALoop)
     if operator[-1] not in Instruction_Subsets.list():
         #if instruction is not an directory and not in the instruction subset enum or is missing, is it not an vallid instruction, return an error
-        return ERR()
+        return ERR("instruction provided is not an valid instruction")
     if operator[-1] == Instruction_Subsets.DAT.value: #complete
         if operator[0] == "abs":
             return abs(operator[1],operator[2],isInALoop)

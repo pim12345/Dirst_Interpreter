@@ -1397,7 +1397,7 @@ class LNK(Token):
         return "function calls and the like. Not in orignal Dirst added for requirement for ATP school project"
 
 class run(LNK):#todo: add documentation and examples
-    def __init__(self, functionName, parameterVar, returnVar ,isInALoop : int):
+    def __init__(self, functionName, parameterVar, returnVar ,isInALoop : int) -> None:
         self.functionName = functionName
         self.parameterVar = parameterVar
         self.returnVar = returnVar
@@ -1408,7 +1408,7 @@ class run(LNK):#todo: add documentation and examples
         return "call function with name functionName and pass parameterVar as parameter and save result to returnVar"
 
 class ifrtn(LNK):#todo: maybe change or remove
-    def __init__(self, parameter1,parameter2,parameter3,isInALoop : int):
+    def __init__(self, parameter1,parameter2,parameter3,isInALoop : int) -> None:
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
@@ -1419,16 +1419,17 @@ class ifrtn(LNK):#todo: maybe change or remove
         return "return parameter3 from a function if parameter1 is equal to parameter2"
 
 class rtn(LNK):#todo: maybe change or remove
-    def __init__(self, parameter1, isInALoop : int):
+    def __init__(self, parameter1, isInALoop : int) -> None:
         self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: rtn -> String
     def __str__(self) -> str:
-        return "return parameter 1 to function."
+        return "return parameter 1 to function, the value of variable of parameter 1 is: " + str(self.parameter1)
 
 class ERR(Token):
-    def __init__(self):
+    def __init__(self, message: str) -> None:
         super().__init__(-1)#needed for uper class to work, but not used, because this is an error
+        self.message = message
     #__str__ :: LNK -> String
     def __str__(self) -> str:
-        return "token used to indicate an error"
+        return "Error: " + self.message

@@ -317,7 +317,8 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         return None, code, functions
     token, *rest = tokens
     
-    
+    if isinstance(token, ERR):
+        return tokens, code, functions
     if isinstance(token, fnc) and code.nestlevel == 1 and token.isInALoop == 1:
         #an other function is declared, but not be added to the current function
         return tokens, code, functions
