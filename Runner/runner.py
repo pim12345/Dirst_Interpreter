@@ -4,6 +4,7 @@ from Lexer.lexer import *
 from Parser.parser import *
 from Tools.tools import *
 import math
+from operator import xor
 
 class ProgramState:
     def __init__(self):
@@ -27,13 +28,14 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         if statement.parameter2 in state.variablenamesDictionary:
             parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
         else:
-            parameter2_value = statement.instructionType(statement.parameter2)#todo check if casting works, and if it works add documentation
+            parameter2_value = __builtins__[statement.instructionType.value[0]](statement.parameter2)#https://gist.github.com/mdogo/4947278 #todo check safety of this, and of allowed to use this
+            #parameter2_value = statement.instructionType(statement.parameter2)#todo check if casting works, and if it works add documentation
             
     if hasattr(statement, 'parameter3'):#check if object has parameter3
         if statement.parameter3 in state.variablenamesDictionary:
             parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
         else:
-            parameter3_value = statement.instructionType(statement.parameter3)#todo check if casting works, and if it works add documentation
+            parameter3_value = __builtins__[statement.instructionType.value[0]](statement.parameter3)#todo check if casting works, and if it works add documentation #https://gist.github.com/mdogo/4947278
     
     
     
@@ -48,7 +50,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             # state.pointer+=1
             #return runABlock(code, codePtr+1, state,output, functions)
         case CallFunction():
-            result, output_ = runAFunction(state.memory[state.variablenamesDictionary[statement.functionInputVar]], statement.functionReturnVar,statement.functionName,  output, functions )
+            result, output_ = runAFunction(state.memory[state.variablenamesDictionary[statement.functionInputVar]], statement.functionReturnVar, statement.functionName, output, functions)
             state.memory[state.variablenamesDictionary[statement.functionReturnVar]] = result
             # codePtr = len(code.statements)+1#todo change after running a function to set the pointer to end of all the underlinging functions
             # return code, codePtr, state, output, functions
@@ -143,8 +145,8 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, state, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.xad):
-            #state.memory[state.variablenamesDictionary[statement.parameter1]] = parameter2_value  parameter3_value
-            output("error: not yet implented")
+            #https://deepai.org/machine-learning-glossary-and-terms/xand is it the same as xnor
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value ^ parameter3_value)#todo test if good
             return code, codePtr, state, output
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.nad):
@@ -153,6 +155,10 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.nor):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = ~(parameter2_value | parameter3_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.bitWiseNot):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = ~parameter2_value
             return runABlock(code, codePtr+1, state, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.maxVal):
@@ -170,27 +176,77 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
                 state.memory[state.variablenamesDictionary[statement.parameter1]] = math.floor(parameter2_value)
             return runABlock(code, codePtr+1, state, output, functions)
         
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFloatFunctionType=MathFloatType.power):
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFunctionType=MathFloatType.power):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = math.pow(parameter2_value, parameter3_value)
             return runABlock(code, codePtr+1, state, output, functions)
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType.sign):
-            state.memory[state.variablenamesDictionary[statement.parameter1]] = #math.sign(parameter2_value, parameter2_value)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.sign):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.copysign(1, parameter2_value)#todo check if good use of sign https://www.tutorialspoint.com/how-to-get-the-sign-of-an-integer-in-python
             return runABlock(code, codePtr+1, state, output, functions)
         
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType.squareRoot):
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.squareRoot):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = math.sqrt(parameter2_value)
             return runABlock(code, codePtr+1, state, output, functions)
+        
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType.sin):
             state.memory[state.variablenamesDictionary[statement.parameter1]] = math.sin(parameter2_value)
             return runABlock(code, codePtr+1, state, output, functions)
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType):
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType):
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType):
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType):
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType):
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType):
-        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFloatFunctionType=MathFloatType.log):    
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.cos):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.cos(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.tan):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.tan(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.hyperbolicSin):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.sinh(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.hyperbolicCos):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.cosh(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.hyperbolicTan):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.tanh(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.logBase10):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.log10(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.logNatural):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.log(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFunctionType=MathFloatType.log):  
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.log(parameter2_value, parameter3_value)
+            return runABlock(code, codePtr+1, state, output, functions)
             
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.eToPower):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.exp(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.absolute):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = abs(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.negative):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = -parameter2_value#todo need to test if good negative value, otherwise use ~abs
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseSin):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.asin(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseCos):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.acos(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
+        case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseTan):
+            state.memory[state.variablenamesDictionary[statement.parameter1]] = math.atan(parameter2_value)
+            return runABlock(code, codePtr+1, state, output, functions)
+        
         case displayValue():
             #print(statement.value)
             #print(str(state.memory[state.variablenamesDictionary[statement.value]]))

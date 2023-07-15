@@ -54,7 +54,7 @@ def split(line : str) -> str:
         line (str): Line of the Dirst scripting programming language
 
     Returns:
-        str:  String line of the Dirst programming language with intpreterd Escape Codes 
+        str:  String line of the Dirst programming language with interpreted Escape Codes 
     """    
     line = line.replace('--','-')
     line = line.replace('-c',':')
@@ -81,7 +81,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         isInALoop (int): Number of how nested the function is 
 
     Returns:
-        class: Returns the class assosiated with the operators given by given by call
+        class: Returns the class associated with the operators given by given by call
     """    
     if len(operator[0]) > 3:
         # Instructions are three letters long, if longer the instruction is not valid
@@ -101,7 +101,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     elif operator[0] == "dlu" and isInALoop > 0:
         return dlu(operator[1], isInALoop)
     if operator[-1] not in Instruction_Subsets.ListValues():
-        #if instruction is not an directory and not in the instruction subset enum or is missing, is it not an vallid instruction, return an error
+        #if instruction is not an directory and not in the instruction subset enum or is missing, is it not an valid instruction, return an error
         return ERR("instruction provided is not an valid instruction")
     if operator[-1] == Instruction_Subsets.DAT.value: #complete
         if operator[0] == "abs":
@@ -115,7 +115,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "mul":
             return mul(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "div":
-            return div(operator[1],operator[2],operator[3],isInALoop)
+            return div_dat(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "mod":
             return mod(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "and":
@@ -307,7 +307,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "rfv":
             return rfv(operator[1],consoleInput ,isInALoop)
         elif operator[0] == "dfv":
-            return dfv(operator[1],isInALoop)
+            return dfv_bin(operator[1],isInALoop)
     
     elif operator[-1] == Instruction_Subsets.ZIP.value:
         if operator[0] == "giv":
@@ -419,7 +419,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "dia":
             return dia(operator[1],isInALoop)
         elif operator[0] == "div":
-            return div(operator[1],isInALoop)
+            return div_csv(operator[1],isInALoop)
         elif operator[0] == "dsa":
             return dsa(operator[1],isInALoop)
         elif operator[0] == "dsv":
@@ -427,38 +427,34 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "dfa":
             return dfa(operator[1],isInALoop)
         elif operator[0] == "dfv":
-            return dfv(operator[1],isInALoop)
+            return dfv_csv(operator[1],isInALoop)
     
     elif operator[-1] == Instruction_Subsets.LNK.value:
         if operator[0] == "run":
             return run(operator[1], operator[2],operator[3], isInALoop)
         elif operator[0] == "rtn":#todo check if good this and make 1 line in logic
             return rtn(operator[1],isInALoop)
-        # elif operator[0] == "run":#todo delete this and make 1 line in logic
-        #     return run(operator[1], operator[2],operator[3], isInALoop)
-        # elif operator[0] == "ifrtn":#todo delete this and make 1 line in logic
-        #     return ifrtn(operator[1], operator[2],operator[3], isInALoop)
         
         
     return NotImplemented()
 
 #recursiveInstructionClassList :: list[String] -> String
-def recursiveInstructionClassList(argumentlist: list[str], consoleInput : str) -> str:
+def recursiveInstructionClassList(argumentList: list[str], consoleInput : str) -> str:
     """Recursive function used as a map function to build up a list of all the lexed code in the Dirst programming language
 
     Args:
-        argumentlist (list): A list of lines of the scripting language of Dist
+        argumentList (list): A list of lines of the scripting language of Dist
 
     Returns:
         list: A list of lexed classes of Dirst
     """    
-    isInALoop = argumentlist[0].count("")
-    if argumentlist[0][0] == "":
-        argumentlist[0] = list(filter(lambda str: (str != "") ,argumentlist[0]))
-    if len(argumentlist) == 1:
-        return [giveCorrectClass(argumentlist[0], isInALoop, consoleInput)]
+    isInALoop = argumentList[0].count("")
+    if argumentList[0][0] == "":
+        argumentList[0] = list(filter(lambda str: (str != "") ,argumentList[0]))
+    if len(argumentList) == 1:
+        return [giveCorrectClass(argumentList[0], isInALoop, consoleInput)]
     else:
-        return [giveCorrectClass(argumentlist[0], isInALoop, consoleInput)] + recursiveInstructionClassList(argumentlist[1:], consoleInput)
+        return [giveCorrectClass(argumentList[0], isInALoop, consoleInput)] + recursiveInstructionClassList(argumentList[1:], consoleInput)
 
 #lex :: list[String] -> list[Token]
 def lex(file : list[str], consoleInput : str) -> list[Token]:

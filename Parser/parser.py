@@ -26,7 +26,7 @@ class CodeBlock:
     def __init__(self, nest : int =0):
         self.statements : list = []
         """Creates a empty list used for statements of Dist code"""        
-        self.nestlevel : int = nest
+        self.nestLevel : int = nest
         """Interger used to track how nested this block of Dirst code is"""   
         
         
@@ -50,9 +50,9 @@ class CodeBlock:
 
     #__repr__ :: CodeBlock -> String
     def __repr__(self) -> str:
-        nstr = repeatStr("   ", self.nestlevel)
+        nstr = repeatStr("   ", self.nestLevel)
         statestr = ''.join(map(lambda st: nstr + str(st) + "\n", self.statements))
-        return "Begin Block: \n" + statestr + repeatStr("   ", self.nestlevel - 1) + " End Block"
+        return "Begin Block: \n" + statestr + repeatStr("   ", self.nestLevel - 1) + " End Block"
 
 class DeclareFunction(SimpleStatement):
     """class that holds a function what is callable by the call syntax
@@ -86,9 +86,9 @@ class CallFunction(SimpleStatement):
 class Loop(SimpleStatement):
     """a loop statement used to as the Directory subset of Dirst
     """    
-    def __init__(self, block : CodeBlock, varname : str, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
+    def __init__(self, block : CodeBlock, parameter1 : str, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
         self.block = block     
-        self.varname = varname
+        self.parameter1 = parameter1
         self.whileZero = whileZero
         self.loopAtLeastOnce = loopAtLeastOnce
         self.onlyOneTime = onlyOneTime
@@ -180,24 +180,25 @@ class roundValue(SimpleStatement):
             return "Existing var with name: " + str(self.parameter1) + " will be rounded to the ceiling of: " + str(self.parameter2)
         else:
             return "Existing var with name: " + str(self.parameter1) + " will be rounded to the floor of: " + str(self.parameter2)
+        
 class operatorsType(Enum):
     """Enum used by the 'operators' class to give to correct operator
        operator can be used in the integer subset or the float subset of Dirst, 
        With type is used is determined by the instructionType of the 'operators' class
     """    
-    plus = 1#add subset in Dirst
-    minus = 2#sub subset in Dirst
-    multiply = 3#mul subset in Dirst
-    divide = 4#div subset in Dirst
-    modulo = 5#mod subset in Dirst
-    andOp = 6#and subset in Dirst
-    orb = 7#orb subset in Dirst
-    xor = 8#xor subset in Dirst
-    xad = 9#xad subset in Dirst
-    nad = 10#nad subset in Dirst
-    nor = 11#nor subset in Dirst
-    maxVal = 12#max in dat subset in Dirst
-    minVal = 13#min in dat subset in Dirst
+    plus = 1#add of the DAT subset in Dirst
+    minus = 2#sub of the DAT subset in Dirst
+    multiply = 3#mul of the DAT subset in Dirst
+    divide = 4#div of the DAT subset in Dirst
+    modulo = 5#mod of the DAT subset in Dirst
+    andOp = 6#and of the DAT subset in Dirst
+    orb = 7#orb of the DAT subset in Dirst
+    xor = 8#xor of the DAT subset in Dirst
+    xad = 9#xad of the DAT subset in Dirst
+    nad = 10#nad of the DAT subset in Dirst
+    nor = 11#nor of the DAT subset in Dirst
+    maxVal = 12#max in DAT subset in Dirst
+    minVal = 13#min in DAT subset in Dirst
 
 class operators(SimpleStatement):
     """Class used to calculate a value using the operators from operatorList
@@ -229,7 +230,7 @@ class operators(SimpleStatement):
             case operatorsType.xor:
                 return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xor " + str(self.parameter3) + " with instruction type: " + super().instructionType
             case operatorsType.xad:
-                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xand " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xand " + str(self.parameter3) + " with instruction type: " + super().instructionType #https://deepai.org/machine-learning-glossary-and-terms/xand
             case operatorsType.nad:
                 return "parameter1: " + str(self.parameter1) + " to the value of the bitwise not of: " + str(self.parameter2) +" with instruction type: " + super().instructionType
             case operatorsType.nor:
@@ -258,7 +259,7 @@ class MathFloatType(Enum):
     logNatural =13#lge in bin subset in Dirst
     log = 14#lbq in bin subset in Dirst
     eToPower = 15#epw in bin subset in Dirst
-    absoluteValue = 16#avl in bin subset in Dirst
+    #absoluteValue = 16#avl in bin subset in Dirst
     
     inverseSin = 17#asn in bin subset in Dirst
     inverseCos = 18#acs in bin subset in Dirst
@@ -272,7 +273,7 @@ class mathFloatFunctions(SimpleStatement):
         self.mathFunctionType = mathFunctionType
         super().__init__(Instruction_Variable_Type.FloatVariable)#because the math functions in dirst only use floats
     
-    def __init__(self, parameter1 : string, parameter2: string, mathFunctionType: MathFloatType):
+    def __init__(self, parameter1 : str, parameter2: str, mathFunctionType: MathFloatType):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.mathFunctionType = mathFunctionType
@@ -307,8 +308,8 @@ class mathFloatFunctions(SimpleStatement):
                 return "Set " + self.parameter1 + " to the value of the base  " + self.parameter3 + " logarithm of " + self.parameter2
             case MathFloatType.eToPower:
                 return "Set " + self.parameter1 + " to the value of e to the power of " + self.parameter2
-            case MathFloatType.absoluteValue:
-                return "Set " + self.parameter1 + " to the value of the absolute value of " + self.parameter2
+            #case MathFloatType.absoluteValue:
+            #    return "Set " + self.parameter1 + " to the value of the absolute value of " + self.parameter2
             case MathFloatType.inverseSin:
                 return "Set " + self.parameter1 + " to the value of the inverse sin of " + self.parameter2
             case MathFloatType.inverseCos:
@@ -318,19 +319,39 @@ class mathFloatFunctions(SimpleStatement):
             case _:
                 return "Math function not supported or not found., math type: " + self.mathFunctionType
 
-class valuePosConv(SimpleStatement):
-    def __init__(self, parameter1 : string, parameter2, toABS: bool, instructionType: Instruction_Variable_Type):
+
+class stringOperatorsType(Enum):
+    firstOccurrence = 1#idx in str subset in Dirst
+    firstOccurrenceFromSpecifiedIndex = 2#ids in str subset in Dirst
+    lastOccurrence = 3#lid in str subset in Dirst
+    replaceEveryOccurrence = 4#rep in str subset in Dirst#will not be implemented
+    
+    
+
+class ConvertType(Enum):
+    absolute = "absolute",
+    negative = "negative",
+    bitWiseNot = "bitWiseNot",
+    #upperCase = "upperCase",
+
+class valueConv(SimpleStatement):
+    def __init__(self, parameter1 : str, parameter2, convertType: ConvertType, instructionType: Instruction_Variable_Type):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
-        self.toABS  = toABS
+        self.convertType  = convertType
         super().__init__(instructionType)
     
     # __repr__ :: valuePosConv -> String
     def __repr__(self) -> str:
-        if self.toABS == True:
-            return "parameter1: " + str(self.parameter1) + " wil have the absolute value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
-        else:
-            return "parameter1: " + str(self.parameter1) + " wil have the negative value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+        match self.convertType:
+            case ConvertType.absolute:
+                return "parameter1: " + str(self.parameter1) + " wil have the absolute value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+            case ConvertType.negative:
+                return "parameter1: " + str(self.parameter1) + " wil have the negative value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+            case ConvertType.bitWiseNot:
+                return "parameter1: " + str(self.parameter1) + " wil have the bitwise not value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+            case _:
+                return "Convert type not supported or not found."
 
 
 class IfStatementType(Enum):#enum class not working in match statement? so now it is half inplemented
@@ -346,7 +367,7 @@ class IfStatementType(Enum):#enum class not working in match statement? so now i
 class IfStatement(SimpleStatement):
     """Class used for if statements with a operator from enum: 'ifStatementList'
     """    
-    def __init__(self, parameter1 : string, parameter2, parameter3, condition : IfStatementType, instructionType: Instruction_Variable_Type):
+    def __init__(self, parameter1 : str, parameter2, parameter3, condition : IfStatementType, instructionType: Instruction_Variable_Type):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         self.parameter3 = parameter3
@@ -382,13 +403,22 @@ class NotImplemented(SimpleStatement):
         
     
 class ReturnFunction(SimpleStatement):
-    def __init__(self, parameter1: str, instructionType: Instruction_Variable_Type):
+    def __init__(self, parameter1: str):
        self.parameter1 = parameter1
-       super().__init__(instructionType)
+       super().__init__(Instruction_Variable_Type.Function)
     
     # __repr__ :: ReturnFunction -> String
     def __repr__(self):
-        return "return this function with the value of variable: " + self.parameter1 + " with instruction type: " + super().instructionType
+        return "return this function with the value of variable: " + self.parameter1
+
+
+class Stack(SimpleStatement):
+    def __init__(self, parameter1: str, parameter2: str):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        super().__init__(Instruction_Variable_Type.Integer)
+        
+    
 
 #parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
 def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -> Tuple[List[Token], CodeBlock, CodeBlock]:
@@ -401,8 +431,6 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
     Returns:
         Tuple[List[Token], CodeBlock]: the list of tokens and the block of code
     """
- #   print("test")
-
     
     if tokens == None or len(tokens) == 0:
         return None, code, functions
@@ -410,43 +438,43 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
     
     if isinstance(token, ERR):
         return tokens, code, functions
-    if isinstance(token, fnc) and code.nestlevel == 1 and token.isInALoop == 1:
+    if isinstance(token, fnc) and code.nestLevel == 1 and token.isInALoop == 1:
         #an other function is declared, but not be added to the current function
         return tokens, code, functions
     
     if isinstance(token, Directory):
         newRest, block, functions_ = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop), functions)
         if isinstance(token,fnc):
-            functions_.addStatement(DeclareFunction(block, token.varname, token.functionInput))
+            functions_.addStatement(DeclareFunction(block, token.parameter1, token.functionInput))#because enum has 
         elif isinstance(token,dif_):
-            code.addStatement(Loop(block, token.varname,False,False,True))
+            code.addStatement(Loop(block, token.parameter1,False,False,True))
         elif isinstance(token,nif):
-            code.addStatement(Loop(block, token.varname,True,False,True))
+            code.addStatement(Loop(block, token.parameter1,True,False,True))
         elif isinstance(token,lpc):
-            code.addStatement(Loop(block, token.varname,False,False,False))
+            code.addStatement(Loop(block, token.parameter1,False,False,False))
         elif isinstance(token,lpn):
-            code.addStatement(Loop(block, token.varname,True,False,False))
+            code.addStatement(Loop(block, token.parameter1,True,False,False))
         elif isinstance(token,dlw):
-            code.addStatement(Loop(block, token.varname,False,True,False))
+            code.addStatement(Loop(block, token.parameter1,False,True,False))
         elif isinstance(token,dlu):
-            code.addStatement(Loop(block, token.varname,True,True,False))
+            code.addStatement(Loop(block, token.parameter1,True,True,False))
         return parseCodeBlock(newRest, code, functions_)
     
-    if token.isInALoop is not code.nestlevel:
+    if token.isInALoop is not code.nestLevel:
         return tokens, code, functions
       
     elif isinstance(token, DAT):
         if isinstance(token, abs):
-            code.addStatement(valuePosConv(token.parameter1,token.parameter2, True, Instruction_Variable_Type.Integer))
+            code.addStatement(valueConv(token.parameter1,token.parameter2, ConvertType.absolute, Instruction_Variable_Type.Integer))
         elif isinstance(token, neg):
-            code.addStatement(valuePosConv(token.parameter1,token.parameter2, False, Instruction_Variable_Type.Integer))
+            code.addStatement(valueConv(token.parameter1,token.parameter2, ConvertType.negative, Instruction_Variable_Type.Integer))
         elif isinstance(token, add):
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, sub_):
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mul):
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.multiply, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
-        elif isinstance(token, div):#TODO: check for interference
+        elif isinstance(token, div_dat):#TODO: check for interference
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mod):
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.modulo, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
@@ -463,7 +491,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, nor):
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.nor, Instruction_Variable_Type.Integer))
         elif isinstance(token, not_):
-            code.addStatement(operators(token.parameter1, token.parameter2, "0", operatorsType.nor, Instruction_Variable_Type.Integer))#parameter 3 is not used so set to 0
+            code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.bitWiseNot, Instruction_Variable_Type.Integer))#parameter 3 is not used so set to 0
         elif isinstance(token, mor):
             code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATER, Instruction_Variable_Type.Integer))
         elif isinstance(token, les):
@@ -477,14 +505,14 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, let):
             code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Integer))
         elif isinstance(token, rdi):
-            code.addStatement(setValue(token.name, token.consoleInput, Instruction_Variable_Type.Integer))
+            code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))
         elif isinstance(token, ric):
-            code.addStatement(setValue(token.name, token.consoleInput, Instruction_Variable_Type.Integer))#set to -1 if eof not implemented
+            code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))#TODO: set to -1 if eof not implemented
         elif isinstance(token, dsi):
-            code.addStatement(displayValue(token.name, False, Instruction_Variable_Type.Integer))
+            code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))
         elif isinstance(token, dic):
-            code.addStatement(displayValue(token.name, False, Instruction_Variable_Type.Integer))
-            # code.addStatement(displayValue(token.name))
+            code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))#todo display char of int
+            # code.addStatement(displayValue(token.parameter1))
         elif isinstance(token, set):
             code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Integer))
         elif isinstance(token, max_):
@@ -495,26 +523,26 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         if isinstance(token, rdc):
             code.addStatement(NotImplemented())
         elif isinstance(token, rds):#no input from console because of functional programming is that not allowed
-            code.addStatement(setValue(token.name, token.consoleInput, Instruction_Variable_Type.String))
+            code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.String))
         elif isinstance(token, eof):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
-            #code.addStatement(displayValue(token.name, True))#implement now good according to spec @todo
+            #code.addStatement(displayValue(token.parameter1, True))#implement now good according to spec @todo
             code.addStatement(NotImplemented())
         elif isinstance(token, dss):
-            code.addStatement(displayValue(token.name, False, Instruction_Variable_Type.String))
+            code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.String))
         elif isinstance(token, dsl):
-            code.addStatement(displayValue(token.name, True, Instruction_Variable_Type.String))
+            code.addStatement(displayValue(token.parameter1, True, Instruction_Variable_Type.String))
         elif isinstance(token, dec):
             code.addStatement(NotImplemented())
         elif isinstance(token, des):
-            code.addStatement(displayValue(token.name, False, Instruction_Variable_Type.String))
+            code.addStatement(NotImplemented())#error stream is using output #todo maybe implement error stream
         elif isinstance(token, del_):
-            code.addStatement(displayValue(token.name, True, Instruction_Variable_Type.String))
+            code.addStatement(NotImplemented())#todo maybe implement error stream instead of using normal stream
         elif isinstance(token, clr):
-            code.addStatement(setValue(token.name, "", Instruction_Variable_Type.String))# verang door var op 0 te zetten of nullptr#TODO TEST of dit werkt nog niet getest
+            code.addStatement(setValue(token.parameter1, "", Instruction_Variable_Type.String))# vervang door var op 0 te zetten of nullptr#TODO TEST of dit werkt nog niet getest
         elif isinstance(token, cat):
-            code.addStatement(NotImplemented())
+            code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.String))#concat in python is just string 1 plus string 2
         elif isinstance(token, idx):
             code.addStatement(NotImplemented())
         elif isinstance(token, ids):
@@ -564,9 +592,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, tme):
             code.addStatement(NotImplemented())
         elif isinstance(token, ses):
-            code.addStatement(setValue(token.name, token.parameter2, Instruction_Variable_Type.String))
+            code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.String))
         
-        #code.addStatement(displayValue(token.name))
+        #code.addStatement(displayValue(token.parameter1))
     elif isinstance(token, BIN):
         if isinstance(token, pls):
             code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.Float))
@@ -607,7 +635,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, epw):
             code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.eToPower))
         elif isinstance(token, avl):
-            code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.absoluteValue))
+            code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.absolute, Instruction_Variable_Type.Float))
         elif isinstance(token, rnd):
             code.addStatement(NotImplemented())
         elif isinstance(token, rou):
@@ -637,9 +665,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, lte):
             code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Float))#INSTRUCTION IS WRONG IN DOCUMENTATION ON WEBSITE, THERE IS GTE AND LTE both greater then or equal. But of course lte must be less then equal 
         elif isinstance(token, rfv):
-            code.addStatement(setValue(token.name, token.consoleInput, Instruction_Variable_Type.Float))#todo fix console reading
-        elif isinstance(token, dfv):
-            code.addStatement(setValue(token.name, token.consoleInput, Instruction_Variable_Type.Float))#todo fix console reading
+            code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Float))#todo fix console reading
+        elif isinstance(token, dfv_bin):
+            code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Float))#todo fix console reading
         
     elif isinstance(token, ZIP):
         if isinstance(token, giv):
@@ -739,30 +767,30 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         if isinstance(token, cia):
             code.addStatement(NotImplemented())
         elif isinstance(token, civ):
-            code.addStatement(createVar(token.name, Instruction_Variable_Type.Integer))
+            code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Integer))
         elif isinstance(token, csa):
             code.addStatement(NotImplemented())
         elif isinstance(token, csv):
-            code.addStatement(createVar(token.name, Instruction_Variable_Type.String))
+            code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.String))
         elif isinstance(token, cfa):
             code.addStatement(NotImplemented())
         elif isinstance(token, cfv):
-            code.addStatement(createVar(token.name, Instruction_Variable_Type.Float))
+            code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Float))
         elif isinstance(token, dia):
             code.addStatement(NotImplemented())
-        elif isinstance(token, div):
-            code.addStatement(deleteVar(token.name, Instruction_Variable_Type.Integer))
+        elif isinstance(token, div_csv):
+            code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Integer))
         elif isinstance(token, dsa):
             code.addStatement(NotImplemented())
         elif isinstance(token, dsv):
-            code.addStatement(deleteVar(token.name, Instruction_Variable_Type.String))
+            code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.String))
         elif isinstance(token, dfa):
             code.addStatement(NotImplemented())
-        elif isinstance(token, dfv): 
-            code.addStatement(deleteVar(token.name, Instruction_Variable_Type.Float))
+        elif isinstance(token, dfv_csv): 
+            code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Float))
             #code.addStatement(displayValue(token.parameter1, False))?????
         #else: 
-        #    code.addStatement(createVar(token.name))
+        #    code.addStatement(createVar(token.parameter1))
     elif isinstance(token, LNK):
         if isinstance(token, run):
             code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))

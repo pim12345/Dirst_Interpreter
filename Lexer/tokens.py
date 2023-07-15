@@ -5,10 +5,10 @@ from typing import NamedTuple, Union
 class Instruction_Variable_Type(Enum):
     #an enum to describe an instruction input type
     #this is made because there is a lot of dubble instruction like the add instruction (add 2 int together) and the pls instruction to add 2 floats together
-    Unknown = None,#todo convert str functies van elk statement i.p.v van str convert naar goede type voor debug 
-    Integer = int,
-    String = str,
-    Float = float,
+    Unknown = '0',#todo convert str functies van elk statement i.p.v van str convert naar goede type voor debug 
+    Integer = 'int',
+    String = "str",
+    Float = "float",
     Function = "function",
     
     @staticmethod
@@ -54,51 +54,51 @@ class Directory(Token):
         return "Handles looping, conditionals and code separation"
 
 class fnc(Directory):
-    def __init__(self, varname, functionInput ,isInALoop : int):
-        self.varname = varname
+    def __init__(self, parameter1, functionInput ,isInALoop : int):
+        self.parameter1 = parameter1
         self.functionInput = functionInput
         super().__init__(isInALoop)
     #__str__ :: fnc -> String
     def __str__(self) -> str:
         return "Execute all subitems in the directory"
 class dif_(Directory):
-    def __init__(self, varname, isInALoop : int):
-        self.varname = varname
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__repr__ :: dif_ -> String
     def __str__(self) -> str:
         return "Execute directory subitems only if the specified integer value is not zero"
 class nif(Directory):
-    def __init__(self, varname, isInALoop : int):
-        self.varname = varname
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: nif -> String
     def __str__(self) -> str:
         return "Execute directory subitems only if the specified integer value is zero"
 class lpc(Directory):
-    def __init__(self, varname, isInALoop : int):
-        self.varname = varname
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: lpc -> String
     def __str__(self) -> str:
         return "Loop through directory subitems while the specified integer value is not zero"
 class lpn(Directory):
-    def __init__(self, varname, isInALoop : int):
-        self.varname = varname
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: lpn -> String
     def __str__(self) -> str:
         return "Loop through directory subitems while the specified integer value is zero"
 class dlw(Directory):
-    def __init__(self,varname, isInALoop : int):
-        self.varname = varname
+    def __init__(self,parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dlw -> String
     def __str__(self) -> str:
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
 class dlu(Directory):
-    def __init__(self, varname, isInALoop : int):
-        self.varname = varname
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dlu -> String
     def __str__(self) -> str:
@@ -152,7 +152,7 @@ class mul(DAT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-class div(DAT):
+class div_dat(DAT):
     #__str__ :: div -> String
     def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: divided by parameter 3:"
@@ -290,31 +290,31 @@ class rdi(DAT):
     #__str__ :: rdi -> String
     def __str__(self) -> str:
         return "Reads an integer from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, consoleInput, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
+        self.parameter1 = parameter1
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class ric(DAT):
     #__str__ :: ric -> String
     def __str__(self) -> str:
         return "Read a character from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is set to -1."
-    def __init__(self, name, consoleInput, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
+        self.parameter1 = parameter1
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class dsi(DAT):
     #__str__ :: dsi -> String
     def __str__(self) -> str:
         return "Display the specified integer value to the console"
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dic(DAT):
     #__str__ :: dic -> String
     def __str__(self) -> str:
         return "Display the character specified by the integer value to the console"
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class set(DAT):
     #__str__ :: set -> String
@@ -353,16 +353,16 @@ class rdc(TXT):
     #__str__ :: rdc -> String
     def __str__(self) -> str:
         return "Reads a character from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, consoleInput, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
+        self.parameter1 = parameter1
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class rds(TXT):
     #__str__ :: rds -> String
     def __str__(self) -> str:
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
-    def __init__(self, name, consoleInput, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, consoleInput, isInALoop : int):
+        self.parameter1 = parameter1
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
 class eof(TXT):
@@ -384,15 +384,15 @@ class dss(TXT):
     #__str__ :: dss -> String
     def __str__(self) -> str:
         return "Displays the given string variable to the console with no newline following"
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dsl(TXT):
     #__str__ :: dsl -> String
     def __str__(self) -> str:
         return "Displays the given string variable to the console followed by a newline"
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class dec(TXT):
     #__str__ :: dec -> String
@@ -406,22 +406,22 @@ class des(TXT):
     #__str__ :: des -> String
     def __str__(self) -> str:
         return "Displays the given string variable to STDERR with no newline following"
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class del_(TXT):
     #__str__ :: del_ -> String
     def __str__(self) -> str:
         return "Displays the given string variable to STDERR followed by a newline"
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class clr(TXT):
     #__str__ :: clr -> String
     def __str__(self) -> str:
-        return "Clears the given string variable: " + str(self.name)
-    def __init__(self, name, isInALoop : int):
-        self.name = name
+        return "Clears the given string variable: " + str(self.parameter1)
+    def __init__(self, parameter1, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
 class cat(TXT):
     #__str__ :: cat -> String
@@ -851,25 +851,25 @@ class rou(BIN):
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 class asn(BIN):
+    def __init__(self, parameter1, parameter2, isInALoop : int):
+        self.parameter1 = parameter1
+        self.parameter2 = parameter2
+        super().__init__(isInALoop)
     #__str__ :: asn -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the value of the inverse sine of parameter 2 "
+class acs(BIN):
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
-class acs(BIN):
     #__str__ :: acs -> String
     def __str__(self) -> str:
-        return ""
-    def __init__(self, parameter1, parameter2, isInALoop : int):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        super().__init__(isInALoop)
+        return "Set parameter 1 to the value of the inverse cosine of parameter 2 "
 class atn(BIN):
     #__str__ :: atn -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the value of the inverse tangent of parameter 2 "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -877,7 +877,7 @@ class atn(BIN):
 class mks(BIN):
     #__str__ :: mks -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the value of parameter 2 "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -885,7 +885,7 @@ class mks(BIN):
 class fmx(BIN):
     #__str__ :: fmx -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the greater value of either parameter 2 or parameter 3 "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -894,7 +894,7 @@ class fmx(BIN):
 class fmn(BIN):
     #__str__ :: fmn -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the lesser value of either parameter 2 or parameter 3 "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -903,7 +903,7 @@ class fmn(BIN):
 class grt(BIN):
     #__str__ :: grt -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is greater than parameter 3, 0 otherwise "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -912,7 +912,7 @@ class grt(BIN):
 class lst(BIN):
     #__str__ :: lst -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is less than parameter 3, 0 otherwise "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -921,7 +921,7 @@ class lst(BIN):
 class eqt(BIN):
     #__str__ :: eqt -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is equal to parameter 3, 0 otherwise "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -930,7 +930,7 @@ class eqt(BIN):
 class net(BIN):
     #__str__ :: net -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to -1 if parameter 2 is not equal to parameter 3, 0 otherwise "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -957,15 +957,15 @@ class lte(BIN):
 class rfv(BIN):
     #__str__ :: rfv -> String
     def __str__(self) -> str:
-        return ""
+        return "Reads a floating point value from the console and sets the specified float variable to the value. If EOF is encountered, the variable is not modified and EOF is marked. "
     def __init__(self, parameter1, consoleInput, isInALoop : int):
         self.parameter1 = parameter1
         self.consoleInput = consoleInput
         super().__init__(isInALoop)
-class dfv(BIN):
+class dfv_bin(BIN):
     #__str__ :: dfv -> String
     def __str__(self) -> str:
-        return ""
+        return "Display the sepecified float value to the console "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
@@ -980,7 +980,7 @@ class ZIP(Token):
 class giv(ZIP):
     #__str__ :: giv -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the integer value in array parameter 2 at index parameter 3 (base 0) "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -989,7 +989,7 @@ class giv(ZIP):
 class siv(ZIP):
     #__str__ :: siv -> String
     def __str__(self) -> str:
-        return ""
+        return "Set an integer value in array parameter 1 at index parameter 2 (base 0) to the value of parameter 3 "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -998,7 +998,7 @@ class siv(ZIP):
 class gsv(ZIP):
     #__str__ :: gsv -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the string value in array parameter 2 at index parameter 3 (base 0) "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1008,7 +1008,7 @@ class gsv(ZIP):
 class gfv(ZIP):
     #__str__ :: gfv -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the float value in array parameter 2 at index parameter 3 (base 0) "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1017,7 +1017,7 @@ class gfv(ZIP):
 class sfv(ZIP):
     #__str__ :: sfv -> String
     def __str__(self) -> str:
-        return ""
+        return "Set an float value in array parameter 1 at index parameter 2 (base 0) to the value of parameter 3 "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1026,7 +1026,7 @@ class sfv(ZIP):
 class fia(ZIP):
     #__str__ :: fia -> String
     def __str__(self) -> str:
-        return ""
+        return "Resizes the integer array in parameter 1 to the size parameter 2 (base 0), preserving data "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1034,7 +1034,7 @@ class fia(ZIP):
 class zia(ZIP):
     #__str__ :: zia -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the size of the integer array in parameter 2 "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1042,7 +1042,7 @@ class zia(ZIP):
 class fsa(ZIP):
     #__str__ :: fsa -> String
     def __str__(self) -> str:
-        return ""
+        return "Resizes the string array in parameter 1 to the size parameter 2 (base 0), preserving data "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1050,7 +1050,7 @@ class fsa(ZIP):
 class zsa(ZIP):
     #__str__ :: zsa -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the size of the string array in parameter 2 "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1058,7 +1058,7 @@ class zsa(ZIP):
 class ffa(ZIP):
     #__str__ :: ffa -> String
     def __str__(self) -> str:
-        return ""
+        return "Resizes the float array in parameter 1 to the size parameter 2 (base 0), preserving data "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1066,13 +1066,13 @@ class ffa(ZIP):
 class zfa(ZIP):
     #__str__ :: zfa -> String
     def __str__(self) -> str:
-        return ""
+        return "Set parameter 1 to the size of the float array in parameter 2 "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
         super().__init__(isInALoop)
 
-#one dubble removed
+#todo check ff of dat goed is: one dubble removed
 ##################################
 ########## EXE Tokens ############
 class EXE(Token):
@@ -1083,7 +1083,7 @@ class EXE(Token):
 class sia(EXE):
     #__str__ :: sia -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the string value in parameter 2 into the integer array in parameter 1 where each integer represents a character code "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1091,7 +1091,7 @@ class sia(EXE):
 class ssa(EXE):
     #__str__ :: ssa -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the string value in parameter 2 into the string array in parameter 1 by splitting it using the string value parameter 3 as a delimiter "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1100,7 +1100,7 @@ class ssa(EXE):
 class sti(EXE):
     #__str__ :: sti -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the string value in parameter 2 into the integer variable in parameter 1 by interpreting the base 10 value represented by the string "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1108,7 +1108,7 @@ class sti(EXE):
 class stf(EXE):
     #__str__ :: stf -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the string value in parameter 2 into the float variable in parameter 1 by interpreting the decimal value represented by the string "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1116,7 +1116,7 @@ class stf(EXE):
 class stc(EXE):
     #__str__ :: stc -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the string value in parameter 2 into the integer variable in parameter 1 by retrieving the character code of the character at index parameter 3 (base 0) in the string "
     def __init__(self, parameter1, parameter2, parameter3, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1125,7 +1125,7 @@ class stc(EXE):
 class its(EXE):
     #__str__ :: its -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the integer value in parameter 2 into the string variable in parameter 1 by converting it into a base 10 string representation "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1133,7 +1133,7 @@ class its(EXE):
 class itf(EXE):
     #__str__ :: itf -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the integer value in parameter 2 into the float variable in parameter 1 using equivalence"
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1141,7 +1141,7 @@ class itf(EXE):
 class ias(EXE):
     #__str__ :: ias -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the integer array in parameter 2 into the string variable in parameter 1 by converting each integer element of the array into a character with the character code specified by the value "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1149,7 +1149,7 @@ class ias(EXE):
 class aif(EXE):
     #__str__ :: aif -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the integer array in parameter 2 into the float array in parameter 1 by transforming each element using equivalence "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1157,7 +1157,7 @@ class aif(EXE):
 class fts(EXE):
     #__str__ :: fts -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the float value in parameter 2 into the string variable in parameter 1 by converting it into a standard format decimal string representation "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1165,7 +1165,7 @@ class fts(EXE):
 class fti(EXE):
     #__str__ :: fti -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the float value in parameter 2 into the integer variable in parameter 1 using euqivalence "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1173,7 +1173,7 @@ class fti(EXE):
 class afi(EXE):
     #__str__ :: afi -> String
     def __str__(self) -> str:
-        return ""
+        return "Converts the float array in parameter 2 into the integer array in parameter 1 by transforming each element using equivalence "
     def __init__(self, parameter1, parameter2, isInALoop : int):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
@@ -1189,132 +1189,132 @@ class DLL(Token):
 class psh(DLL):
     #__str__ :: psh -> String
     def __str__(self) -> str:
-        return ""
+        return "Pushes the integer value onto the stack "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class pop(DLL):
     #__str__ :: pop -> String
     def __str__(self) -> str:
-        return ""
+        return "Set the specified integer variable to the value popped from the stack. An exception is thrown if the stack is empty."
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class spk(DLL):
     #__str__ :: spk -> String
     def __str__(self) -> str:
-        return ""
+        return "Set the specified integer variable to the value peeked from the stack. An exception is thrown if the stack is empty. "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class ssz(DLL):
     #__str__ :: ssz -> String
     def __str__(self) -> str:
-        return ""
+        return "Set the specified integer variable to the value of the size of the stack "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class enq(DLL):
     #__str__ :: enq -> String
     def __str__(self) -> str:
-        return ""
+        return "Euqueues the specified integer value in the queue "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class deq(DLL):
     #__str__ :: deq -> String
     def __str__(self) -> str:
-        return ""
+        return "Set the specified integer variable to the value dequeued from the queue. An exception is thrown if the queue is empty. "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class qpk(DLL):
     #__str__ :: qpk -> String
     def __str__(self) -> str:
-        return ""
+        return "Set the specified integer variable to the value peeked from the queue. An exception is thrown if the queue is empty. "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class qsz(DLL):
     #__str__ :: qsz -> String
     def __str__(self) -> str:
-        return ""
+        return "Set the specified integer variable to the value of the size of the queue "
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
 class tpl(DLL):
     #__str__ :: tpl -> String
     def __str__(self) -> str:
-        return ""
+        return "Moves the tape left "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class tpr(DLL):
     #__str__ :: tpr -> String
     def __str__(self) -> str:
-        return ""
+        return "Moves the tape right "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class tsv(DLL):
     #__str__ :: tsv -> String
     def __str__(self) -> str:
-        return ""
+        return "Sets the current element of the tape to the specified integer value "
     def __init__(self,parameter1, isInALoop : int):
         super().__init__(isInALoop)
         self.parameter1 = parameter1
 class tgv(DLL):
     #__str__ :: tgv -> String
     def __str__(self) -> str:
-        return ""
+        return "Sets the specified integer variable to the value of the current element of the tape "
     def __init__(self,parameter1, isInALoop : int):
         super().__init__(isInALoop)
         self.parameter1 = parameter1
 class gbe(DLL):
     #__str__ :: gbe -> String
     def __str__(self) -> str:
-        return ""
+        return "Changes the error handling mode to global "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class gen(DLL):
     #__str__ :: gen -> String
     def __str__(self) -> str:
-        return ""
+        return "Turns global errors on (exception handling off) "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class gef(DLL):
     #__str__ :: gef -> String
     def __str__(self) -> str:
-        return ""
+        return "Turns global errors off (exception handling on) "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class lce(DLL):
     #__str__ :: lce -> String
     def __str__(self) -> str:
-        return ""
+        return "Changes the error handling mode to local "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class lcn(DLL):
     #__str__ :: lcn -> String
     def __str__(self) -> str:
-        return ""
+        return "Turns local errors on (exception handling off) "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class lcf(DLL):
     #__str__ :: lcf -> String
     def __str__(self) -> str:
-        return ""
+        return "Turns local errors off (exception handling on) "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 class ges(DLL):
     #__str__ :: ges -> String
     def __str__(self) -> str:
-        return ""
-    def __init__(self,parameter1 ,isInALoop : int):
+        return "Sets the specified string variable to the error message from the last caught exception in the given scope "
+    def __init__(self, parameter1 : str, isInALoop : int):
         super().__init__(isInALoop)
         self.parameter1 = parameter1
 class ces(DLL):
     #__str__ :: ces -> String
     def __str__(self) -> str:
-        return ""
+        return "Clears the error string in the given scope "
     def __init__(self, isInALoop : int):
         super().__init__(isInALoop)
 
@@ -1326,84 +1326,84 @@ class CSV(Token):
         return "Manages, creates, and destroys variables and arrays"
 
 class cia(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: cia -> String
     def __str__(self) -> str:
         return "Creates an integer array with the specified variable name"
 class civ(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: civ -> String
     def __str__(self) -> str:
         return "Creates an integer variable with the specified variable name"
 class csa(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: csa -> String
     def __str__(self) -> str:
         return "Creates a string array with the specified variable name"
 class csv(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: csv -> String
     def __str__(self) -> str:
-        return self.name #Creates a string variable with the specified variable name
+        return self.parameter1 #Creates a string variable with the specified variable name
 class cfa(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: cfa -> String
     def __str__(self) -> str:
         return "Creates a float array with the specified variable name"
 class cfv(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str ,isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: cfv -> String
     def __str__(self) -> str:
         return "Creates a float variable with the specified variable name"
 class dia(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dia -> String
     def __str__(self) -> str:
         return "Deletes an integer array with the specified variable name"
-class div(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+class div_csv(CSV):
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: div -> String
     def __str__(self) -> str:
         return "Deletes an integer variable with the specified variable name"
 class dsa(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1 : str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dsa -> String
     def __str__(self) -> str:
         return "Deletes a string array with the specified variable name"
 class dsv(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1: str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dsv -> String
     def __str__(self) -> str:
         return "Deletes a string variable with the specified variable name"
 class dfa(CSV):
-    def __init__(self, name,isInALoop : int):
-        self.name = name
+    def __init__(self, parameter1:str, isInALoop : int):
+        self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dfa -> String
     def __str__(self) -> str:
         return "Deletes a float array with the specified variable name"
-class dfv(CSV):
-    def __init__(self, parameter1,isInALoop : int):
+class dfv_csv(CSV):
+    def __init__(self, parameter1: str, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
     #__str__ :: dfv -> String
@@ -1415,7 +1415,7 @@ class dfv(CSV):
 class LNK(Token):
     #__str__ :: LNK -> String
     def __str__(self) -> str:
-        return "function calls and the like. Not in orignal Dirst added for requirement for ATP school project"
+        return "function calls and the like. Not in original Dirst added for requirement for ATP school project"
 
 class run(LNK):#todo: add documentation and examples
     def __init__(self, functionName, parameterVar, returnVar ,isInALoop : int) -> None:
@@ -1427,18 +1427,6 @@ class run(LNK):#todo: add documentation and examples
     #__str__ :: run -> String
     def __str__(self) -> str:
         return "call function with name functionName and pass parameterVar as parameter and save result to returnVar"
-
-class ifrtn(LNK):#todo: maybe change or remove
-    def __init__(self, parameter1,parameter2,parameter3,isInALoop : int) -> None:
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-        super().__init__(isInALoop)
-        
-    #__str__ :: ifrtn -> String
-    def __str__(self) -> str:
-        return "return parameter3 from a function if parameter1 is equal to parameter2"
-
 class rtn(LNK):#todo: maybe change or remove
     def __init__(self, parameter1, isInALoop : int) -> None:
         self.parameter1 = parameter1
@@ -1446,7 +1434,9 @@ class rtn(LNK):#todo: maybe change or remove
     #__str__ :: rtn -> String
     def __str__(self) -> str:
         return "return parameter 1 to function, the value of variable of parameter 1 is: " + str(self.parameter1)
-
+    
+##################################
+########## ERR Tokens ############
 class ERR(Token):
     def __init__(self, message: str) -> None:
         super().__init__(-1)#needed for uper class to work, but not used, because this is an error
