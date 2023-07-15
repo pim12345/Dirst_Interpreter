@@ -1,8 +1,8 @@
 	fnc_sommig_n
 	civ_result.csv
-	civ_compare.csv
-	max_compare_n_0.dat
 	set_result_0.dat
+	civ_compare.csv
+	get_compare_n_1.dat
 		lpc_compare
 		add_result_result_n.dat
 		sub_n_n_1.dat

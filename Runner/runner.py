@@ -407,10 +407,10 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, l
     #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
     if state.memory[state.variablenamesDictionary[loopname]] == 0:
-        return state, output#todo is this correct functional programming?
-    else:
         code_, codePtr_, state_, output_, functions_ = runABlock(loop.code,0,state,output, functions)
         return runLoopWhileZero(loop, state_, output_, loopname, functions_)
+    else:
+        return state, output#todo is this correct functional programming?
 
 #runLoopWhileNotZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
 def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : Callable, loopname : str, functions: CodeBlock) -> Tuple[ProgramState, Callable]:
@@ -418,7 +418,7 @@ def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : Callable
     #print(state.pointer)
     #if(state.memory[state.pointer]!=0):
     if state.memory[state.variablenamesDictionary[loopname]] != 0:
-        return state, output
-    else:
         code_, codePtr_, state_, output_, functions_ = runABlock(loop, 0, state, output, functions)
         return runLoopWhileNotZero(loop, state_, output_, loopname, functions_)
+    else:
+        return state, output
