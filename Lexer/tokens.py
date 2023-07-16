@@ -61,7 +61,7 @@ class fnc(Directory):
     #__str__ :: fnc -> String
     def __str__(self) -> str:
         return "Execute all subitems in the directory"
-class dif_(Directory):
+class dif_directory(Directory):
     def __init__(self, parameter1, isInALoop : int):
         self.parameter1 = parameter1
         super().__init__(isInALoop)
@@ -134,7 +134,7 @@ class add(DAT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-class sub_(DAT):
+class sub_dat(DAT):
     #__str__ :: sub_ -> String
     def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: minus parameter 3:"
@@ -470,7 +470,7 @@ class rep(TXT):
         self.parameter3 = parameter3
         self.parameter4 = parameter4
         super().__init__(isInALoop)
-class sub(TXT):
+class sub_txt(TXT):
     #__str__ :: sub -> String
     def __str__(self) -> str:
         return "Set parameter 1 to the substring of parameter 2 from index parameter 3 (base 0) of length parameter 4"
@@ -563,7 +563,7 @@ class sam(TXT):
         self.parameter2 = parameter2
         self.parameter3 = parameter3
         super().__init__(isInALoop)
-class dif(TXT):
+class dif_txt(TXT):
     #__str__ :: dif -> String
     def __str__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is not equal to parameter 3, 0 otherwise"

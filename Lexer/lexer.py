@@ -111,7 +111,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "add":
             return add(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "sub":
-            return sub_(operator[1],operator[2],operator[3],isInALoop)
+            return sub_dat(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "mul":
             return mul(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "div":
@@ -193,7 +193,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "rep":
            return rep(operator[1],operator[2],operator[3],operator[4],isInALoop)
         elif operator[0] == "sub":
-           return sub(operator[1],operator[2],operator[3],operator[4],isInALoop)
+           return sub_txt(operator[1],operator[2],operator[3],operator[4],isInALoop)
         elif operator[0] == "rmv":
            return rmv(operator[1],operator[2],operator[3],operator[4],isInALoop)
         elif operator[0] == "ins":
