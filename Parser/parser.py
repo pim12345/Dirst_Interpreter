@@ -61,7 +61,7 @@ class DeclareFunction(SimpleStatement):
     def __init__(self, block : CodeBlock, functionName : str, functionInputVar : str):
         self.block = block
         self.functionName = functionName
-        self.functionInputVar = functionInputVar,
+        self.functionInputVar = functionInputVar
         super().__init__(Instruction_Variable_Type.Function)#not used, but becasue of inhertenace it is needed
     
     #__repr__ :: Function -> String
@@ -86,9 +86,9 @@ class CallFunction(SimpleStatement):
 class Loop(SimpleStatement):
     """a loop statement used to as the Directory subset of Dirst
     """    
-    def __init__(self, block : CodeBlock, parameter1 : str, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
+    def __init__(self, block : CodeBlock, varConditionName : str, whileZero: bool, loopAtLeastOnce : bool, onlyOneTime : bool):
         self.block = block     
-        self.parameter1 = parameter1
+        self.varConditionName = varConditionName
         self.whileZero = whileZero
         self.loopAtLeastOnce = loopAtLeastOnce
         self.onlyOneTime = onlyOneTime

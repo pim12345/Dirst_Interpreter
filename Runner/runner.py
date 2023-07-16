@@ -28,14 +28,14 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         if statement.parameter2 in state.variablenamesDictionary:
             parameter2_value = state.memory[state.variablenamesDictionary[statement.parameter2]]
         else:
-            parameter2_value = __builtins__[statement.instructionType.value[0]](statement.parameter2)#https://gist.github.com/mdogo/4947278 #todo check safety of this, and of allowed to use this
+            parameter2_value = __builtins__[statement.instructionType.value](statement.parameter2)#https://gist.github.com/mdogo/4947278 #todo check safety of this, and of allowed to use this
             #parameter2_value = statement.instructionType(statement.parameter2)#todo check if casting works, and if it works add documentation
             
     if hasattr(statement, 'parameter3'):#check if object has parameter3
         if statement.parameter3 in state.variablenamesDictionary:
             parameter3_value = state.memory[state.variablenamesDictionary[statement.parameter3]]
         else:
-            parameter3_value = __builtins__[statement.instructionType.value[0]](statement.parameter3)#todo check if casting works, and if it works add documentation #https://gist.github.com/mdogo/4947278
+            parameter3_value = __builtins__[statement.instructionType.value](statement.parameter3)#todo check if casting works, and if it works add documentation #https://gist.github.com/mdogo/4947278
     
     
     
@@ -270,44 +270,44 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             del state.variablenamesDictionary[statement.name]
             return runABlock(code, codePtr+1, state, output, functions)
         
-        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
+        case Loop(block=block,varConditionName=varConditionName,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
             statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop only once needs work!!!!!!!!!!!!!!!
             if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
                     return code, codePtr, state, output, functions
             return runABlock(code, codePtr+1, state, output, functions)
         
-        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
-            if state.memory[state.variablenamesDictionary[statement.varname]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
+        case Loop(block=block,varConditionName=varConditionName,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
+            if state.memory[state.variablenamesDictionary[statement.varConditionName]] != 0:#only checks if statemt is var name not if statement is int maybe implent in front code
                 statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)
                 if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
                     return code, codePtr, state, output, functions
                 return runABlock(code, codePtr+1, state_, output, functions)
             return runABlock(code, codePtr+1, state, output, functions)
         
-        case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=True):#nif
-            if state.memory[state.variablenamesDictionary[statement.varname]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
+        case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=False, onlyOneTime=True):#nif
+            if state.memory[state.variablenamesDictionary[statement.varConditionName]] == 0:#only checks if statemt is var name not if statement is int maybe implent in front code
                 statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)
                 if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
                     return code, codePtr, state, output, functions
                 return runABlock(code, codePtr+1, state_, output, functions)
             return runABlock(code, codePtr+1, state, output, functions)
 
-        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=False,onlyOneTime=False):#lpc # check if logic is good with if statement
-            state_, output = runLoopWhileNotZero(code.statements[codePtr].block, state, output, statement.varname, functions)
+        case Loop(block=block, varConditionName=varConditionName, whileZero=False, loopAtLeastOnce=False, onlyOneTime=False):#lpc # check if logic is good with if statement
+            state_, output = runLoopWhileNotZero(code.statements[codePtr].block, state, output, statement.varConditionName, functions)
             return runABlock(code, codePtr+1, state_, output, functions)
         
-        case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=False,onlyOneTime=False):#lpn
-            state_, output = runLoopWhileZero(code.statements[codePtr].block, state, output, statement.varname, functions)# check if logic is good with if statement in function
+        case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=False, onlyOneTime=False):#lpn
+            state_, output = runLoopWhileZero(code.statements[codePtr].block, state, output, statement.varConditionName, functions)# check if logic is good with if statement in function
             return runABlock(code, codePtr+1, state_, output, functions)
         
-        case Loop(block=block,varname=varname,whileZero=False,loopAtLeastOnce=True,onlyOneTime=False):#dlw
+        case Loop(block=block, varConditionName=varConditionName, whileZero=False, loopAtLeastOnce=True, onlyOneTime=False):#dlw
             statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
-            state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varname, functions)
+            state_, output = runLoopWhileNotZero(statementLoop, state_, output, statement.varConditionName, functions)
             return runABlock(code, codePtr+1, state_, output, functions)
         
-        case Loop(block=block,varname=varname,whileZero=True,loopAtLeastOnce=True,onlyOneTime=False):#dlu
+        case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=True, onlyOneTime=False):#dlu
             statementLoop, codePtr_, state_, output, functions = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
-            state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varname, functions)
+            state_, output = runLoopWhileZero(statementLoop, state_, output, statement.varConditionName, functions)
             return runABlock(code, codePtr+1, state_, output, functions)
         
         case ReturnFunction():
