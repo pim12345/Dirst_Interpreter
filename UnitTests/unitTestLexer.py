@@ -1315,7 +1315,7 @@ class TestLexerCSVSubset(unittest.TestCase):
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, "val1")
         self.assertIsInstance(lex_output[0], dfa)
-        
+
     def test_dfv_csv(self):
         dirstCode = ["dfv_val1.csv"]
         consoleInput = ""

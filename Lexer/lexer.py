@@ -89,7 +89,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     elif operator[0] == "fnc" and isInALoop > 0:
         return fnc(operator[1],operator[2], isInALoop)
     elif operator[0] == "dif" and isInALoop > 0:
-        return dif_(operator[1], isInALoop)
+        return dif_directory(operator[1], isInALoop)
     elif operator[0] == "nif" and isInALoop > 0:
         return nif(operator[1], isInALoop)
     elif operator[0] == "lpc" and isInALoop > 0:
@@ -213,7 +213,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "sam":
            return sam(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "dif":
-           return dif(operator[1],operator[2],operator[3],isInALoop)
+           return dif_txt(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "hiv":
            return hiv(operator[1],operator[2],operator[3],isInALoop)
         elif operator[0] == "lov":

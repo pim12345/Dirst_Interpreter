@@ -28,17 +28,19 @@ voorbeeld:
 # === README CHECKLIST ===
 Gekozen taal: [Dirst](https://esolangs.org/wiki/Dirst) moet nog werken aan bewijs
 
-Turing-compleet omdat:
+Dirst is Turing-compleet omdat: 
+    - de taal ondersteunin heeft voor opslag in een tape, met het lezen van de head, het wijzigen van de head en het verplaatsen naar links of rechts van de head. Waarbij de tape oneindig is.(https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/turing-machine/one.html)
+    - if statements ondersteund, loops ondersteund en variablen ondersteund
 
 Code is geschreven in functionele stijl.
 
-Taal ondersteunt:
+Taal ondersteunt: zie documentatie van de taal(https://esolangs.org/wiki/Dirst)
 
-Loops? Voorbeeld: [/Examples/Fib_seq.txt] - [7-12]
+Loops? Voorbeeld: [/UnitTests/TestCode/sommig.txt] - [6-9] - lpc keyword is: "Loop through directory subitems while the specified integer value is not zero"
 
-Goto-statements? Voorbeeld: [/Examples/even.txt] - [3]
+Goto-statements? Voorbeeld: [/UnitTests/TestCode/evenOdd.txt] - [20] - fnc keyword is aangepast zie hierboven
 
-Lambda-calculus? Voorbeeld: [/Examples/even.txt] - [3](denk ik?)
+Lambda-calculus? Voorbeeld: [/UnitTests/TestCode/evenOdd.txt] - [3]
 
 Bevat:
 
