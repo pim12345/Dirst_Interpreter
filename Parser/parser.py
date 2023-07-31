@@ -332,6 +332,7 @@ class ConvertType(Enum):
     absolute = "absolute",
     negative = "negative",
     bitWiseNot = "bitWiseNot",
+    RANDOM = "RANDOM",#rnd in bin subset in Dirst, maybe remove
     #upperCase = "upperCase",
 
 class valueConv(SimpleStatement):
@@ -457,23 +458,6 @@ class Stack(SimpleStatement):
     def __repr__(self):
         pass#todo implement stack and __repr__
 
-def parseFunctionBlock(tokens: List[Token], functions: CodeBlock) -> Tuple[List[Token], CodeBlock]:
-    pass
-
-def parse(tokens: List[Token]) -> Tuple[CodeBlock, CodeBlock]:
-    """Function used to parse a block of code to correct function to be used by the runner"""
-    code = CodeBlock()
-    return parseCodeBlock(tokens, CodeBlock(), CodeBlock()), parseFunctionBlock(tokens, CodeBlock(), CodeBlock())
-
-def parseCodeBlock(tokens: List[Token], code: CodeBlock) -> Tuple[List[Token], CodeBlock]:
-    if tokens == None or len(tokens) == 0:
-        return [], code
-    token, *rest = tokens
-    newFunction = parseFunctionBlock(tokens, CodeBlock())
-    return 
-    
-    
-
 #parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
 def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -> Tuple[List[Token], CodeBlock, CodeBlock]:
     """Function used to parse a block of code to correct function to be used by the runner
@@ -489,369 +473,375 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
     if tokens == None or len(tokens) == 0:
         return None, code, functions
     token, *rest = tokens
-    newCode = copy.deepcopy(code)
+    #newCode = copy.deepcopy(code)
+    #newCode = None
     
     if isinstance(token, ERR):
-        return tokens, newCode, functions
-    if isinstance(token, fnc) and newCode.nestLevel == 1 and token.isInALoop == 1:
+        return tokens, code, functions
+    if isinstance(token, fnc) and code.nestLevel == 1 and token.isInALoop == 1:
         #an other function is declared, but not be added to the current function
-        return tokens, newCode, functions
+        return tokens, code, functions
     
     if isinstance(token, Directory):
         newRest, block, functions_ = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop), functions)
-        if isinstance(token,fnc):
-            functions_.addStatement(DeclareFunction(block, token.parameter1, token.functionInput))#because enum has 
-        elif isinstance(token,dif_directory):
-            newCode.addStatement(Loop(block, token.parameter1,False,False,True))
-        elif isinstance(token,nif):
-            newCode.addStatement(Loop(block, token.parameter1,True,False,True))
-        elif isinstance(token,lpc):
-            newCode.addStatement(Loop(block, token.parameter1,False,False,False))
-        elif isinstance(token,lpn):
-            newCode.addStatement(Loop(block, token.parameter1,True,False,False))
-        elif isinstance(token,dlw):
-            newCode.addStatement(Loop(block, token.parameter1,False,True,False))
-        elif isinstance(token,dlu):
-            newCode.addStatement(Loop(block, token.parameter1,True,True,False))
+        if isinstance(token, fnc):
+            functions__ = functions_.addStatement(DeclareFunction(block, token.parameter1, token.functionInput))#because enum has 
+            return parseCodeBlock(newRest, code, functions__)
+        elif isinstance(token, dif_directory):
+            newCode = code.addStatement(Loop(block, token.parameter1,False,False,True))
+        elif isinstance(token, nif):
+            newCode = code.addStatement(Loop(block, token.parameter1,True,False,True))
+        elif isinstance(token, lpc):
+            newCode = code.addStatement(Loop(block, token.parameter1,False,False,False))
+        elif isinstance(token, lpn):
+            newCode = code.addStatement(Loop(block, token.parameter1,True,False,False))
+        elif isinstance(token, dlw):
+            newCode = code.addStatement(Loop(block, token.parameter1,False,True,False))
+        elif isinstance(token, dlu):
+            newCode = code.addStatement(Loop(block, token.parameter1,True,True,False))
         return parseCodeBlock(newRest, newCode, functions_)
     
-    if token.isInALoop is not newCode.nestLevel:
-        return tokens, newCode, functions
+    if token.isInALoop is not code.nestLevel:
+        return tokens, code, functions
       
     elif isinstance(token, DAT):
         if isinstance(token, abs):
-            newCode.addStatement(valueConv(token.parameter1,token.parameter2, ConvertType.absolute, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(valueConv(token.parameter1,token.parameter2, ConvertType.absolute, Instruction_Variable_Type.Integer))
         elif isinstance(token, neg):
-            newCode.addStatement(valueConv(token.parameter1,token.parameter2, ConvertType.negative, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(valueConv(token.parameter1,token.parameter2, ConvertType.negative, Instruction_Variable_Type.Integer))
         elif isinstance(token, add):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, sub_dat):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mul):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.multiply, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.multiply, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, div_dat):#TODO: check for interference
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mod):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.modulo, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.modulo, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, and_):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.andOp, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.andOp, Instruction_Variable_Type.Integer))
         elif isinstance(token, orb):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.orb, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.orb, Instruction_Variable_Type.Integer))
         elif isinstance(token, xor_dat):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.xor, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.xor, Instruction_Variable_Type.Integer))
         elif isinstance(token, xad):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.xad, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.xad, Instruction_Variable_Type.Integer))
         elif isinstance(token, nad):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.nad, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.nad, Instruction_Variable_Type.Integer))
         elif isinstance(token, nor):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.nor, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.nor, Instruction_Variable_Type.Integer))
         elif isinstance(token, not_):
-            newCode.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.bitWiseNot, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.bitWiseNot, Instruction_Variable_Type.Integer))
         elif isinstance(token, mor):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATER, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATER, Instruction_Variable_Type.Integer))
         elif isinstance(token, les):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESS, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESS, Instruction_Variable_Type.Integer))
         elif isinstance(token, equ):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.EQUAL, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.EQUAL, Instruction_Variable_Type.Integer))
         elif isinstance(token, neq):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.NOTEQUAL, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.NOTEQUAL, Instruction_Variable_Type.Integer))
         elif isinstance(token, get):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATEREQUAL, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATEREQUAL, Instruction_Variable_Type.Integer))
         elif isinstance(token, let):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Integer))
         elif isinstance(token, rdi):
-            newCode.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))
         elif isinstance(token, ric):
-            newCode.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))#TODO: set to -1 if eof not implemented
+            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))#TODO: set to -1 if eof not implemented
         elif isinstance(token, dsi):
-            newCode.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))
         elif isinstance(token, dic):
-            newCode.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))#todo display char of int
-            # newCode.addStatement(displayValue(token.parameter1))
+            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))#todo display char of int
+            # newCode = code.addStatement(displayValue(token.parameter1))
         elif isinstance(token, set):
-            newCode.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Integer))
         elif isinstance(token, max_):
-            newCode.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsType.maxVal, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsType.maxVal, Instruction_Variable_Type.Integer))
         elif isinstance(token, min_):
-            newCode.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsType.minVal, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsType.minVal, Instruction_Variable_Type.Integer))
     elif isinstance(token, TXT):
         if isinstance(token, rdc):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rds):#no input from console because of functional programming is that not allowed
-            newCode.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.String))
+            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.String))
         elif isinstance(token, eof):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
-            #newCode.addStatement(displayValue(token.parameter1, True))#implement now good according to spec @todo
-            newCode.addStatement(NotImplemented())
+            #newCode = code.addStatement(displayValue(token.parameter1, True))#implement now good according to spec @todo
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dss):
-            newCode.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.String))
+            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.String))
         elif isinstance(token, dsl):
-            newCode.addStatement(displayValue(token.parameter1, True, Instruction_Variable_Type.String))
+            newCode = code.addStatement(displayValue(token.parameter1, True, Instruction_Variable_Type.String))
         elif isinstance(token, dec):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, des):
-            newCode.addStatement(NotImplemented())#error stream is using output #todo maybe implement error stream
+            newCode = code.addStatement(NotImplemented())#error stream is using output #todo maybe implement error stream
         elif isinstance(token, del_):
-            newCode.addStatement(NotImplemented())#todo maybe implement error stream instead of using normal stream
+            newCode = code.addStatement(NotImplemented())#todo maybe implement error stream instead of using normal stream
         elif isinstance(token, clr):
-            newCode.addStatement(setValue(token.parameter1, "", Instruction_Variable_Type.String))# vervang door var op 0 te zetten of nullptr#TODO TEST of dit werkt nog niet getest
+            newCode = code.addStatement(setValue(token.parameter1, "", Instruction_Variable_Type.String))# vervang door var op 0 te zetten of nullptr#TODO TEST of dit werkt nog niet getest
         elif isinstance(token, cat):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.String))#concat in python is just string 1 plus string 2
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.String))#concat in python is just string 1 plus string 2
         elif isinstance(token, idx):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ids):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, lid):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rep):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, sub_txt):#check if correct class
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rmv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ins):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, tou):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, tol):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, pdl):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, cpl):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, pdr):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, cpr):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, sam):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dif_txt):#check if correct dif class also in lexer
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, hiv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, lov):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, hev):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, lev):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ssw):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, sew):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, trm):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, tms):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, tme):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ses):
-            newCode.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.String))
+            newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.String))
         
-        #newCode.addStatement(displayValue(token.parameter1))
+        #newCode = code.addStatement(displayValue(token.parameter1))
     elif isinstance(token, BIN):
         if isinstance(token, pls):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.Float))
         elif isinstance(token, mns):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minus, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minus, Instruction_Variable_Type.Float))
         elif isinstance(token, tms):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.multiply, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.multiply, Instruction_Variable_Type.Float))
         elif isinstance(token, dvb):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Float))
         elif isinstance(token, pwr):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, token.parameter3, MathFloatType.power))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, token.parameter3, MathFloatType.power))
         elif isinstance(token, sgn):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.sign))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.sign))
         elif isinstance(token, sqr):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.squareRoot))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.squareRoot))
         elif isinstance(token, sin):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.sin))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.sin))
         elif isinstance(token, cos):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.cos))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.cos))
         elif isinstance(token, tan):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.tan))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.tan))
         elif isinstance(token, snh):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicSin))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicSin))
         elif isinstance(token, csh):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicCos))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicCos))
         elif isinstance(token, tnh):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicTan))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicTan))
         elif isinstance(token, cil):
-            newCode.addStatement(roundValue(token.parameter1, token.parameter2, True))
+            newCode = code.addStatement(roundValue(token.parameter1, token.parameter2, True))
         elif isinstance(token, flr):
-            newCode.addStatement(roundValue(token.parameter1, token.parameter2, False))
+            newCode = code.addStatement(roundValue(token.parameter1, token.parameter2, False))
         elif isinstance(token, log):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.logBase10))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.logBase10))
         elif isinstance(token, lge):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.logNatural))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.logNatural))
         elif isinstance(token, lbq):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.log))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.log))
         elif isinstance(token, epw):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.eToPower))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.eToPower))
         elif isinstance(token, avl):
-            newCode.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.absolute, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.absolute, Instruction_Variable_Type.Float))
         elif isinstance(token, rnd):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rou):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, asn):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseSin))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseSin))
         elif isinstance(token, acs):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseCos))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseCos))
         elif isinstance(token, atn):
-            newCode.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseTan))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseTan))
         elif isinstance(token, mks):
-            newCode.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Float))#check if good?
+            newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Float))#check if good?
         elif isinstance(token, fmx):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.maxVal, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.maxVal, Instruction_Variable_Type.Float))
         elif isinstance(token, fmn):
-            newCode.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minVal, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minVal, Instruction_Variable_Type.Float))
         elif isinstance(token, grt):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATER, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATER, Instruction_Variable_Type.Float))
         elif isinstance(token, lst):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESS, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESS, Instruction_Variable_Type.Float))
         elif isinstance(token, eqt):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.EQUAL, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.EQUAL, Instruction_Variable_Type.Float))
         elif isinstance(token, net):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.NOTEQUAL, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.NOTEQUAL, Instruction_Variable_Type.Float))
         elif isinstance(token, gte):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATEREQUAL, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.GREATEREQUAL, Instruction_Variable_Type.Float))
         elif isinstance(token, lte):
-            newCode.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Float))#INSTRUCTION IS WRONG IN DOCUMENTATION ON WEBSITE, THERE IS GTE AND LTE both greater then or equal. But of course lte must be less then equal 
+            newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Float))#INSTRUCTION IS WRONG IN DOCUMENTATION ON WEBSITE, THERE IS GTE AND LTE both greater then or equal. But of course lte must be less then equal 
         elif isinstance(token, rfv):
-            newCode.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Float))#todo fix console reading
+            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Float))#todo fix console reading
         elif isinstance(token, dfv_bin):
-            newCode.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Float))#todo fix console reading
+            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Float))#todo fix console reading
         
     elif isinstance(token, ZIP):
         if isinstance(token, giv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, siv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, gsv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, siv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, gfv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, sfv):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, fia):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, zia):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, fsa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, zsa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ffa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, zfa):
-            newCode.addStatement(NotImplemented())
-        #newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
+        #newCode = code.addStatement(NotImplemented())
     elif isinstance(token, EXE):
         if isinstance(token, sia):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ssa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, sti):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, stf):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, stc):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, its):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, itf):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ias):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, aif):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, fts):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, fti):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, afi):
-            newCode.addStatement(NotImplemented())
-        #newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
+        #newCode = code.addStatement(NotImplemented())
     elif isinstance(token, DLL):
         if isinstance(token, psh):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, pop):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, spk):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ssz):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, enq):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, deq):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, qpk):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, qsz):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, tpl):
-            newCode.addStatement(Tape(TapeAction.MoveLeft))
+            newCode = code.addStatement(Tape(TapeAction.MoveLeft))
         elif isinstance(token, tpr):
-            newCode.addStatement(Tape(TapeAction.MoveRight))
+            newCode = code.addStatement(Tape(TapeAction.MoveRight))
         elif isinstance(token, tsv):
-            newCode.addStatement(Tape(token.parameter1, TapeAction.ReadCurrentElementPosition))
+            newCode = code.addStatement(Tape(token.parameter1, TapeAction.ReadCurrentElementPosition))
         elif isinstance(token, tgv):
-            newCode.addStatement(Tape(token.parameter1, TapeAction.WriteElementToCurrentPosition))
+            newCode = code.addStatement(Tape(token.parameter1, TapeAction.WriteElementToCurrentPosition))
         elif isinstance(token, gbe):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, gen):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, gef):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, lce):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, lcn):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, lcf):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ges):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ces):
-            newCode.addStatement(NotImplemented())
-        #newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
+        #newCode = code.addStatement(NotImplemented())
     elif isinstance(token, CSV):
         if isinstance(token, cia):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, civ):
-            newCode.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Integer))
         elif isinstance(token, csa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, csv):
-            newCode.addStatement(createVar(token.parameter1, Instruction_Variable_Type.String))
+            newCode = code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.String))
         elif isinstance(token, cfa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, cfv):
-            newCode.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Float))
         elif isinstance(token, dia):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, div_csv):
-            newCode.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Integer))
         elif isinstance(token, dsa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dsv):
-            newCode.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.String))
+            newCode = code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.String))
         elif isinstance(token, dfa):
-            newCode.addStatement(NotImplemented())
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dfv_csv): 
-            newCode.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Float))
-            #newCode.addStatement(displayValue(token.parameter1, False))?????
+            newCode = code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Float))
+            #newCode = code.addStatement(displayValue(token.parameter1, False))?????
         #else: 
-        #    newCode.addStatement(createVar(token.parameter1))
+        #    newCode = code.addStatement(createVar(token.parameter1))
     elif isinstance(token, LNK):
         if isinstance(token, run):
-            newCode.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))
+            newCode = code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))
         elif isinstance(token,rtn):
-            newCode.addStatement(ReturnFunction(token.parameter1))    
+            newCode = code.addStatement(ReturnFunction(token.parameter1))    
     if len(tokens) >= 2:#needed because if loop closes 2 times it will not correctly work because it will not close the loop 2 times
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest, newCode, functions
-    return parseCodeBlock(rest, newCode, functions)
+    
+    if 'newCode' in locals():
+        return parseCodeBlock(rest, newCode, functions)
+    else:
+        return parseCodeBlock(rest, code, functions)

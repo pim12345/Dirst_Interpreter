@@ -5,6 +5,7 @@ from Parser.parser import *
 from Tools.tools import *
 import math
 from operator import xor
+import random
 import copy#todo check of niet standaard package is anders ff toevoegen aan requirements.txt
 
 class ProgramState:
@@ -252,6 +253,9 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.negative):
             newState.memory[newState.variableNamesDictionary[statement.parameter1]] = -parameter2_value#todo need to test if good negative value, otherwise use ~abs
+            
+        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.RANDOM):
+            newState.memory[newState.variableNamesDictionary[statement.parameter1]] = random.randint(parameter2_value, parameter3_value)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseSin):
             newState.memory[newState.variableNamesDictionary[statement.parameter1]] = math.asin(parameter2_value)
