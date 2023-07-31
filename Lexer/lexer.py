@@ -127,7 +127,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "orb":
             return orb(operator[1], operator[2], operator[3], isInALoop)
         elif operator[0] == "xor":
-            return xor(operator[1], operator[2], operator[3], isInALoop)
+            return xor_dat(operator[1], operator[2], operator[3], isInALoop)
         elif operator[0] == "xad":
             return xad(operator[1], operator[2], operator[3], isInALoop)
         elif operator[0] == "nad":
@@ -191,7 +191,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "idx":
            return idx(operator[1], operator[2], operator[3], isInALoop)
         elif operator[0] == "ids":
-           return ids(operator[1], operator[2], operator[3], isInALoop)
+           return ids(operator[1], operator[2], operator[3], operator[4], isInALoop)
         elif operator[0] == "lid":
            return lid(operator[1], operator[2], operator[3], isInALoop)
         elif operator[0] == "rep":

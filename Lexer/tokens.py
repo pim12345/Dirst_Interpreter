@@ -219,7 +219,7 @@ class orb(DAT):
         self.parameter3 = parameter3
         super().__init__(isInALoop)
         
-class xor(DAT):
+class xor_dat(DAT):
     #__str__ :: xor -> String
     def __str__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise xor parameter 3:"

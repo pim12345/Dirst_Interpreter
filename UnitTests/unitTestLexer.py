@@ -155,7 +155,7 @@ class TestLexerDATSubset(unittest.TestCase):
         self.assertEqual(lex_output[0].parameter1, 'val1')
         self.assertEqual(lex_output[0].parameter2, 'val2')
         self.assertEqual(lex_output[0].parameter3, 'val3')
-        self.assertIsInstance(lex_output[0], xor)
+        self.assertIsInstance(lex_output[0], xor_dat)
         
     def test_xad(self):
         dirstCode = ["xad_val1_val2_val3.dat"]
