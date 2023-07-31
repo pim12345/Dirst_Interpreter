@@ -21,7 +21,7 @@ class ProgramState:
         return "ptr: " + str(self.pointer) + " val: " + str(self.memory) + " varname dictionary: " + str(self.variableNamesDictionary)
 
 
-#runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> (CodeBlock, int, ProgramState, Callable)
+#runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> CodeBlock -> (CodeBlock, Integer, ProgramState, Callable)
 def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callable, functions: CodeBlock) -> Tuple[CodeBlock, int, ProgramState, Callable, CodeBlock]:
     if(codePtr >= len(code.statements) or codePtr < 0):
         return code, codePtr, state, output, functions

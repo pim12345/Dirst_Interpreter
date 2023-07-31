@@ -36,15 +36,13 @@ Code is geschreven in functionele stijl.
 
 Taal ondersteunt: zie documentatie van de taal(https://esolangs.org/wiki/Dirst)
 
-Loops? Voorbeeld: [/UnitTests/TestCode/sommig.txt] - [6-9] - lpc keyword is: "Loop through directory subitems while the specified integer value is not zero"
+Loops Voorbeeld: [/UnitTests/TestCode/sommig.txt] - [6-9] - lpc keyword is: "Loop through directory subitems while the specified integer value is not zero"
 
-Goto-statements? Voorbeeld: [/UnitTests/TestCode/evenOdd.txt] - [20] - fnc keyword is aangepast zie hierboven
-
-Lambda-calculus? Voorbeeld: [/UnitTests/TestCode/evenOdd.txt] - [3]
+functies Voorbeeld: [/UnitTests/TestCode/evenOdd.txt] - [20] - fnc keyword is aangepast zie hierboven
 
 Bevat:
 
-Classes met inheritance: bijvoorbeeld [tokens.py] - [36-40]
+Classes met inheritance: bijvoorbeeld [/Parser/tokens.py] - alle tokens zijn classes met inheritance van de hoofd token classe(met als tussenstap de dirst-subset classes)
 
 Object-printing voor elke class: [ja]
 
