@@ -63,6 +63,7 @@ class DeclareFunction(SimpleStatement):
         self.functionName = functionName
         self.functionInputVar = functionInputVar
         super().__init__(Instruction_Variable_Type.Function)#not used, but because of inheritance it is needed
+        #super().__init__(Instruction_Variable_Type.Integer)#all functions instrunctions with an compare are compared to integers
     
     #__repr__ :: DeclareFunction -> String
     def __repr__(self) -> str:
@@ -441,7 +442,7 @@ class NotImplemented(SimpleStatement):
 class ReturnFunction(SimpleStatement):
     def __init__(self, parameter1: str):
        self.parameter1 = parameter1
-       super().__init__(Instruction_Variable_Type.Function)
+       super().__init__(Instruction_Variable_Type.Integer)
     
     # __repr__ :: ReturnFunction -> String
     def __repr__(self):
@@ -836,7 +837,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         if isinstance(token, run):
             newCode = code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))
         elif isinstance(token,rtn):
-            newCode = code.addStatement(ReturnFunction(token.parameter1))    
+            newCode = code.addStatement(ReturnFunction(token.parameter1))#todo add return float and string type in instruction subset and everywhere else
     if len(tokens) >= 2:#needed because if loop closes 2 times it will not correctly work because it will not close the loop 2 times
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest, newCode, functions

@@ -1,4 +1,4 @@
-from typing import List, Tuple, Callable, Any
+from typing import List, Tuple, Callable, Self, Any
 from Lexer.tokens import *
 from Lexer.lexer import *
 from Parser.parser import *
@@ -8,25 +8,17 @@ from operator import xor
 import random
 import copy#todo check of niet standaard package is anders ff toevoegen aan requirements.txt
 
-class ProgramState:
-    def __init__(self):
-        self.pointer = 1#need to clear register 0 for loops and arguments
-        self.memory = [math.nan]*10#om de 2 registers is eerste de identifyer de 2e is de variable value
-        self.variableNamesDictionary = {}
-        self.stack = []#todo idk if good if add so, os maybe remove
-        self.tape = [math.nan]#todo idk if good if add so, os maybe remove
-        self.tapePointer = 0#todo idk if good if add so, os maybe remove
-
-    def __init__(self, pointer: int, memory: List[int], variableNamesDictionary: dict, stack: List[int], tape: List[int], tapePointer: int):
-        self.pointer = pointer
-        self.memory = memory
+class ProgramState():
+    def __init__(self, pointer: int=1, memory: List[int]=[math.nan]*10, variableNamesDictionary: dict={}, stack: List[int]=[], tape: List[int]=[math.nan], tapePointer: int=0):#overloading didnt work so this is the solution
+        self.pointer = pointer#need to clear register 0 for loops and arguments
+        self.memory = memory#om de 2 registers is eerste de identifyer de 2e is de variable value
         self.variableNamesDictionary = variableNamesDictionary
-        self.stack = stack
-        self.tape = tape
-        self.tapePointer = tapePointer
+        self.stack = stack#todo idk if good if add so, os maybe remove
+        self.tape = tape#todo idk if good if add so, os maybe remove
+        self.tapePointer = tapePointer#todo idk if good if add so, os maybe remove
     
     #changeStatePointer :: ProgramState -> int -> ProgramState
-    def changeStateMemory(self, index: int, value: int) -> self:
+    def changeStateMemory(self, index: int, value: int ) -> Self:#todo add string type to value
         #self.memory[index] = value
         #this is because of functional programming
         newMemoryState = self.memory[:index]+[value]+self.memory[index+1:]#https://www.geeksforgeeks.org/python-list-slicing/
@@ -34,18 +26,18 @@ class ProgramState:
         return ProgramState(self.pointer, newMemoryState, self.variableNamesDictionary, self.stack, self.tape, self.tapePointer)
     
     #changeStatePointer :: ProgramState -> int -> ProgramState
-    def changeStatePointer(self, pointer: int) -> self:
+    def changeStatePointer(self, pointer: int) -> Self:
         #self.pointer = pointer
         return ProgramState(pointer, self.memory, self.variableNamesDictionary, self.stack, self.tape, self.tapePointer)
     
     #changeStateVariableNamesDictionary :: ProgramState -> String -> int -> ProgramState
-    def changeStateVariableNamesDictionary(self, varName: string, pointer: int) -> self:
+    def changeStateVariableNamesDictionary(self, varName: string, pointer: int) -> Self:
         #self.variableNamesDictionary[varName] = pointer
         newVariableNamesDictionary = {**self.variableNamesDictionary, **{varName: pointer}}#https://favtutor.com/blogs/merge-dictionaries-python
         return ProgramState(self.pointer, self.memory, newVariableNamesDictionary, self.stack, self.tape, self.tapePointer)
         #return ProgramState(self.pointer, self.memory, {**self.variableNamesDictionary, **{varName: pointer}}, self.stack, self.tape, self.tapePointer)
     
-    def removeVarFromVariableNamesDictionary(self, varName: string) -> self:
+    def removeVarFromVariableNamesDictionary(self, varName: string) -> Self:
         newVariableNamesDictionary = {key:val for key, val in self.variableNamesDictionary.items() if key != varName}
         return ProgramState(self.pointer, self.memory, newVariableNamesDictionary, self.stack, self.tape, self.tapePointer)
         
@@ -71,6 +63,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         if statement.parameter1 in state.variableNamesDictionary:
             parameter1_value = state.memory[state.variableNamesDictionary[statement.parameter1]]
         else:
+            print("test")
             parameter1_value = __builtins__[statement.instructionType.value](statement.parameter1)
     
     if hasattr(statement, 'parameter2'):#check if object has parameter2
@@ -173,7 +166,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code,newCodePtr+1,newState,newOutput, functions)
         
         case setValue():
-            newState = state.changeStateMemory(state.variableNamesDictionary[statement.name], parameter2_value)
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value)
             return runABlock(code, newCodePtr+1, newState, newOutput, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.plus):
