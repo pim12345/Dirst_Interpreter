@@ -1,10 +1,12 @@
 import re
 from typing import List, Tuple
 from Lexer.tokens import *
+from Tools.tools import *
 import copy
 
 
 #split :: String -> String
+@function_debug_printing
 def split(line : str) -> str:
     """Function to interpreter the Escape codes of the Dirst programming language
     +-------------+---------------+
@@ -76,6 +78,7 @@ def split(line : str) -> str:
         
 
 #giveCorrectClass :: [String] -> Int -> String -> Token
+@function_debug_printing
 def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) -> Token:
     """Checks with class is correct by operator and returns the correct class
        Not all classes are implemented yet.
@@ -442,6 +445,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     return NotImplemented()
 
 #recursiveInstructionClassList :: [String] -> String -> [Token]
+@function_debug_printing
 def recursiveInstructionClassList(argumentList: list[str], consoleInput : str) -> List[Token]:
     """Recursive function used as a map function to build up a list of all the lexed code in the Dirst programming language
 
@@ -461,6 +465,7 @@ def recursiveInstructionClassList(argumentList: list[str], consoleInput : str) -
         return [giveCorrectClass(newArgumentList[0], isInALoop, consoleInput)] + recursiveInstructionClassList(newArgumentList[1:], consoleInput)
 
 #lex :: [String] -> String -> [Token]
+@function_debug_printing
 def lex(file : list[str], consoleInput : str) -> List[Token]:
     """Function that lex the given file
 

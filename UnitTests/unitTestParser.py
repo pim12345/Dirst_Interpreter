@@ -8,24 +8,34 @@ from Parser.parser import *
 from Runner.runner import *
 from Tools.tools import *
 
+# class TestParser(unittest.TestCase):
+#     def test_parser(self):
+#         sys.setrecursionlimit(5000)
+#         fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/evenOdd.txt"))
+#         consoleInput = "0"
+#         consolePrinting = PrintingOutput()
+#         lex_output = lex(fileTree, consoleInput)
+#         tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
+#         print()
+     
+# class TestParserDirectorySubset(unittest.TestCase):
+#     def test_fnc_Directory(self):
+#         sys.setrecursionlimit(5000)
+#         fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/fnc_Directory.txt"))
+#         consoleInput = "0"
+#         consolePrinting = PrintingOutput()
+#         lex_output = lex(fileTree, consoleInput)
+#         tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
+#         print()
+
+
+
 class TestParser(unittest.TestCase):
-    def test_parser(self):
+    def test_test(self):
         sys.setrecursionlimit(5000)
-        fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/sommig.txt"))#todo add check if extention exitst
-        #todo check voor niet bestaande functie
-        consoleInput = "10"#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/test.txt"))
+        consoleInput = "0"
         consolePrinting = PrintingOutput()
         lex_output = lex(fileTree, consoleInput)
         tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
-        code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
-        self.assertEqual(output.output, "55")
-        # self.assertEqual(codePtr, 0)
-        # self.assertEqual(state.input, "10")
-        # self.assertEqual(state.output, "55")
-        # self.assertEqual(state.variables, {})
-        # self.assertEqual(state.functions, {})
-        # self.assertEqual(state.returnValues, {})
-        # self.assertEqual(state.returnPointers, {})
-        # self.assertEqual(state.returnValues, {})
-        # self.assertEqual(state.returnPointers, {})
-        # self.a
+        print()

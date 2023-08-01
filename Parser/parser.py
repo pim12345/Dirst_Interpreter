@@ -106,7 +106,7 @@ class createVar(SimpleStatement):
 
     # __repr__ :: createVar -> String
     def __repr__(self) -> str:
-        return "create var with name: " + str(self.name) + "with type: " + super().instructionType
+        return "create var with name: " + str(self.name) + "with type: " + str(self.instructionType)
 
 class deleteVar(SimpleStatement):
     """Class that is used for deleting a certain variable from memory and set the register to zero
@@ -118,7 +118,7 @@ class deleteVar(SimpleStatement):
 
     # __repr__ :: deleteVar -> String
     def __repr__(self) -> str:
-        return "delete var with name: " + str(self.name) + "with type: " + super().instructionType
+        return "delete var with name: " + str(self.name) + "with type: " + str(self.instructionType)
 
 class setValue(SimpleStatement):
     """Class that is used to set a variable to a value of to a value of a other variable.
@@ -132,7 +132,7 @@ class setValue(SimpleStatement):
     
     # __repr__ :: setValue -> String
     def __repr__(self) -> str:
-        return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2) + "with type: " + super().instructionType
+        return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2) + "with type: " + str(self.instructionType)
 
 class DisplayOptions(Enum):
     """Enum of all the display options that displaying can have used by the 'displayValue' class"""    
@@ -158,9 +158,9 @@ class displayValue(SimpleStatement):
     # __repr__ :: displayValue -> String
     def __repr__(self) -> str:
         if self.newLine == True:
-            return "Display the string or integer of the var with the name: " + self.nameVar + " with a new line" + " with type: " + super().instructionType
+            return "Display the string or integer of the var with the name: " + self.nameVar + " with a new line" + " with type: " + str(self.instructionType)
         else:
-            return "Display the string or integer of the var with the name: " + self.nameVar + " without a new line" + " with type: " + super().instructionType
+            return "Display the string or integer of the var with the name: " + self.nameVar + " without a new line" + " with type: " + str(self.instructionType)
 
 
 class roundValue(SimpleStatement):
@@ -215,31 +215,31 @@ class operators(SimpleStatement):
     def __repr__(self) -> str:
         match self.operatorType:
             case operatorsType.plus:
-                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " plus " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " plus " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.minus:
-                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " minus " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " minus " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.multiply:
-                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " times " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " times " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.divide:
-                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " divided by " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " divided by " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.modulo:
-                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " modulo " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value of: " + str(self.parameter2) + " modulo " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.andOp:
-                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise and " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise and " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.orb:
-                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise or " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise or " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.xor:
-                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xor " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xor " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.xad:
-                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xand " + str(self.parameter3) + " with instruction type: " + super().instructionType #https://deepai.org/machine-learning-glossary-and-terms/xand
+                return "parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise xand " + str(self.parameter3) + " with instruction type: " + str(self.instructionType) #https://deepai.org/machine-learning-glossary-and-terms/xand
             case operatorsType.nad:
-                return "parameter1: " + str(self.parameter1) + " to the value of the bitwise not of: " + str(self.parameter2) +" with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " to the value of the bitwise not of: " + str(self.parameter2) +" with instruction type: " + str(self.instructionType)
             case operatorsType.nor:
-                return "Sets parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise nor " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "Sets parameter1: " + str(self.parameter1) + " has the value bitwise value of: " + str(self.parameter2) + " bitwise nor " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.maxVal:
-                return "Sets parameter1: " + str(self.parameter1) + " to the higher value out of parameter2: " + str(self.parameter2) + " and parameter3: " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "Sets parameter1: " + str(self.parameter1) + " to the higher value out of parameter2: " + str(self.parameter2) + " and parameter3: " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case operatorsType.minVal:
-                return "Sets parameter1: " + str(self.parameter1) + " to the lower value out of parameter2: " + str(self.parameter2) + " and parameter3: " + str(self.parameter3) + " with instruction type: " + super().instructionType
+                return "Sets parameter1: " + str(self.parameter1) + " to the lower value out of parameter2: " + str(self.parameter2) + " and parameter3: " + str(self.parameter3) + " with instruction type: " + str(self.instructionType)
             case _:
                 return "Operator not supported or not found."
 
@@ -347,11 +347,11 @@ class valueConv(SimpleStatement):
     def __repr__(self) -> str:
         match self.convertType:
             case ConvertType.absolute:
-                return "parameter1: " + str(self.parameter1) + " wil have the absolute value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " wil have the absolute value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
             case ConvertType.negative:
-                return "parameter1: " + str(self.parameter1) + " wil have the negative value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " wil have the negative value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
             case ConvertType.bitWiseNot:
-                return "parameter1: " + str(self.parameter1) + " wil have the bitwise not value of parameter 2: " + str(self.parameter2) + " with instruction type: " + super().instructionType
+                return "parameter1: " + str(self.parameter1) + " wil have the bitwise not value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
             case _:
                 return "Convert type not supported or not found."
 
@@ -393,7 +393,7 @@ class IfStatement(SimpleStatement):
 
     # __repr__ :: IfStatement -> String
     def __repr__(self):
-        return "IfStatement: " + str(self.parameter1) + " will have the value of -1 if: " + str(self.parameter2)+ " " + str(self.condition) + " " + str(self.parameter3) + " otherwise has the value of: 0" + " with instruction type: " + super().instructionType
+        return "IfStatement: " + str(self.parameter1) + " will have the value of -1 if: " + str(self.parameter2)+ " " + str(self.condition) + " " + str(self.parameter3) + " otherwise has the value of: 0" + " with instruction type: " + str(self.instructionType)
 
 class RunFunction(SimpleStatement):
     def __init__(self, result : str, argument: str, function : str, instructionType: Instruction_Variable_Type):
@@ -404,7 +404,7 @@ class RunFunction(SimpleStatement):
     
     # __repr__ :: RunFunction -> String
     def __repr__(self):
-        return "run function " + self.function + " with argument " + self.argument + " and store the result in " + self.result + " result will be of type: " + super().instructionType
+        return "run function " + self.function + " with argument " + self.argument + " and store the result in " + self.result + " result will be of type: " + str(self.instructionType)
 
 class TapeAction(Enum):
     MoveLeft = "Moves the tape left"
@@ -460,6 +460,7 @@ class Stack(SimpleStatement):
         pass#todo implement stack and __repr__
 
 #parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
+@function_debug_printing
 def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -> Tuple[List[Token], CodeBlock, CodeBlock]:
     """Function used to parse a block of code to correct function to be used by the runner
 

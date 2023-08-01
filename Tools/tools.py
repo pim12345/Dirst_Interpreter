@@ -1,6 +1,9 @@
 import os 
+from typing import Callable
 
-#add haskall notation todo
+DEBUG_PRINTING = True
+
+# readFile: str -> str
 def readFile(filename : str) -> str:
     with open(filename, 'r') as f:
         return list(map(lambda line: line.replace("    ", "\t"), filter(lambda x: not x.isspace(), f.readlines())))#remove empty lines with only \n in them, filter is an higher order function also convert 4 spaces to 1 tab
@@ -15,6 +18,19 @@ class PrintingOutput:
     
     def __str__(self) -> str:
         return self.output
+
+# 
+def function_debug_printing(func: Callable) -> Callable:
+    def wrapper(*args, **kwargs):
+        print("Before calling " + func.__name__ + " with args: " + str(args) + " and kwargs: " + str(kwargs))
+        results = func(*args, **kwargs)
+        print("After calling " + func.__name__ + " with args: " + str(args) + " and kwargs: " + str(kwargs))
+        return results
+    
+    if DEBUG_PRINTING:
+        return wrapper
+    else:
+        return func
 
 #add haskall notation todo
 # def readFile(filename : str) -> str:

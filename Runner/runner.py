@@ -37,6 +37,7 @@ class ProgramState():
         return ProgramState(self.pointer, self.memory, newVariableNamesDictionary, self.stack, self.tape, self.tapePointer)
         #return ProgramState(self.pointer, self.memory, {**self.variableNamesDictionary, **{varName: pointer}}, self.stack, self.tape, self.tapePointer)
     
+    #removeVarFromVariableNamesDictionary :: ProgramState -> String -> ProgramState
     def removeVarFromVariableNamesDictionary(self, varName: string) -> Self:
         newVariableNamesDictionary = {key:val for key, val in self.variableNamesDictionary.items() if key != varName}
         return ProgramState(self.pointer, self.memory, newVariableNamesDictionary, self.stack, self.tape, self.tapePointer)
@@ -45,8 +46,8 @@ class ProgramState():
     def __repr__(self) -> str:
         return "ptr: " + str(self.pointer) + " val: " + str(self.memory) + " varname dictionary: " + str(self.variableNamesDictionary)
 
-
-#runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> CodeBlock -> (CodeBlock, Integer, ProgramState, Callable)
+#runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> CodeBlock -> (CodeBlock, Integer, ProgramState, Callable, CodeBlock)
+@function_debug_printing
 def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callable, functions: CodeBlock) -> Tuple[CodeBlock, int, ProgramState, Callable, CodeBlock]:
     if(codePtr >= len(code.statements) or codePtr < 0):
         return code, codePtr, state, output, functions
@@ -91,7 +92,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             #return runABlock(code, codePtr+1, newState, newOutput, functions)
         
         case CallFunction():
-            result, output_ = runAFunction(state.memory[state.variableNamesDictionary[statement.functionInputVar]], statement.functionReturnVar, statement.functionName, newOutput, functions)
+            result, output_ = runAFunction(state.memory[state.variableNamesDictionary[statement.functionInputVar]], statement.functionName, newOutput, functions)
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.functionReturnVar], result)#todo check if good functional programming
             #todo change after running a function to set the pointer to end of all the underlining functions
             return runABlock(code, codePtr+1, newState, output_, functions)#todo change after running a function to set the pointer to end of all the underlining functions
@@ -384,9 +385,11 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         case NotImplemented() | _:
             newOutput("method not implemented" + '\n')
             return code, codePtr, state, newOutput, functions
+        
 
-#runAFunction :: str -> int -> Callable -> (int, Callable)
-def runAFunction(functionInputVarValue: str, functionReturnVar : str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:
+#runAFunction :: String -> String -> Callable -> CodeBlock -> (int, Callable)
+@function_debug_printing
+def runAFunction(functionInputVarValue: str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:#todo add also possible float or string types as return
     functionCodes = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == functionName, functions.statements))
     if len(functionCodes) == 0:
         #There is no function declared with that name
@@ -404,6 +407,7 @@ def runAFunction(functionInputVarValue: str, functionReturnVar : str, functionNa
     return functionState___.memory[0], newOutput#in place 0 in the memory is always the return var(only one return var supported)
 
 #runLoopWhileZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
+@function_debug_printing
 def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, loopName : str, functions: CodeBlock) -> Tuple[ProgramState, Callable]:
     if state.memory[state.variableNamesDictionary[loopName]] == 0:
         loop_, codePtr_, state_, output_, functions_ = runABlock(loop.code, 0, state, output, functions)
@@ -412,6 +416,7 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, l
         return state, output#todo is this correct functional programming?
 
 #runLoopWhileNotZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
+@function_debug_printing
 def runLoopWhileNotZero(loop : CodeBlock, state: ProgramState, output : Callable, loopName : str, functions: CodeBlock) -> Tuple[ProgramState, Callable]:
     if state.memory[state.variableNamesDictionary[loopName]] != 0:
         loop_, codePtr_, state_, output_, functions_ = runABlock(loop, 0, state, output, functions)
