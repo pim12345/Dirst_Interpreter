@@ -81,7 +81,7 @@ class CallFunction(SimpleStatement):
         
     #__repr__ :: CallFunction -> String
     def __repr__(self) -> str:
-        return "call function: " + self.functionName + " with input: " + self.functionInputVar + " and return var: " + self.functionReturnVar
+        return "Call function: " + self.functionName + " with input: " + self.functionInputVar + " and return var: " + self.functionReturnVar
 
 class Loop(SimpleStatement):
     """a loop statement used to as the Directory subset of Dirst
@@ -472,8 +472,8 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         Tuple[List[Token], CodeBlock]: the list of tokens and the block of code
     """
     
-    if tokens == None or len(tokens) == 0:
-        return None, code, functions
+    if tokens == [] or len(tokens) == 0:
+        return [], code, functions
     token, *rest = tokens
     #newCode = copy.deepcopy(code)
     #newCode = None

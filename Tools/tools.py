@@ -1,7 +1,7 @@
 import os 
 from typing import Callable
 
-DEBUG_PRINTING = True
+DEBUG_PRINTING = False
 
 # readFile: str -> str
 def readFile(filename : str) -> str:
@@ -22,9 +22,9 @@ class PrintingOutput:
 # 
 def function_debug_printing(func: Callable) -> Callable:
     def wrapper(*args, **kwargs):
-        print("Before calling " + func.__name__ + " with args: " + str(args) + " and kwargs: " + str(kwargs))
+        print("Before calling " + func.__name__ + "\n with args: " + str(args) + "\n and kwargs: " + str(kwargs) + "\n")
         results = func(*args, **kwargs)
-        print("After calling " + func.__name__ + " with args: " + str(args) + " and kwargs: " + str(kwargs))
+        print("After calling " + func.__name__ + "\n with args: " + str(args) + "\n and kwargs: " + str(kwargs) + "\n")
         return results
     
     if DEBUG_PRINTING:
