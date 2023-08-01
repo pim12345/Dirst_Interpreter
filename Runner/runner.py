@@ -395,19 +395,13 @@ def runAFunction(functionInputVarValue: str, functionReturnVar : str, functionNa
         return -1, newOutput#todo add return code if error encountered
     else:
         functionCode = functionCodes[0]
-    # create a new state for the function
-    functionState = ProgramState()
-    # copy the variables from the current state to the function state(input var)
-    functionState.memory[functionState.pointer]=functionInputVarValue
-    functionState.variableNamesDictionary[functionCode.functionInputVar] = functionState.pointer
-    functionState.pointer+=1
-    
-    #functionState.memory[functionState.pointer]=0
-    #functionState.variableNamesDictionary[functionReturnVar] = functionState.pointer
-    #functionState.pointer+=1
+    # create a new state for the function and copy the variables from the current state to the function state(input var)
+    functionState = ProgramState().changeStateMemory(1, functionInputVarValue)
+    functionState_ = functionState.changeStateVariableNamesDictionary(functionCode.functionInputVar, functionState.pointer)
+    functionState__ = functionState_.changeStatePointer(functionState_.pointer+1)
     #todo check if return var exists, if is an digit also add check if it is a digit and return that directly
-    code_, codePtr_, functionState_, newOutput, functions_ = runABlock(functionCode.block, 0, functionState, output, functions)#todo make it smarter like runloop functions so it requires less hackery
-    return functionState_.memory[0], newOutput#in place 0 in the memory is always the return var(only one return var supported)
+    code_, codePtr_, functionState___, newOutput, functions_ = runABlock(functionCode.block, 0, functionState__, output, functions)#todo make it smarter like runloop functions so it requires less hackery
+    return functionState___.memory[0], newOutput#in place 0 in the memory is always the return var(only one return var supported)
 
 #runLoopWhileZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
 def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, loopName : str, functions: CodeBlock) -> Tuple[ProgramState, Callable]:
