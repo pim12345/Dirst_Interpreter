@@ -157,9 +157,9 @@ class displayValue(SimpleStatement):
     # __repr__ :: displayValue -> String
     def __repr__(self) -> str:
         if self.newLine == True:
-            return "Display the string or integer of the var with the name: " + self.name + " with a new line" + " with type: " + super().instructionType
+            return "Display the string or integer of the var with the name: " + self.nameVar + " with a new line" + " with type: " + super().instructionType
         else:
-            return "Display the string or integer of the var with the name: " + self.name + " without a new line" + " with type: " + super().instructionType
+            return "Display the string or integer of the var with the name: " + self.nameVar + " without a new line" + " with type: " + super().instructionType
 
 
 class roundValue(SimpleStatement):
