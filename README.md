@@ -4,14 +4,14 @@ A python Dirst interpreter
 
 This python Dirst interpreter is based on the [Dirst programming language](https://esolangs.org/wiki/Dirst)
 
-In this project is has also added functions calls in the project
+In this project is has also added functions calls in the project(an way to declare functions and run them, with an argument and return value)
 
 # Requirements
 
 # === ADDED LANGUAGE OPERATORS ===
 veranderd aan de taal is dat de instructie: fnc normaal alleen 1 keer de sub items uitvoert, nu de mogelijkheid heeft om aangeroepen te worden met een argument, dit argument wordt dan gebruikt om de sub items uit te voeren(meer naar een functie), nu is de syntax van de fnc als volgt:
-```- fnc_[functienaam]_[functieargument naam in functie]``` - gebruikt om een functie te defineren
-```- cal_[functienaam]_[functieargument]_[functie return variable].LNK``` - gebruikt om een functie aan te roepen, de functie return variable is de variable waar de return van de functie in wordt opgeslagen
+```- fnc_[functienaam]_[functieargument naam in functie]``` - gebruikt om een functie te defineren, dit is een folder
+```- run_[functienaam]_[functieargument]_[functie return variable].LNK``` - gebruikt om een functie aan te roepen, de functie return variable is de variable waar de return van de functie in wordt opgeslagen
 ```-rtn_[functieargument].LNK``` - gebruikt om een functie te returnen
 door de functie def_ te gebruiken kan je een functie definiëren, de functie call_ kan je gebruiken om een functie aan te roepen
 de functie deff en call kan als volgt gebruikt worden:

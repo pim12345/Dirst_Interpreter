@@ -14,8 +14,15 @@ class SimpleStatement:
     """    
     def __init__(self, instructionType: Instruction_Variable_Type):
         self.instructionType = instructionType
-        #pass
-
+    
+    #__str__ :: SimpleStatement -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()
+    
+    #__repr__ :: SimpleStatement -> String
+    def __repr__(self) -> str:
+        return "Statement that every statement is inherited"
+    
 #repeatStr :: String -> Integer -> String
 def repeatStr(s : str, i : int):
     if (i <= 0):
@@ -44,7 +51,7 @@ class CodeBlock:
         self.statements.append(statement)
         return self
         
-    #__repr__ :: CodeBlock -> String
+    #__str__ :: CodeBlock -> String
     def __str__(self):
         return self.__repr__()
 
@@ -65,6 +72,10 @@ class DeclareFunction(SimpleStatement):
         super().__init__(Instruction_Variable_Type.Function)#not used, but because of inheritance it is needed
         #super().__init__(Instruction_Variable_Type.Integer)#all functions instrunctions with an compare are compared to integers
     
+    #__str__ :: DeclareFunction -> String
+    def __str__(self):
+        return self.__repr__()
+    
     #__repr__ :: DeclareFunction -> String
     def __repr__(self) -> str:
         s = "Declare an function with name: " + self.functionName + " and input: " + self.functionInputVar + "\n" + "with code block: \n"
@@ -79,6 +90,10 @@ class CallFunction(SimpleStatement):
         self.functionReturnVar = functionReturnVar
         super().__init__(Instruction_Variable_Type.Function)#not used, but because of inheritance it is needed
         
+    #__str__ :: CallFunction -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()
+    
     #__repr__ :: CallFunction -> String
     def __repr__(self) -> str:
         return "Call function: " + self.functionName + " with input: " + self.functionInputVar + " and return var: " + self.functionReturnVar
@@ -94,21 +109,29 @@ class Loop(SimpleStatement):
         self.onlyOneTime = onlyOneTime
         super().__init__(Instruction_Variable_Type.Function)#not used, but because of inheritance it is needed
 
+    #__str__ :: Loop -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()
+    
     #__repr__ :: Loop -> String
     def __repr__(self) -> str:
         s = self.block.__repr__()
         return s
 
-class createVar(SimpleStatement):
+class CreateVar(SimpleStatement):
     def __init__(self, name: str, instructionType: Instruction_Variable_Type):
         self.name = name
         super().__init__(instructionType)
 
-    # __repr__ :: createVar -> String
+    #__str__ :: CreateVar -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()
+    
+    # __repr__ :: CreateVar -> String
     def __repr__(self) -> str:
         return "create var with name: " + str(self.name) + "with type: " + str(self.instructionType)
 
-class deleteVar(SimpleStatement):
+class DeleteVar(SimpleStatement):
     """Class that is used for deleting a certain variable from memory and set the register to zero
     """    
     def __init__(self, name: str, instructionType: Instruction_Variable_Type):
@@ -116,31 +139,36 @@ class deleteVar(SimpleStatement):
         self.name = name
         super().__init__(instructionType)
 
-    # __repr__ :: deleteVar -> String
+    #__str__ :: DeleteVar -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()
+    
+    # __repr__ :: DeleteVar -> String
     def __repr__(self) -> str:
         return "delete var with name: " + str(self.name) + "with type: " + str(self.instructionType)
 
+
 class setValue(SimpleStatement):
-    """Class that is used to set a variable to a value of to a value of a other variable.
-    """    
+    """Class that is used to set a variable to a value of to a value of a other variable."""    
     def __init__(self, parameter1 : str, parameter2: str, instructionType: Instruction_Variable_Type):
-        """parameter 1 is a name of the variable and is used to get the correct spot in memory"""
+        """Class that is used to set a variable to a value of to a value of a other variable.
+
+        Args:
+            parameter1 (str): Parameter 1 is a name of the variable and is used to get the correct spot in memory
+            parameter2 (str): can be a integer or a variable name
+            instructionType (Instruction_Variable_Type): the type of the variable that is used, like a string or a integer
+        """        
         self.parameter1 = parameter1
-        """can be a integer or a variable name"""
         self.parameter2 = parameter2
         super().__init__(instructionType)
+    
+    #__str__ :: setValue -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()
     
     # __repr__ :: setValue -> String
     def __repr__(self) -> str:
         return "Existing var with name: " + str(self.parameter1) + " has new value: " + str(self.parameter2) + "with type: " + str(self.instructionType)
-
-class DisplayOptions(Enum):
-    """Enum of all the display options that displaying can have used by the 'displayValue' class"""    
-    INT = "INT"
-    CHAR = "CHAR"
-    STRING = "STRING"
-    NEWLINE = "NEWLINE"
-    NONEWLINE = "NONEWLINE"
 
 
 class displayValue(SimpleStatement):
@@ -154,6 +182,10 @@ class displayValue(SimpleStatement):
         self.newLine = newLine
         
         super().__init__(instructionType)
+    
+    #__str__ :: displayValue -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()    
         
     # __repr__ :: displayValue -> String
     def __repr__(self) -> str:
@@ -162,25 +194,6 @@ class displayValue(SimpleStatement):
         else:
             return "Display the string or integer of the var with the name: " + self.nameVar + " without a new line" + " with type: " + str(self.instructionType)
 
-
-class roundValue(SimpleStatement):
-    """Class that is used to round a variable to ceiling or floor.
-    """    
-    def __init__(self, parameter1 : str, parameter2, roundToCeiling : bool):
-        """parameter 1 is a name of the variable and is used to get the correct spot in memory"""
-        self.parameter1 = parameter1
-        """the value that needs to be rounded"""
-        self.parameter2 = parameter2
-        """Boolean if True it rounds to the ceiling if False it rounds to the floor"""
-        self.roundToCeiling = roundToCeiling
-        super().__init__(Instruction_Variable_Type.Float)#because the function accepts floats
-    
-    # __repr__ :: roundValue -> String
-    def __repr__(self) -> str:
-        if self.roundToCeiling == True:
-            return "Existing var with name: " + str(self.parameter1) + " will be rounded to the ceiling of: " + str(self.parameter2)
-        else:
-            return "Existing var with name: " + str(self.parameter1) + " will be rounded to the floor of: " + str(self.parameter2)
         
 class operatorsType(Enum):
     """Enum used by the 'operators' class to give to correct operator
@@ -200,6 +213,14 @@ class operatorsType(Enum):
     nor = 11#nor of the DAT subset in Dirst
     maxVal = 12#max in DAT subset in Dirst
     minVal = 13#min in DAT subset in Dirst
+    
+    #__str__ :: operatorsType -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()   
+    
+    # __repr__ :: operatorsType -> String
+    def __repr__(self) -> str:
+        return self.name
 
 class operators(SimpleStatement):
     """Class used to calculate a value using the operators from operatorList
@@ -210,6 +231,10 @@ class operators(SimpleStatement):
         self.parameter3 = parameter3
         self.operatorType = operatorType
         super().__init__(instructionType)
+    
+    # __str__ :: operators -> String
+    def __str__(self) -> str:
+        return self.__repr__()
     
     # __repr__ :: operators -> String
     def __repr__(self) -> str:
@@ -254,31 +279,36 @@ class MathFloatType(Enum):
     hyperbolicSin = 7#snh in bin subset in Dirst
     hyperbolicCos = 8#csh in bin subset in Dirst
     hyperbolicTan = 9#tnh in bin subset in Dirst
-    #roundCeiling = 10#cil in bin subset in Dirst
-    #roundFloor = 11#flr in bin subset in Dirst
     logBase10 = 12#log in bin subset in Dirst
     logNatural =13#lge in bin subset in Dirst
     log = 14#lbq in bin subset in Dirst
     eToPower = 15#epw in bin subset in Dirst
-    #absoluteValue = 16#avl in bin subset in Dirst
-    
     inverseSin = 17#asn in bin subset in Dirst
     inverseCos = 18#acs in bin subset in Dirst
     inverseTan = 19#atn in bin subset in Dirst
     
-class mathFloatFunctions(SimpleStatement):
-    def __init__(self, parameter1 : str, parameter2: str, parameter3: str, mathFunctionType: MathFloatType):
-        self.parameter1 = parameter1
-        self.parameter2 = parameter2
-        self.parameter3 = parameter3
-        self.mathFunctionType = mathFunctionType
-        super().__init__(Instruction_Variable_Type.Float)#because the math functions in dirst only use floats
+    #__str__ :: MathFloatType -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()   
     
-    def __init__(self, parameter1 : str, parameter2: str, mathFunctionType: MathFloatType):
+    # __repr__ :: MathFloatType -> String
+    def __repr__(self) -> str:
+        return self.name
+    
+class mathFloatFunctions(SimpleStatement):
+    def __init__(self, parameter1 : str, parameter2: str, mathFunctionType: MathFloatType, parameter3: str=""):
         self.parameter1 = parameter1
         self.parameter2 = parameter2
+        self.parameter3 = parameter3#parameter 3 not used by all math functions
         self.mathFunctionType = mathFunctionType
         super().__init__(Instruction_Variable_Type.Float)#because the math functions in dirst only use floats
+        if parameter3 == "" and (mathFunctionType == MathFloatType.power or mathFunctionType == MathFloatType.log):
+            raise ValueError("parameter3 is needed for math functions: power and log")
+    #todo check if fix solution for math functions with 3 parameters
+        
+    # __str__ :: mathFloatFunctions -> String
+    def __str__(self) -> str:
+        return self.__repr__()
         
     # __repr__ :: mathFloatFunctions -> String
     def __repr__(self) -> str:
@@ -309,8 +339,6 @@ class mathFloatFunctions(SimpleStatement):
                 return "Set " + self.parameter1 + " to the value of the base  " + self.parameter3 + " logarithm of " + self.parameter2
             case MathFloatType.eToPower:
                 return "Set " + self.parameter1 + " to the value of e to the power of " + self.parameter2
-            #case MathFloatType.absoluteValue:
-            #    return "Set " + self.parameter1 + " to the value of the absolute value of " + self.parameter2
             case MathFloatType.inverseSin:
                 return "Set " + self.parameter1 + " to the value of the inverse sin of " + self.parameter2
             case MathFloatType.inverseCos:
@@ -321,20 +349,23 @@ class mathFloatFunctions(SimpleStatement):
                 return "Math function not supported or not found., math type: " + self.mathFunctionType
 
 
-class stringOperatorsType(Enum):
-    firstOccurrence = 1#idx in str subset in Dirst
-    firstOccurrenceFromSpecifiedIndex = 2#ids in str subset in Dirst
-    lastOccurrence = 3#lid in str subset in Dirst
-    replaceEveryOccurrence = 4#rep in str subset in Dirst#will not be implemented
-    
-#todo make string operators
-
 class ConvertType(Enum):
-    absolute = "absolute",
-    negative = "negative",
-    bitWiseNot = "bitWiseNot",
-    RANDOM = "RANDOM",#rnd in bin subset in Dirst, maybe remove
+    absolute = "absolute"
+    negative = "negative"
+    bitWiseNot = "bitWiseNot"
+    #RANDOM = "RANDOM"#rnd in bin subset in Dirst, maybe remove
     #upperCase = "upperCase",
+    roundNormal = "round to the nearest whole number"#rou in bin subset in Dirst
+    roundCeiling = "round to the ceiling"#cil in bin subset in Dirst
+    roundFloor = "round to the floor"#flr in bin subset in Dirst
+    
+    #__str__ :: ConvertType -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()   
+    
+    # __repr__ :: ConvertType -> String
+    def __repr__(self) -> str:
+        return self.name
 
 class valueConv(SimpleStatement):
     def __init__(self, parameter1 : str, parameter2: str, convertType: ConvertType, instructionType: Instruction_Variable_Type):
@@ -342,6 +373,10 @@ class valueConv(SimpleStatement):
         self.parameter2 = parameter2
         self.convertType  = convertType
         super().__init__(instructionType)
+    
+    # __str__ :: valueConv -> String
+    def __str__(self) -> str:
+        return self.__repr__()
     
     # __repr__ :: valuePosConv -> String
     def __repr__(self) -> str:
@@ -352,6 +387,14 @@ class valueConv(SimpleStatement):
                 return "parameter1: " + str(self.parameter1) + " wil have the negative value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
             case ConvertType.bitWiseNot:
                 return "parameter1: " + str(self.parameter1) + " wil have the bitwise not value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
+            #case ConvertType.RANDOM:
+            #    return 
+            case ConvertType.roundNormal:
+                return "parameter1: " + str(self.parameter1) + " wil have the rounded value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
+            case ConvertType.roundCeiling:
+                return "parameter1: " + str(self.parameter1) + " wil have the rounded to the ceiling value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
+            case ConvertType.roundFloor:
+                return "parameter1: " + str(self.parameter1) + " wil have the rounded to the floor value of parameter 2: " + str(self.parameter2) + " with instruction type: " + str(self.instructionType)
             case _:
                 return "Convert type not supported or not found."
 
@@ -365,21 +408,15 @@ class IfStatementType(Enum):#enum class not working in match statement? so now i
     NOTEQUAL = '!='
     GREATEREQUAL = '>='
     LESSEQUAL = '<='
-
-class ErrorStatementType(Enum):
-    UNKNOWN = "UNKNOWN"
     
-
-class ErrorStatement(SimpleStatement):
-    """Class used for error statements
-    """	
-    def __init__(self, errorStatementType : ErrorStatementType):
-        super().__init__(Instruction_Variable_Type.String)
-        self.errorStatementType = errorStatementType
-        
-    # __repr__ :: ErrorStatement -> String
+    #__str__ :: ConvertType -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()   
+    
+    # __repr__ :: ConvertType -> String
     def __repr__(self) -> str:
-        return "Error statement of type: " + self.errorStatementType
+        return "operator: " + self.name
+
 
 class IfStatement(SimpleStatement):
     """Class used for if statements with a operator from enum: 'ifStatementList'
@@ -390,7 +427,11 @@ class IfStatement(SimpleStatement):
         self.parameter3 = parameter3
         self.condition : IfStatementType = condition
         super().__init__(instructionType)
-
+    
+    # __str__ :: IfStatement -> String
+    def __str__(self) -> str:
+        return self.__repr__()
+    
     # __repr__ :: IfStatement -> String
     def __repr__(self):
         return "IfStatement: " + str(self.parameter1) + " will have the value of -1 if: " + str(self.parameter2)+ " " + str(self.condition) + " " + str(self.parameter3) + " otherwise has the value of: 0" + " with instruction type: " + str(self.instructionType)
@@ -402,41 +443,59 @@ class RunFunction(SimpleStatement):
         self.function = function
         super.__init__(instructionType)
     
+    # __str__ :: RunFunction -> String
+    def __str__(self) -> str:
+        return self.__repr__()
+    
     # __repr__ :: RunFunction -> String
     def __repr__(self):
         return "run function " + self.function + " with argument " + self.argument + " and store the result in " + self.result + " result will be of type: " + str(self.instructionType)
 
 class TapeAction(Enum):
-    MoveLeft = "Moves the tape left"
-    MoveRight = "Moves the tape right"
-    ReadCurrentElementPosition = "Sets the current element of the tape to the specified integer value "
-    WriteElementToCurrentPosition = "Sets the specified integer variable to the value of the current element of the tape"
+    MoveLeft = "Moves the tape left"#tpl
+    MoveRight = "Moves the tape right"#tpr
+    ReadCurrentElementPosition = "Sets the current element of the tape to the specified integer value"#tsv
+    WriteElementToCurrentPosition = "Sets the specified integer variable to the value of the current element of the tape"#tgv
     
-class Tape(SimpleStatement):
-    def __init__(self, tapeAction : TapeAction):
-        self.tapeAction = tapeAction
-        super().__init__(Instruction_Variable_Type.Integer)#tape only supports integer values
-        
-    def __init__(self, parameter1: str, tapeAction : TapeAction):
+    #__str__ :: TapeAction -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()   
+    
+    # __repr__ :: TapeAction -> String
+    def __repr__(self) -> str:
+        return self.name
+    
+class Tape(SimpleStatement):   
+    def __init__(self, tapeAction : TapeAction, parameter1: str=""):
         self.tapeAction = tapeAction
         self.parameter1 = parameter1
+        if (self.tapeAction == TapeAction.ReadCurrentElementPosition or self.tapeAction == TapeAction.WriteElementToCurrentPosition) and self.parameter1 == "":
+            raise ValueError("parameter1 is needed for tape actions: ReadCurrentElementPosition and WriteElementToCurrentPosition")
         super().__init__(Instruction_Variable_Type.Integer)#tape only supports integer values
-
+    
+    # __str__ :: Tape -> String
+    def __str__(self) -> str:
+        return self.__repr__()
+    
     # __repr__ :: Tape -> String
     def __repr__(self) -> str:
-        return "tape action: " + str(self.tapeAction) if hasattr(self, 'parameter1') == False else + " with parameter: " + str(self.parameter1)
+        return "tape action: " + str(self.tapeAction) if self.parameter1 == "" else + " with parameter: " + str(self.parameter1)
     
 class NotImplemented(SimpleStatement):
     def __init__(self, ignore : bool = False):
         super.__init__(Instruction_Variable_Type.Unknown)
         self.ignore = ignore
     
+    # __str__ :: NotImplemented -> String
+    def __str__(self) -> str:
+        return self.__repr__()
+    
     # __repr__ :: NotImplemented -> String
     def __repr__(self):
         if self.ignore == False:
-            return "function not implemented, will not be ignored and will create an error"#will be used for critical code what not yet is implemented
+            return "Function not implemented, will not be ignored and will create an error"#will be used for critical code what not yet is implemented
         else:
-            return "function not implemented, this instruction will not be runned and will be ignored and will not create an error"#used for instructions like ces for errors what not is used in this interpreter
+            return "Function not implemented, this instruction will not be runned and will be ignored and will not create an error"#used for instructions like ces for errors what not is used in this interpreter
         
     
 class ReturnFunction(SimpleStatement):
@@ -444,20 +503,41 @@ class ReturnFunction(SimpleStatement):
        self.parameter1 = parameter1
        super().__init__(Instruction_Variable_Type.Integer)
     
+    # __str__ :: ReturnFunction -> String
+    def __str__(self) -> str:
+        return self.__repr__()
+    
     # __repr__ :: ReturnFunction -> String
     def __repr__(self):
         return "return this function with the value of variable: " + self.parameter1
 
+class StackAction(Enum):
+    PUSHVALUE = "Pushes a value to the stack"
+    POPVALUE = "Set the specified integer variable to the value popped from the stack"
+    PEEKVALUE = "Set the specified integer variable to the value peeked from the stack"
+    GETSTACKSIZE = "Set the specified integer variable to the size of the stack"
+    
+    #__str__ :: StackAction -> String    
+    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+        return self.__repr__()   
+    
+    # __repr__ :: StackAction -> String
+    def __repr__(self) -> str:
+        return self.name
 
 class Stack(SimpleStatement):
-    def __init__(self, parameter1: str, parameter2: str):
+    def __init__(self, parameter1: str, stackAction: StackAction):
         self.parameter1 = parameter1
-        self.parameter2 = parameter2
+        self.stackAction = stackAction
         super().__init__(Instruction_Variable_Type.Integer)
+    
+    # __str__ :: Stack -> String
+    def __str__(self) -> str:
+        return self.__repr__()
         
     # __repr__ :: Stack -> String
     def __repr__(self):
-        pass#todo implement stack and __repr__
+        return self.stackAction + " with value: " + self.parameter1
 
 #parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
 @function_debug_printing
@@ -475,19 +555,17 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
     if tokens == [] or len(tokens) == 0:
         return [], code, functions
     token, *rest = tokens
-    #newCode = copy.deepcopy(code)
-    #newCode = None
     
     if isinstance(token, ERR):
         return tokens, code, functions
-    if isinstance(token, fnc) and code.nestLevel == 1 and token.isInALoop == 1:
+    #if isinstance(token, fnc) and code.nestLevel == 1 and token.isInALoop == 1:#todo check if need i think not
         #an other function is declared, but not be added to the current function
-        return tokens, code, functions
+    #    return tokens, code, functions
     
     if isinstance(token, Directory):
         newRest, block, functions_ = parseCodeBlock(rest, CodeBlock(nest=token.isInALoop), functions)
         if isinstance(token, fnc):
-            functions__ = functions_.addStatement(DeclareFunction(block, token.parameter1, token.functionInput))#because enum has 
+            functions__ = functions_.addStatement(DeclareFunction(block, token.parameter1, token.functionInput))
             return parseCodeBlock(newRest, code, functions__)
         elif isinstance(token, dif_directory):
             newCode = code.addStatement(Loop(block, token.parameter1,False,False,True))
@@ -517,7 +595,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.minus, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mul):
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.multiply, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
-        elif isinstance(token, div_dat):#TODO: check for interference
+        elif isinstance(token, div_dat):
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
         elif isinstance(token, mod):
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.modulo, Instruction_Variable_Type.Integer))#maybe in other class not in same class ass bitwise
@@ -550,12 +628,13 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, rdi):
             newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))
         elif isinstance(token, ric):
-            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))#TODO: set to -1 if eof not implemented
+            #newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))#TODO: set to -1 if eof not implemented
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dsi):
             newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))
         elif isinstance(token, dic):
-            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))#todo display char of int
-            # newCode = code.addStatement(displayValue(token.parameter1))
+            #newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))#todo display char of int
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, set):
             newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Integer))
         elif isinstance(token, max_):
@@ -564,13 +643,12 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsType.minVal, Instruction_Variable_Type.Integer))
     elif isinstance(token, TXT):
         if isinstance(token, rdc):
-            newCode = code.addStatement(NotImplemented())
+            newCode = code.addStatement(operators(token.parameter1, token.parameter1, token.consoleInput, operatorsType.plus, Instruction_Variable_Type.String))#todo test this
         elif isinstance(token, rds):#no input from console because of functional programming is that not allowed
             newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.String))
         elif isinstance(token, eof):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dsc):
-            #newCode = code.addStatement(displayValue(token.parameter1, True))#implement now good according to spec @todo
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dss):
             newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.String))
@@ -583,7 +661,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, del_):
             newCode = code.addStatement(NotImplemented())#todo maybe implement error stream instead of using normal stream
         elif isinstance(token, clr):
-            newCode = code.addStatement(setValue(token.parameter1, "", Instruction_Variable_Type.String))# vervang door var op 0 te zetten of nullptr#TODO TEST of dit werkt nog niet getest
+            newCode = code.addStatement(setValue(token.parameter1, "", Instruction_Variable_Type.String))
         elif isinstance(token, cat):
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.plus, Instruction_Variable_Type.String))#concat in python is just string 1 plus string 2
         elif isinstance(token, idx):
@@ -594,7 +672,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rep):
             newCode = code.addStatement(NotImplemented())
-        elif isinstance(token, sub_txt):#check if correct class
+        elif isinstance(token, sub_txt):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rmv):
             newCode = code.addStatement(NotImplemented())
@@ -614,7 +692,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, sam):
             newCode = code.addStatement(NotImplemented())
-        elif isinstance(token, dif_txt):#check if correct dif class also in lexer
+        elif isinstance(token, dif_txt):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, hiv):
             newCode = code.addStatement(NotImplemented())
@@ -648,7 +726,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, dvb):
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.divide, Instruction_Variable_Type.Float))
         elif isinstance(token, pwr):
-            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, token.parameter3, MathFloatType.power))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.power, token.parameter3))
         elif isinstance(token, sgn):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.sign))
         elif isinstance(token, sqr):
@@ -666,15 +744,15 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, tnh):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.hyperbolicTan))
         elif isinstance(token, cil):
-            newCode = code.addStatement(roundValue(token.parameter1, token.parameter2, True))
+            newCode = code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.roundCeiling, Instruction_Variable_Type.Float))
         elif isinstance(token, flr):
-            newCode = code.addStatement(roundValue(token.parameter1, token.parameter2, False))
+            newCode = code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.roundFloor, Instruction_Variable_Type.Float))
         elif isinstance(token, log):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.logBase10))
         elif isinstance(token, lge):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.logNatural))
         elif isinstance(token, lbq):
-            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.log))
+            newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.log, token.parameter3))
         elif isinstance(token, epw):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.eToPower))
         elif isinstance(token, avl):
@@ -682,7 +760,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, rnd):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, rou):
-            newCode = code.addStatement(NotImplemented())
+            newCode = code.addStatement(valueConv(token.parameter1, token.parameter2, ConvertType.roundNormal, Instruction_Variable_Type.Float))
         elif isinstance(token, asn):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseSin))
         elif isinstance(token, acs):
@@ -690,7 +768,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, atn):
             newCode = code.addStatement(mathFloatFunctions(token.parameter1, token.parameter2, MathFloatType.inverseTan))
         elif isinstance(token, mks):
-            newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Float))#check if good?
+            newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Float))
         elif isinstance(token, fmx):
             newCode = code.addStatement(operators(token.parameter1, token.parameter2, token.parameter3, operatorsType.maxVal, Instruction_Variable_Type.Float))
         elif isinstance(token, fmn):
@@ -708,9 +786,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, lte):
             newCode = code.addStatement(IfStatement(token.parameter1,token.parameter2, token.parameter3, IfStatementType.LESSEQUAL, Instruction_Variable_Type.Float))#INSTRUCTION IS WRONG IN DOCUMENTATION ON WEBSITE, THERE IS GTE AND LTE both greater then or equal. But of course lte must be less then equal 
         elif isinstance(token, rfv):
-            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Float))#todo fix console reading
+            newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Float))#console only supports reading one time when running the program
         elif isinstance(token, dfv_bin):
-            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Float))#todo fix console reading
+            newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Float))
         
     elif isinstance(token, ZIP):
         if isinstance(token, giv):
@@ -737,7 +815,6 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, zfa):
             newCode = code.addStatement(NotImplemented())
-        #newCode = code.addStatement(NotImplemented())
     elif isinstance(token, EXE):
         if isinstance(token, sia):
             newCode = code.addStatement(NotImplemented())
@@ -763,7 +840,6 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, afi):
             newCode = code.addStatement(NotImplemented())
-        #newCode = code.addStatement(NotImplemented())
     elif isinstance(token, DLL):
         if isinstance(token, psh):
             newCode = code.addStatement(NotImplemented())
@@ -786,9 +862,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, tpr):
             newCode = code.addStatement(Tape(TapeAction.MoveRight))
         elif isinstance(token, tsv):
-            newCode = code.addStatement(Tape(token.parameter1, TapeAction.ReadCurrentElementPosition))
+            newCode = code.addStatement(Tape(TapeAction.ReadCurrentElementPosition, token.parameter1))
         elif isinstance(token, tgv):
-            newCode = code.addStatement(Tape(token.parameter1, TapeAction.WriteElementToCurrentPosition))
+            newCode = code.addStatement(Tape(TapeAction.WriteElementToCurrentPosition, token.parameter1))
         elif isinstance(token, gbe):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, gen):
@@ -805,35 +881,31 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, ces):
             newCode = code.addStatement(NotImplemented())
-        #newCode = code.addStatement(NotImplemented())
     elif isinstance(token, CSV):
         if isinstance(token, cia):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, civ):
-            newCode = code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(CreateVar(token.parameter1, Instruction_Variable_Type.Integer))
         elif isinstance(token, csa):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, csv):
-            newCode = code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.String))
+            newCode = code.addStatement(CreateVar(token.parameter1, Instruction_Variable_Type.String))
         elif isinstance(token, cfa):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, cfv):
-            newCode = code.addStatement(createVar(token.parameter1, Instruction_Variable_Type.Float))
+            newCode = code.addStatement(CreateVar(token.parameter1, Instruction_Variable_Type.Float))
         elif isinstance(token, dia):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, div_csv):
-            newCode = code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Integer))
+            newCode = code.addStatement(DeleteVar(token.parameter1, Instruction_Variable_Type.Integer))
         elif isinstance(token, dsa):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dsv):
-            newCode = code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.String))
+            newCode = code.addStatement(DeleteVar(token.parameter1, Instruction_Variable_Type.String))
         elif isinstance(token, dfa):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dfv_csv): 
-            newCode = code.addStatement(deleteVar(token.parameter1, Instruction_Variable_Type.Float))
-            #newCode = code.addStatement(displayValue(token.parameter1, False))?????
-        #else: 
-        #    newCode = code.addStatement(createVar(token.parameter1))
+            newCode = code.addStatement(DeleteVar(token.parameter1, Instruction_Variable_Type.Float))
     elif isinstance(token, LNK):
         if isinstance(token, run):
             newCode = code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))

@@ -4,11 +4,10 @@ from Lexer.tokens import *
 from Tools.tools import *
 import copy
 
-
 #split :: String -> String
 @function_debug_printing
 def split(line : str) -> str:
-    """Function to interpreter the Escape codes of the Dirst programming language
+    """Function to interpreter the Escape codes of the Dirst programming language, described also in the documentation: https://esolangs.org/wiki/Dirst#Fibonacci_Sequence#es
     +-------------+---------------+
     | Escape Code | Literal Value |
     +-------------+---------------+
@@ -76,7 +75,6 @@ def split(line : str) -> str:
         .replace('-h','\\')
     return re.split(r'_|\.|\t', newLine)
         
-
 #giveCorrectClass :: [String] -> Int -> String -> Token
 @function_debug_printing
 def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) -> Token:
@@ -85,13 +83,15 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
     Args:
         operator (list): List of strings with the operators needed to return the correct class used for lexing the language
         isInALoop (int): Number of how nested the function is 
+        consoleInput(string): the input given by the user, currently is given before running the function, because of constrains of side-effects of functional programming
 
     Returns:
         class: Returns the class associated with the operators given by given by call
     """    
     if len(operator[0]) > 3:
         # Instructions are three letters long, if longer the instruction is not valid
-        return ERR("an instruction is longer then 3 characters, so it is not an valid instruction")
+        #return ERR("an instruction is longer then 3 characters, so it is not an valid instruction")
+        raise Exception("an instruction is longer then 3 characters, so it is not an valid instruction")
     elif operator[0] == "fnc" and isInALoop > 0:
         return fnc(operator[1], operator[2], isInALoop)
     elif operator[0] == "dif" and isInALoop > 0:
@@ -108,9 +108,10 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         return dlu(operator[1], isInALoop)
     if operator[-1] not in Instruction_Subsets.ListValues():
         #if instruction is not an directory and not in the instruction subset enum or is missing, is it not an valid instruction, return an error
-        return ERR("instruction provided is not an valid instruction")
+        #return ERR("instruction provided is not an valid instruction")
+        raise Exception("instruction provided is not an valid instruction")
 
-    if operator[-1] == Instruction_Subsets.DAT.value: #complete
+    if operator[-1] == Instruction_Subsets.DAT.value:
         if operator[0] == "abs":
             return abs(operator[1], operator[2], isInALoop)
         elif operator[0] == "neg":
@@ -168,7 +169,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "min":
             return min_(operator[1], operator[2], operator[3], isInALoop)
     
-    elif operator[-1] == Instruction_Subsets.TXT.value: #complete not checked
+    elif operator[-1] == Instruction_Subsets.TXT.value:
         if operator[0] == "rdc":
             return rdc(operator[1], consoleInput, isInALoop)
         elif operator[0] == "rds":
@@ -442,7 +443,8 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
         elif operator[0] == "rtn":#todo check if good this and make 1 line in logic
             return rtn(operator[1], isInALoop)
         
-    return NotImplemented()
+    #return NotImplemented()
+    raise Exception("instruction provided is not a valid instruction, or is not implemented")
 
 #recursiveInstructionClassList :: [String] -> String -> [Token]
 @function_debug_printing
@@ -453,7 +455,7 @@ def recursiveInstructionClassList(argumentList: list[str], consoleInput : str) -
         argumentList (list): A list of lines of the scripting language of Dist
 
     Returns:
-        list: A list of lexed classes of Dirst
+        list: A list of tokens of the Dirst scripting language
     """    
     newArgumentList = copy.deepcopy(argumentList)
     isInALoop = newArgumentList[0].count("")
@@ -471,9 +473,9 @@ def lex(file : list[str], consoleInput : str) -> List[Token]:
 
     Args:
         file (list): A text file according to the Dist scripting language
-        consoleInput (str): The input given by the user, currently is given before running the function, because of constrains of side-effects of functional programming
+        consoleInput (str): The input given by the user, currently is given before running the function, because of constrains of side-effects of functional programming, the downside of this is that is is only possible to give 1 input for the whole program
 
     Returns:
-        list: A list with all the correct classes and parameters(lexed of the Dirst scripting language)
+        list: A list with all the tokens of the Dirst scripting language
     """    
     return recursiveInstructionClassList(list(map(split,file)), consoleInput)

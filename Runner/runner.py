@@ -97,7 +97,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             #todo change after running a function to set the pointer to end of all the underlining functions
             return runABlock(code, codePtr+1, newState, output_, functions)#todo change after running a function to set the pointer to end of all the underlining functions
 
-        case createVar():
+        case CreateVar():
             if statement.name in state.variableNamesDictionary:
                 newOutput("error variable with the name: " + statement.name + " is already created")
                 return code, codePtr, state, newOutput, functions
@@ -197,7 +197,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~(parameter2_value | parameter3_value))
             return runABlock(code, codePtr+1, newState, newOutput, functions)
         
-        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.bitWiseNot):
+        case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.bitWiseNot):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~parameter2_value)
             return runABlock(code, codePtr+1, newState, newOutput, functions)
         
@@ -209,11 +209,16 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], min(parameter2_value, parameter3_value))
             return runABlock(code, codePtr+1, newState, newOutput, functions)
         
-        case roundValue():
-            if statement.roundToCeiling == True:
-                newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.ceil(parameter2_value))
-            else:
-                newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.floor(parameter2_value))
+        case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.roundNormal):
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], round(parameter2_value))
+            return runABlock(code, codePtr+1, newState, newOutput, functions)
+        
+        case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.roundCeiling):
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.ceil(parameter2_value))
+            return runABlock(code, codePtr+1, newState, newOutput, functions)
+        
+        case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.roundFloor):
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.floor(parameter2_value))
             return runABlock(code, codePtr+1, newState, newOutput, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFunctionType=MathFloatType.power):
@@ -268,17 +273,17 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.exp(parameter2_value))
             return runABlock(code, codePtr+1, newState, newOutput, functions)
         
-        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.absolute):
+        case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.absolute):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], abs(parameter2_value))
             return runABlock(code, codePtr+1, newState, newOutput, functions)
         
-        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.negative):
+        case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.negative):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -parameter2_value)#todo need to test if good negative value, otherwise use ~abs
             return runABlock(code, codePtr+1, newState, newOutput, functions)
             
-        case valueConv(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,convertType=ConvertType.RANDOM):
-            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], random.randint(parameter2_value, parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+        #case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.RANDOM):
+        #    newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], random.randint(parameter2_value, parameter3_value))
+        #    return runABlock(code, codePtr+1, newState, newOutput, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseSin):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.asin(parameter2_value))
@@ -328,7 +333,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
                     newOutput(str(statement.nameVar))
             return runABlock(code, codePtr+1, state, newOutput, functions)
         
-        case deleteVar():
+        case DeleteVar():
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.name], 0)
             newState_ = newState.removeVarFromVariableNamesDictionary(statement.name)
             return runABlock(code, codePtr+1, newState_, newOutput, functions)

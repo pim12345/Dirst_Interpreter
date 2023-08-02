@@ -2280,7 +2280,7 @@ class run(LNK):#todo: add documentation and examples
         return self.__repr__()
     
     
-class rtn(LNK):#todo: maybe change or remove
+class rtn(LNK):#todo add float type and string type return values options and #todo: add documentation and examples
     def __init__(self, parameter1: str, isInALoop : int) -> None:
         self.parameter1 = parameter1
         super().__init__(isInALoop)
