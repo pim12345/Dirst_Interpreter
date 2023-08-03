@@ -16,7 +16,7 @@ class SimpleStatement:
         self.instructionType = instructionType
     
     #__str__ :: SimpleStatement -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     #__repr__ :: SimpleStatement -> String
@@ -24,7 +24,7 @@ class SimpleStatement:
         return "Statement that every statement is inherited"
     
 #repeatStr :: String -> Integer -> String
-def repeatStr(s : str, i : int):
+def repeatStr(s : str, i : int) -> str:
     if (i <= 0):
         return ""
     return s + repeatStr(s, i - 1)
@@ -39,7 +39,7 @@ class CodeBlock:
         """Integer used to track how nested this block of Dirst code is"""   
 
     #addStatement :: CodeBlock -> SimpleStatement -> CodeBlock
-    def addStatement(self, statement : SimpleStatement):
+    def addStatement(self, statement : SimpleStatement) -> Self:
         """"Function used to add statement to the code block
 
         Args:
@@ -52,7 +52,7 @@ class CodeBlock:
         return self
         
     #__str__ :: CodeBlock -> String
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__repr__()
 
     #__repr__ :: CodeBlock -> String
@@ -73,7 +73,7 @@ class DeclareFunction(SimpleStatement):
         #super().__init__(Instruction_Variable_Type.Integer)#all functions instrunctions with an compare are compared to integers
     
     #__str__ :: DeclareFunction -> String
-    def __str__(self):
+    def __str__(self) -> str:
         return self.__repr__()
     
     #__repr__ :: DeclareFunction -> String
@@ -91,7 +91,7 @@ class CallFunction(SimpleStatement):
         super().__init__(Instruction_Variable_Type.Function)#not used, but because of inheritance it is needed
         
     #__str__ :: CallFunction -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     #__repr__ :: CallFunction -> String
@@ -110,7 +110,7 @@ class Loop(SimpleStatement):
         super().__init__(Instruction_Variable_Type.Function)#not used, but because of inheritance it is needed
 
     #__str__ :: Loop -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     #__repr__ :: Loop -> String
@@ -124,7 +124,7 @@ class CreateVar(SimpleStatement):
         super().__init__(instructionType)
 
     #__str__ :: CreateVar -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     # __repr__ :: CreateVar -> String
@@ -140,7 +140,7 @@ class DeleteVar(SimpleStatement):
         super().__init__(instructionType)
 
     #__str__ :: DeleteVar -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     # __repr__ :: DeleteVar -> String
@@ -163,7 +163,7 @@ class setValue(SimpleStatement):
         super().__init__(instructionType)
     
     #__str__ :: setValue -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     # __repr__ :: setValue -> String
@@ -184,7 +184,7 @@ class displayValue(SimpleStatement):
         super().__init__(instructionType)
     
     #__str__ :: displayValue -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()    
         
     # __repr__ :: displayValue -> String
@@ -215,7 +215,7 @@ class operatorsType(Enum):
     minVal = 13#min in DAT subset in Dirst
     
     #__str__ :: operatorsType -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()   
     
     # __repr__ :: operatorsType -> String
@@ -288,7 +288,7 @@ class MathFloatType(Enum):
     inverseTan = 19#atn in bin subset in Dirst
     
     #__str__ :: MathFloatType -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()   
     
     # __repr__ :: MathFloatType -> String
@@ -360,7 +360,7 @@ class ConvertType(Enum):
     roundFloor = "round to the floor"#flr in bin subset in Dirst
     
     #__str__ :: ConvertType -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()   
     
     # __repr__ :: ConvertType -> String
@@ -410,7 +410,7 @@ class IfStatementType(Enum):#enum class not working in match statement? so now i
     LESSEQUAL = '<='
     
     #__str__ :: ConvertType -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()   
     
     # __repr__ :: ConvertType -> String
@@ -433,7 +433,7 @@ class IfStatement(SimpleStatement):
         return self.__repr__()
     
     # __repr__ :: IfStatement -> String
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "IfStatement: " + str(self.parameter1) + " will have the value of -1 if: " + str(self.parameter2)+ " " + str(self.condition) + " " + str(self.parameter3) + " otherwise has the value of: 0" + " with instruction type: " + str(self.instructionType)
 
 class RunFunction(SimpleStatement):
@@ -448,7 +448,7 @@ class RunFunction(SimpleStatement):
         return self.__repr__()
     
     # __repr__ :: RunFunction -> String
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "run function " + self.function + " with argument " + self.argument + " and store the result in " + self.result + " result will be of type: " + str(self.instructionType)
 
 class TapeAction(Enum):
@@ -458,7 +458,7 @@ class TapeAction(Enum):
     WriteElementToCurrentPosition = "Sets the specified integer variable to the value of the current element of the tape"#tgv
     
     #__str__ :: TapeAction -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()   
     
     # __repr__ :: TapeAction -> String
@@ -491,7 +491,7 @@ class NotImplemented(SimpleStatement):
         return self.__repr__()
     
     # __repr__ :: NotImplemented -> String
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.ignore == False:
             return "Function not implemented, will not be ignored and will create an error"#will be used for critical code what not yet is implemented
         else:
@@ -508,7 +508,7 @@ class ReturnFunction(SimpleStatement):
         return self.__repr__()
     
     # __repr__ :: ReturnFunction -> String
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "return this function with the value of variable: " + self.parameter1
 
 class StackAction(Enum):
@@ -518,7 +518,7 @@ class StackAction(Enum):
     GETSTACKSIZE = "Set the specified integer variable to the size of the stack"
     
     #__str__ :: StackAction -> String    
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()   
     
     # __repr__ :: StackAction -> String
@@ -536,7 +536,7 @@ class Stack(SimpleStatement):
         return self.__repr__()
         
     # __repr__ :: Stack -> String
-    def __repr__(self):
+    def __repr__(self) -> str:
         return self.stackAction + " with value: " + self.parameter1
 
 #parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock, CodeBlock)

@@ -3,8 +3,7 @@ import string
 from typing import NamedTuple, Union
 
 class Instruction_Variable_Type(Enum):
-    #an enum to describe an instruction input type
-    #this is made because there is a lot of dubble instruction like the add instruction (add 2 int together) and the pls instruction to add 2 floats together
+    #an enum to describe an instruction var type
     Unknown = '0'#todo convert str functies van elk statement i.p.v van str convert naar goede type voor debug 
     Integer = 'int'
     String = "str"
@@ -20,8 +19,15 @@ class Instruction_Variable_Type(Enum):
     @staticmethod
     def ListNames() -> list:
         return list(map(lambda instruction: instruction.name, Instruction_Variable_Type))
+    
+    #__str__ :: Instruction_Variable_Type -> String    
+    def __str__(self) -> str:
+        return self.__repr__()   
+    
+    # __repr__ :: Instruction_Variable_Type -> String
+    def __repr__(self) -> str:
+        return self.name
 
-#nog toevoegen __repr__ ook toevoegen denk i.p.v __repr__
 class Instruction_Subsets(Enum):
     DAT = "dat"
     TXT = "txt"
@@ -31,7 +37,7 @@ class Instruction_Subsets(Enum):
     DLL = "dll"
     CSV = 'csv'
     LNK = 'lnk'
-    DIRECTORY = ""
+    DIRECTORY = "directory"
     
     #ListValues :: () -> [String]
     @staticmethod
@@ -42,6 +48,14 @@ class Instruction_Subsets(Enum):
     @staticmethod
     def ListNames() -> list:
         return list(map(lambda instruction: instruction.name, Instruction_Subsets))
+    
+    #__str__ :: Instruction_Subsets -> String    
+    def __str__(self) -> str:
+        return self.__repr__()   
+    
+    # __repr__ :: Instruction_Subsets -> String
+    def __repr__(self) -> str:
+        return self.name
 
 ########## Tokens ###############
 class Token:
@@ -53,7 +67,7 @@ class Token:
         return "Token class"
     
     # __str__ :: Token -> String
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 
 ##################################
@@ -63,7 +77,7 @@ class Directory(Token):
     def __repr__(self) -> str:
         return "Directory token, Handles looping, conditionals and code separation"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 
 class fnc(Directory):
@@ -76,7 +90,7 @@ class fnc(Directory):
     def __repr__(self) -> str:
         return "Execute all subitems in the directory"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dif_directory(Directory):
@@ -87,7 +101,7 @@ class dif_directory(Directory):
     #__repr__ :: dif_ -> String
     def __repr__(self) -> str:
         return "Execute directory subitems only if the specified integer value is not zero"
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 class nif(Directory):
     def __init__(self, parameter1: str, isInALoop : int):
@@ -98,7 +112,7 @@ class nif(Directory):
     def __repr__(self) -> str:
         return "Execute directory subitems only if the specified integer value is zero"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class lpc(Directory):
@@ -109,7 +123,7 @@ class lpc(Directory):
     #__repr__ :: lpc -> String
     def __repr__(self) -> str:
         return "Loop through directory subitems while the specified integer value is not zero"
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class lpn(Directory):
@@ -121,7 +135,7 @@ class lpn(Directory):
     def __repr__(self) -> str:
         return "Loop through directory subitems while the specified integer value is zero"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dlw(Directory):
@@ -133,7 +147,7 @@ class dlw(Directory):
     def __repr__(self) -> str:
         return "Do loop through directory subitems while the specified integer value is not zero (loop at least once)"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 class dlu(Directory):
     def __init__(self, parameter1: str, isInALoop : int):
@@ -144,7 +158,7 @@ class dlu(Directory):
     def __repr__(self) -> str:
         return "Do loop through directory subitems while the specified integer value is zero (loop at least once)"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 
 ##################################
@@ -154,7 +168,7 @@ class DAT(Token):
     def __repr__(self) -> str:
         return "DAT token, Contains all integer functionality and logic"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 
 class abs(DAT):
@@ -162,7 +176,7 @@ class abs(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: " + str(self.parameter1) + " to the absolute value of parameter 2: " + str(self.parameter2)
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -175,7 +189,7 @@ class neg(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the negative value of parameter 2:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -188,7 +202,7 @@ class add(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: plus parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -202,7 +216,7 @@ class sub_dat(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: minus parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -216,7 +230,7 @@ class mul(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: times parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -230,7 +244,7 @@ class div_dat(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: divided by parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -244,7 +258,7 @@ class mod(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: modulo parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -259,7 +273,7 @@ class and_(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise and parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -274,7 +288,7 @@ class orb(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise or parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -288,7 +302,7 @@ class xor_dat(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise xor parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     
@@ -303,7 +317,7 @@ class xad(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise xand parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -317,7 +331,7 @@ class nad(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise nand parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -331,7 +345,7 @@ class nor(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of parameter 2: bitwise nor parameter 3:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -345,7 +359,7 @@ class not_(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to the value of the bitwise not of parameter 2:"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -358,7 +372,7 @@ class mor(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is greater than parameter 3:, otherwise 0"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -372,7 +386,7 @@ class les(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is less than parameter 3:, otherwise 0"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     
@@ -387,7 +401,7 @@ class equ(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is equal to parameter 3:, otherwise 0"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -401,7 +415,7 @@ class neq(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1: to -1 if parameter 2: is not equal to parameter 3:, otherwise 0"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -415,7 +429,7 @@ class get(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1 to -1 if parameter 2 is greater than or equal to parameter 3, otherwise 0"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -429,7 +443,7 @@ class let(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1 to -1 if parameter 2 is less than or equal to parameter 3, otherwise 0"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -443,7 +457,7 @@ class rdi(DAT):
     def __repr__(self) -> str:
         return "Reads an integer from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is not modified and EOF is marked."
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, consoleInput : str, isInALoop : int):
@@ -456,7 +470,7 @@ class ric(DAT):
     def __repr__(self) -> str:
         return "Read a character from the console and sets the specified integer variable to the value. If EOF is encountered, the variable is set to -1."
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, consoleInput : str, isInALoop : int):
@@ -469,7 +483,7 @@ class dsi(DAT):
     def __repr__(self) -> str:
         return "Display the specified integer value to the console"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -481,7 +495,7 @@ class dic(DAT):
     def __repr__(self) -> str:
         return "Display the character specified by the integer value to the console"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -493,7 +507,7 @@ class set(DAT):
     def __repr__(self) -> str:
         return "Sets parameter 1 to the value of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -506,7 +520,7 @@ class max_(DAT):#is max_ because max is a python function
     def __repr__(self) -> str:
         return "Sets parameter 1 to the higher value out of parameter 2 and parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -520,7 +534,7 @@ class min_(DAT):#is min_ because min is a python function
     def __repr__(self) -> str:
         return "Sets parameter 1 to the lower value out of parameter 2 and parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -537,7 +551,7 @@ class TXT(Token):
     def __repr__(self) -> str:
         return "TXT token, Contains all string functionality and logic as well as advanced console IO"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class rdc(TXT):
@@ -545,7 +559,7 @@ class rdc(TXT):
     def __repr__(self) -> str:
         return "Reads a character from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, consoleInput : str, isInALoop : int):
@@ -558,7 +572,7 @@ class rds(TXT):
     def __repr__(self) -> str:
         return "Reads a line from the console and appends to the specified string. If EOF is encountered, the variable is not modified and EOF is marked."
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, consoleInput : str, isInALoop : int):
@@ -571,7 +585,7 @@ class eof(TXT):
     def __repr__(self) -> str:
         return "Sets the given integer variable to -1 it EOF has been reached, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -583,7 +597,7 @@ class dsc(TXT):
     def __repr__(self) -> str:
         return "Displays the character from string parameter 1 at index parameter 2 (base 0) to the console"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -596,7 +610,7 @@ class dss(TXT):
     def __repr__(self) -> str:
         return "Displays the given string variable to the console with no newline following"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -608,7 +622,7 @@ class dsl(TXT):
     def __repr__(self) -> str:
         return "Displays the given string variable to the console followed by a newline"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -620,7 +634,7 @@ class dec(TXT):
     def __repr__(self) -> str:
         return "Displays the character from string parameter 1 at index parameter 2 (base 0) to STDERR"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -633,7 +647,7 @@ class des(TXT):
     def __repr__(self) -> str:
         return "Displays the given string variable to STDERR with no newline following"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -645,7 +659,7 @@ class del_(TXT):
     def __repr__(self) -> str:
         return "Displays the given string variable to STDERR followed by a newline"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -657,7 +671,7 @@ class clr(TXT):
     def __repr__(self) -> str:
         return "Clears the given string variable: " + str(self.parameter1)
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -669,7 +683,7 @@ class cat(TXT):
     def __repr__(self) -> str:
         return "Concats parameter 2 and parameter 3 and sets parameter 1 to the result"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -683,7 +697,7 @@ class idx(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the index of the first occurrence of parameter 3 in parameter 2, or -1 if not found"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -697,7 +711,7 @@ class ids(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the index of the first occurrence of parameter 3 in parameter 2 after specified index parameter 4, or -1 if not found"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -712,7 +726,7 @@ class lid(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the index of the last occurrence of parameter 3 in parameter 2, or -1 if not found"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -726,7 +740,7 @@ class rep(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2, replacing every occurrence of parameter 3 with parameter 4"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -741,7 +755,7 @@ class sub_txt(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the substring of parameter 2 from index parameter 3 (base 0) of length parameter 4"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -756,7 +770,7 @@ class rmv(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 removing characters from index parameter 3 (base 0) of length parameter 4"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -771,7 +785,7 @@ class ins(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 inserting substring parameter 4 at index parameter 3 (base 0)"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -786,7 +800,7 @@ class tou(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the all uppercase value of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -799,7 +813,7 @@ class tol(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the all lowercase value of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -812,7 +826,7 @@ class pdl(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the left-hand side with spaces until length parameter 3 is reached"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -826,7 +840,7 @@ class cpl(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the left-hand side with the character value parameter 4 until length parameter 3 is reached"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -841,7 +855,7 @@ class pdr(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the right-hand side with spaces until length parameter 3 is reached"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -855,7 +869,7 @@ class cpr(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 padded on the right-hand side with the character value parameter 4 until length parameter 3 is reached"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, parameter4, isInALoop : int):
@@ -870,7 +884,7 @@ class sam(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is equal to parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -884,7 +898,7 @@ class dif_txt(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is not equal to parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -898,7 +912,7 @@ class hiv(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically after parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -912,7 +926,7 @@ class lov(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically before parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -926,7 +940,7 @@ class hev(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically after or equal to parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -940,7 +954,7 @@ class lev(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is lexicographically before or equal to parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -954,7 +968,7 @@ class ssw(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 starts with parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -968,7 +982,7 @@ class sew(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 ends with parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -982,7 +996,7 @@ class trm(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 trimming all leading and trailing occurrences of the characters in parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -996,7 +1010,7 @@ class tms(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 trimming all leading occurrences of the characters in parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1010,7 +1024,7 @@ class tme(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to parameter 2 trimming all trailing occurrences of the characters in parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1024,7 +1038,7 @@ class ses(TXT):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1040,7 +1054,7 @@ class BIN(Token):
     def __repr__(self) -> str:
         return "Contains all floating point functionality and logic as well as advanced math operations"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 
@@ -1049,7 +1063,7 @@ class pls(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 plus parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1063,7 +1077,7 @@ class mns(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 minus parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1077,7 +1091,7 @@ class tms(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 times parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1091,7 +1105,7 @@ class dvb(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 divided by parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1105,7 +1119,7 @@ class pwr(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 to the power of parameter 3"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1119,7 +1133,7 @@ class sgn(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the sign of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1132,7 +1146,7 @@ class sqr(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the square root of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1145,7 +1159,7 @@ class sin(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the sine of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1158,7 +1172,7 @@ class cos(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the cosine of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1171,7 +1185,7 @@ class tan(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the tangent of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1184,7 +1198,7 @@ class snh(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the hyperbolic sine of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1197,7 +1211,7 @@ class csh(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the hyperbolic cosine of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1210,7 +1224,7 @@ class tnh(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the hyperbolic tangent of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1223,7 +1237,7 @@ class cil(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the ceiling of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1236,7 +1250,7 @@ class flr(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the floor of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1249,7 +1263,7 @@ class log(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the base 10 logarithm of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1262,7 +1276,7 @@ class lge(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the natural logarithm of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1275,7 +1289,7 @@ class lbq(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the base parameter 3 logarithm of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1289,7 +1303,7 @@ class epw(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of e to the power of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1302,7 +1316,7 @@ class avl(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the absolute value of parameter 2"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1315,7 +1329,7 @@ class rnd(BIN):
     def __repr__(self) -> str:
         return "Set the given float variable to a random value between 0.0 and 1.0 inclusive"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1327,7 +1341,7 @@ class rou(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 rounded to the nearest whole number"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1345,7 +1359,7 @@ class asn(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the inverse sine of parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class acs(BIN):
@@ -1358,14 +1372,14 @@ class acs(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the inverse cosine of parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
 class atn(BIN):
     #__repr__ :: atn -> String
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of the inverse tangent of parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1378,7 +1392,7 @@ class mks(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the value of parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1391,7 +1405,7 @@ class fmx(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the greater value of either parameter 2 or parameter 3 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1405,7 +1419,7 @@ class fmn(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to the lesser value of either parameter 2 or parameter 3 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1419,7 +1433,7 @@ class grt(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is greater than parameter 3, 0 otherwise "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1433,7 +1447,7 @@ class lst(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is less than parameter 3, 0 otherwise "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1447,7 +1461,7 @@ class eqt(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is equal to parameter 3, 0 otherwise "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1461,7 +1475,7 @@ class net(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is not equal to parameter 3, 0 otherwise "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1475,7 +1489,7 @@ class gte(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is greater than or equal to parameter 3, 0 otherwise"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1489,7 +1503,7 @@ class lte(BIN):
     def __repr__(self) -> str:
         return "Set parameter 1 to -1 if parameter 2 is less than or equal to parameter 3, 0 otherwise. Wrong in original Dirst documentation."
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1503,7 +1517,7 @@ class rfv(BIN):
     def __repr__(self) -> str:
         return "Reads a floating point value from the console and sets the specified float variable to the value. If EOF is encountered, the variable is not modified and EOF is marked. "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, consoleInput : str, isInALoop : int):
@@ -1516,7 +1530,7 @@ class dfv_bin(BIN):
     def __repr__(self) -> str:
         return "Display the specified float value to the console "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1531,7 +1545,7 @@ class ZIP(Token):
     def __repr__(self) -> str:
         return "Manages arrays and array values"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
         
@@ -1540,7 +1554,7 @@ class giv(ZIP):
     def __repr__(self) -> str:
         return "Set parameter 1 to the integer value in array parameter 2 at index parameter 3 (base 0) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1554,7 +1568,7 @@ class siv(ZIP):
     def __repr__(self) -> str:
         return "Set an integer value in array parameter 1 at index parameter 2 (base 0) to the value of parameter 3 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1568,7 +1582,7 @@ class gsv(ZIP):
     def __repr__(self) -> str:
         return "Set parameter 1 to the string value in array parameter 2 at index parameter 3 (base 0) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1583,7 +1597,7 @@ class gfv(ZIP):
     def __repr__(self) -> str:
         return "Set parameter 1 to the float value in array parameter 2 at index parameter 3 (base 0) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1597,7 +1611,7 @@ class sfv(ZIP):
     def __repr__(self) -> str:
         return "Set an float value in array parameter 1 at index parameter 2 (base 0) to the value of parameter 3 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1611,7 +1625,7 @@ class fia(ZIP):
     def __repr__(self) -> str:
         return "Resizes the integer array in parameter 1 to the size parameter 2 (base 0), preserving data "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1624,7 +1638,7 @@ class zia(ZIP):
     def __repr__(self) -> str:
         return "Set parameter 1 to the size of the integer array in parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1637,7 +1651,7 @@ class fsa(ZIP):
     def __repr__(self) -> str:
         return "Resizes the string array in parameter 1 to the size parameter 2 (base 0), preserving data "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1650,7 +1664,7 @@ class zsa(ZIP):
     def __repr__(self) -> str:
         return "Set parameter 1 to the size of the string array in parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1663,7 +1677,7 @@ class ffa(ZIP):
     def __repr__(self) -> str:
         return "Resizes the float array in parameter 1 to the size parameter 2 (base 0), preserving data "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1676,7 +1690,7 @@ class zfa(ZIP):
     def __repr__(self) -> str:
         return "Set parameter 1 to the size of the float array in parameter 2 "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1693,7 +1707,7 @@ class EXE(Token):
     def __repr__(self) -> str:
         return "Handles type conversion and value/array transcoding"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 
@@ -1702,7 +1716,7 @@ class sia(EXE):
     def __repr__(self) -> str:
         return "Converts the string value in parameter 2 into the integer array in parameter 1 where each integer represents a character code "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1715,7 +1729,7 @@ class ssa(EXE):
     def __repr__(self) -> str:
         return "Converts the string value in parameter 2 into the string array in parameter 1 by splitting it using the string value parameter 3 as a delimiter "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1729,7 +1743,7 @@ class sti(EXE):
     def __repr__(self) -> str:
         return "Converts the string value in parameter 2 into the integer variable in parameter 1 by interpreting the base 10 value represented by the string "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1742,7 +1756,7 @@ class stf(EXE):
     def __repr__(self) -> str:
         return "Converts the string value in parameter 2 into the float variable in parameter 1 by interpreting the decimal value represented by the string "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1755,7 +1769,7 @@ class stc(EXE):
     def __repr__(self) -> str:
         return "Converts the string value in parameter 2 into the integer variable in parameter 1 by retrieving the character code of the character at index parameter 3 (base 0) in the string "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, parameter3: str, isInALoop : int):
@@ -1769,7 +1783,7 @@ class its(EXE):
     def __repr__(self) -> str:
         return "Converts the integer value in parameter 2 into the string variable in parameter 1 by converting it into a base 10 string representation "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1782,7 +1796,7 @@ class itf(EXE):
     def __repr__(self) -> str:
         return "Converts the integer value in parameter 2 into the float variable in parameter 1 using equivalence"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1795,7 +1809,7 @@ class ias(EXE):
     def __repr__(self) -> str:
         return "Converts the integer array in parameter 2 into the string variable in parameter 1 by converting each integer element of the array into a character with the character code specified by the value "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1808,7 +1822,7 @@ class aif(EXE):
     def __repr__(self) -> str:
         return "Converts the integer array in parameter 2 into the float array in parameter 1 by transforming each element using equivalence "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1821,7 +1835,7 @@ class fts(EXE):
     def __repr__(self) -> str:
         return "Converts the float value in parameter 2 into the string variable in parameter 1 by converting it into a standard format decimal string representation "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1834,7 +1848,7 @@ class fti(EXE):
     def __repr__(self) -> str:
         return "Converts the float value in parameter 2 into the integer variable in parameter 1 using equivalence "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1847,7 +1861,7 @@ class afi(EXE):
     def __repr__(self) -> str:
         return "Converts the float array in parameter 2 into the integer array in parameter 1 by transforming each element using equivalence "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, parameter2: str, isInALoop : int):
@@ -1863,7 +1877,7 @@ class DLL(Token):
     def __repr__(self) -> str:
         return "DLL token, Contains all extensions and specialized instructions, such as exception handling and abstract data structures"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 
@@ -1872,7 +1886,7 @@ class psh(DLL):
     def __repr__(self) -> str:
         return "Pushes the integer value onto the stack "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1884,7 +1898,7 @@ class pop(DLL):
     def __repr__(self) -> str:
         return "Set the specified integer variable to the value popped from the stack. An exception is thrown if the stack is empty."
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1896,7 +1910,7 @@ class spk(DLL):
     def __repr__(self) -> str:
         return "Set the specified integer variable to the value peeked from the stack. An exception is thrown if the stack is empty. "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1908,7 +1922,7 @@ class ssz(DLL):
     def __repr__(self) -> str:
         return "Set the specified integer variable to the value of the size of the stack "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1920,7 +1934,7 @@ class enq(DLL):
     def __repr__(self) -> str:
         return "Enqueues the specified integer value in the queue "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1932,7 +1946,7 @@ class deq(DLL):
     def __repr__(self) -> str:
         return "Set the specified integer variable to the value dequeued from the queue. An exception is thrown if the queue is empty. "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1944,7 +1958,7 @@ class qpk(DLL):
     def __repr__(self) -> str:
         return "Set the specified integer variable to the value peeked from the queue. An exception is thrown if the queue is empty. "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1956,7 +1970,7 @@ class qsz(DLL):
     def __repr__(self) -> str:
         return "Set the specified integer variable to the value of the size of the queue "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -1968,7 +1982,7 @@ class tpl(DLL):
     def __repr__(self) -> str:
         return "Moves the tape left "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -1979,7 +1993,7 @@ class tpr(DLL):
     def __repr__(self) -> str:
         return "Moves the tape right "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -1990,7 +2004,7 @@ class tsv(DLL):
     def __repr__(self) -> str:
         return "Sets the current element of the tape to the specified integer value "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -2002,7 +2016,7 @@ class tgv(DLL):
     def __repr__(self) -> str:
         return "Sets the specified integer variable to the value of the current element of the tape "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1: str, isInALoop : int):
@@ -2013,7 +2027,7 @@ class gbe(DLL):
     def __repr__(self) -> str:
         return "Changes the error handling mode to global "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2024,7 +2038,7 @@ class gen(DLL):
     def __repr__(self) -> str:
         return "Turns global errors on (exception handling off) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2035,7 +2049,7 @@ class gef(DLL):
     def __repr__(self) -> str:
         return "Turns global errors off (exception handling on) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2046,7 +2060,7 @@ class lce(DLL):
     def __repr__(self) -> str:
         return "Changes the error handling mode to local "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2057,7 +2071,7 @@ class lcn(DLL):
     def __repr__(self) -> str:
         return "Turns local errors on (exception handling off) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2068,7 +2082,7 @@ class lcf(DLL):
     def __repr__(self) -> str:
         return "Turns local errors off (exception handling on) "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2079,7 +2093,7 @@ class ges(DLL):
     def __repr__(self) -> str:
         return "Sets the specified string variable to the error message from the last caught exception in the given scope "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, parameter1 : str, isInALoop : int):
@@ -2091,7 +2105,7 @@ class ces(DLL):
     def __repr__(self) -> str:
         return "Clears the error string in the given scope "
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     def __init__(self, isInALoop : int):
@@ -2105,7 +2119,7 @@ class CSV(Token):
     def __repr__(self) -> str:
         return "CSV token, Manages, creates, and destroys variables and arrays"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 
@@ -2118,7 +2132,7 @@ class cia(CSV):
     def __repr__(self) -> str:
         return "Creates an integer array with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class civ(CSV):
@@ -2130,7 +2144,7 @@ class civ(CSV):
     def __repr__(self) -> str:
         return "Creates an integer variable with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class csa(CSV):
@@ -2142,7 +2156,7 @@ class csa(CSV):
     def __repr__(self) -> str:
         return "Creates a string array with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class csv(CSV):
@@ -2154,7 +2168,7 @@ class csv(CSV):
     def __repr__(self) -> str:
         return "Creates a string variable with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()    
     
 class cfa(CSV):
@@ -2166,7 +2180,7 @@ class cfa(CSV):
     def __repr__(self) -> str:
         return "Creates a float array with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class cfv(CSV):
@@ -2178,7 +2192,7 @@ class cfv(CSV):
     def __repr__(self) -> str:
         return "Creates a float variable with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dia(CSV):
@@ -2190,7 +2204,7 @@ class dia(CSV):
     def __repr__(self) -> str:
         return "Deletes an integer array with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class div_csv(CSV):
@@ -2202,7 +2216,7 @@ class div_csv(CSV):
     def __repr__(self) -> str:
         return "Deletes an integer variable with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dsa(CSV):
@@ -2214,7 +2228,7 @@ class dsa(CSV):
     def __repr__(self) -> str:
         return "Deletes a string array with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dsv(CSV):
@@ -2226,7 +2240,7 @@ class dsv(CSV):
     def __repr__(self) -> str:
         return "Deletes a string variable with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dfa(CSV):
@@ -2238,7 +2252,7 @@ class dfa(CSV):
     def __repr__(self) -> str:
         return "Deletes a float array with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 class dfv_csv(CSV):
@@ -2250,7 +2264,7 @@ class dfv_csv(CSV):
     def __repr__(self) -> str:
         return "Deletes a float variable with the specified variable name"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 
@@ -2261,7 +2275,7 @@ class LNK(Token):
     def __repr__(self) -> str:
         return "function calls and the like. Not in original Dirst added for requirement for ATP school project"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
 
@@ -2276,7 +2290,7 @@ class run(LNK):#todo: add documentation and examples
     def __repr__(self) -> str:
         return "call function with name functionName and pass parameterVar as parameter and save result to returnVar"
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     
@@ -2289,7 +2303,7 @@ class rtn(LNK):#todo add float type and string type return values options and #t
     def __repr__(self) -> str:
         return "return parameter 1 to function, the value of variable of parameter 1 is: " + str(self.parameter1)
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     
     
@@ -2303,6 +2317,6 @@ class ERR(Token):
     def __repr__(self) -> str:
         return "Error: " + self.message
     
-    def __str__(self) -> str:#according to checklist __str__ must be implemented for class printing, but __repr__ is better to use when class printing
+    def __str__(self) -> str:
         return self.__repr__()
     

@@ -5,8 +5,6 @@ from Parser.parser import *
 from Tools.tools import *
 import math
 from operator import xor
-import random
-import copy#todo check of niet standaard package is anders ff toevoegen aan requirements.txt
 
 class ProgramState():
     def __init__(self, pointer: int=1, memory: List[int]=[math.nan]*10, variableNamesDictionary: dict={}, stack: List[int]=[], tape: List[int]=[math.nan], tapePointer: int=0):#overloading didnt work so this is the solution
@@ -32,10 +30,8 @@ class ProgramState():
     
     #changeStateVariableNamesDictionary :: ProgramState -> String -> int -> ProgramState
     def changeStateVariableNamesDictionary(self, varName: string, pointer: int) -> Self:
-        #self.variableNamesDictionary[varName] = pointer
         newVariableNamesDictionary = {**self.variableNamesDictionary, **{varName: pointer}}#https://favtutor.com/blogs/merge-dictionaries-python
         return ProgramState(self.pointer, self.memory, newVariableNamesDictionary, self.stack, self.tape, self.tapePointer)
-        #return ProgramState(self.pointer, self.memory, {**self.variableNamesDictionary, **{varName: pointer}}, self.stack, self.tape, self.tapePointer)
     
     #removeVarFromVariableNamesDictionary :: ProgramState -> String -> ProgramState
     def removeVarFromVariableNamesDictionary(self, varName: string) -> Self:
@@ -45,6 +41,10 @@ class ProgramState():
     #__repr__ :: ProgramState -> String
     def __repr__(self) -> str:
         return "ptr: " + str(self.pointer) + " val: " + str(self.memory) + " varname dictionary: " + str(self.variableNamesDictionary)
+    
+    #__str__ :: ProgramState -> String    
+    def __str__(self) -> str:
+        return self.__repr__()  
 
 #runABlock :: CodeBlock -> Integer -> ProgramState -> Callable -> CodeBlock -> (CodeBlock, Integer, ProgramState, Callable, CodeBlock)
 @function_debug_printing
@@ -317,7 +317,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case displayValue():
-            if statement.nameVar in state.variableNamesDictionary:#todo check if good
+            if statement.nameVar in state.variableNamesDictionary:
                 if statement.newLine:
                     newOutput = output(str(state.memory[state.variableNamesDictionary[statement.nameVar]]) + '\n')
                 else:
