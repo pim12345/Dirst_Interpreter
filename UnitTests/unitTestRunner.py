@@ -219,8 +219,7 @@ class TestFibonacciSequence(unittest.TestCase):
 
 class TestGreeter(unittest.TestCase):
     def test_greeter(self):
-        fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/Greeter.txt"))
-       
+        fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/Greeter.txt"))  
         consoleInput = "Herman"
         consolePrinting = PrintingOutput()
         lex_output = lex(fileTree, consoleInput)
@@ -228,10 +227,9 @@ class TestGreeter(unittest.TestCase):
         code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
         self.assertEqual(output.output, "What is your name? Hello Herman!")
         
-class TestErrorTestCases(unittest.TestCase):
+class TestErrorTestCase(unittest.TestCase):
     def test_ErrorFunctionNotExisted(self):
         fileTree = readFile(os.path.join(os.getcwd() , "UnitTests/TestCode/FunctionNotExistedTest.txt"))
-
         consoleInput = ""
         consolePrinting = PrintingOutput()
         lex_output = lex(fileTree, consoleInput)
@@ -242,7 +240,6 @@ class TestErrorTestCases(unittest.TestCase):
             return
         tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
         self.assertRaises(Exception, runABlock, parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
-        #self.assertEqual(output.output, "error, no function declared with the name: NotExistingFunction")
 
 
         

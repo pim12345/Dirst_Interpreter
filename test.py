@@ -1,34 +1,16 @@
 import unittest
 
-# from typing import Tuple, List, Callable, Union, TypeVar, Optional
-# from functools import reduce
-
 
 from Lexer.tokens import *
 from Lexer.lexer import *
 from Runner.runner import *
 from Parser.parser import *
 from Tools.tools import *
-
-
-
-
-# class Test_tokens(unittest.TestCase):
-#     def TestDirectoryToken(self):
-#         self.assertEqual(Directory("test"), "Handles looping, conditionals and code separation")
-    
-
-
-# test = dif_("test",1)
-
-# match test:
-#     case dif_():
-#         print("test")
-#     case _:
-#         print("fail")
-
 from UnitTests.unitTestRunner import *
 
+# voor alle unit tests ga naar de map UnitTests en run daar de test.py file, deze file is er om er voor te zorgen dan vs code extensie de unittests makkelijker kan vinden
+# voorbeeld code kan gevonden worden in de map ./Unittets/TestCode
+# de uitleg voor de unittests kan gevonden worden in de readme.md file in de root van de repository
 
 if __name__ == '__main__':
     unittest.main()

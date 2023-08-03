@@ -52,49 +52,39 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     if(codePtr >= len(code.statements) or codePtr < 0):
         return code, codePtr, state, output, functions
     statement = code.statements[codePtr]
-    #newOutput = copy.deepcopy(output)#cant change original variable, and python is bad with constant and normal copy(is by classes a pointer), this is slower but works
     #todo add check if value is the same as the type(like int is int and not string)
     #todo check wat te doen met parameter 1 wel of niet casten
     
     
     #todo check if conversion from parameter 1 is good
     if hasattr(statement, 'parameter1'):#check if object has parameter1
-        if statement.parameter1 in state.variableNamesDictionary:
-            parameter1_value = state.memory[state.variableNamesDictionary[statement.parameter1]]
-        else:
-            print("test")
-            parameter1_value = __builtins__[statement.instructionType.value](statement.parameter1)
-    
+        try:
+            if statement.parameter1 in state.variableNamesDictionary:
+                parameter1_value = state.memory[state.variableNamesDictionary[statement.parameter1]]#gets the value from the memory
+            else:
+                parameter1_value = __builtins__[statement.instructionType.value](statement.parameter1)#casting the value to the correct type using the enum for the type(to cast to int, float, string and other ) #https://gist.github.com/mdogo/4947278
+        except:
+            raise Exception("Error: converting or getting parameter parameter1 from memory: " + statement.parameter1)
     if hasattr(statement, 'parameter2'):#check if object has parameter2
-        if statement.parameter2 in state.variableNamesDictionary:
-            parameter2_value = state.memory[state.variableNamesDictionary[statement.parameter2]]
-        else:
-            parameter2_value = __builtins__[statement.instructionType.value](statement.parameter2)#https://gist.github.com/mdogo/4947278 #todo check safety of this, and of allowed to use this
-            #parameter2_value = statement.instructionType(statement.parameter2)#todo check if casting works, and if it works add documentation
-            
+        try:
+            if statement.parameter2 in state.variableNamesDictionary:
+                parameter2_value = state.memory[state.variableNamesDictionary[statement.parameter2]]#gets the value from the memory
+            else:
+                parameter2_value = __builtins__[statement.instructionType.value](statement.parameter2)#casting the value to the correct type using the enum for the type(to cast to int, float, string and other ) #https://gist.github.com/mdogo/4947278 
+        except:
+            raise Exception("Error: converting or getting parameter parameter2 from memory: " + statement.parameter2)    
     if hasattr(statement, 'parameter3'):#check if object has parameter3
-        if statement.parameter3 in state.variableNamesDictionary:
-            parameter3_value = state.memory[state.variableNamesDictionary[statement.parameter3]]
-        else:
-            parameter3_value = __builtins__[statement.instructionType.value](statement.parameter3)#todo check if casting works, and if it works add documentation #https://gist.github.com/mdogo/4947278
-    
-    
-    
-    match statement:
-        #case DeclareFunction():
-            #todo check if there is already a function with that name(with count or something)
-            # if statement.functionName in newState.variableNamesDictionary:
-            #     newOutput("error function with the name: ", statement.name , " is already created")
-            #     return code, codePtr, newState, newOutput, functions
-            # newState.memory[newState.pointer]=0#todo check of wel goed doe en of wel nodig is, misch apparte dictionary of gewoon ignoren en alleen checken bij call
-            # newState.variableNamesDictionary[statement.functionName] = newState.pointer
-            # newState.pointer+=1
-            #return runABlock(code, codePtr+1, newState, output, functions)
-        
+        try:
+            if statement.parameter3 in state.variableNamesDictionary:
+                parameter3_value = state.memory[state.variableNamesDictionary[statement.parameter3]]#gets the value from the memory
+            else:
+                parameter3_value = __builtins__[statement.instructionType.value](statement.parameter3)#casting the value to the correct type using the enum for the type(to cast to int, float, string and other ) #https://gist.github.com/mdogo/4947278
+        except:
+            raise Exception("Error: converting or getting parameter parameter3 from memory: " + statement.parameter3)
+    match statement:        
         case CallFunction():
             result, output_ = runAFunction(state.memory[state.variableNamesDictionary[statement.functionInputVar]], statement.functionName, output, functions)
-            newState = state.changeStateMemory(state.variableNamesDictionary[statement.functionReturnVar], result)#todo check if good functional programming
-            #todo change after running a function to set the pointer to end of all the underlining functions
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.functionReturnVar], result)
             return runABlock(code, codePtr+1, newState, output_, functions)#todo change after running a function to set the pointer to end of all the underlining functions
 
         case CreateVar():
