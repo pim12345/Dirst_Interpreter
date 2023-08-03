@@ -11,22 +11,24 @@ def main() -> None:
     match sys.argv:
         case [_,'-f', scriptLocation]:
             print("Running script: ", scriptLocation)
-            console_printing = lambda *args: print(*args)
+            consolePrinting = PrintingOutput()
             fileTree = readFile(os.path.join(os.getcwd() , scriptLocation))
             consoleInput = ""#no input provided
             lex_output = lex(fileTree, consoleInput)
             tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
-            code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), console_printing, parsedFunctions)
+            code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
+            print(output)
             print("program end, exiting...")
             exit(0)
             
         case [_,'-f', scriptLocation, '-i', consoleInput]:
             print("Running script: ", scriptLocation, " with input: ", consoleInput)
-            console_printing = lambda *args: print(*args)
+            consolePrinting = PrintingOutput()
             fileTree = readFile(os.path.join(os.getcwd() , scriptLocation))
             lex_output = lex(fileTree, consoleInput)
             tokens, parsedCode, parsedFunctions = parseCodeBlock(lex_output, CodeBlock(), CodeBlock())
-            code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), console_printing, parsedFunctions)
+            code, codePtr, state, output, functions = runABlock(parsedCode, 0, ProgramState(), consolePrinting, parsedFunctions)
+            print(output)
             print("program end, exiting...")
             exit(0)
         case _:
