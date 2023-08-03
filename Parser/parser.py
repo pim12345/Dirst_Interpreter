@@ -539,7 +539,7 @@ class Stack(SimpleStatement):
     def __repr__(self):
         return self.stackAction + " with value: " + self.parameter1
 
-#parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock)
+#parseCodeBlock :: [Token] -> CodeBlock -> ([Token], CodeBlock, CodeBlock)
 @function_debug_printing
 def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -> Tuple[List[Token], CodeBlock, CodeBlock]:
     """Function used to parse a block of code to correct function to be used by the runner
@@ -549,7 +549,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         code (CodeBlock): block of code
 
     Returns:
-        Tuple[List[Token], CodeBlock]: the list of tokens and the block of code
+        Tuple[List[Token], CodeBlock, CodeBlock]: the list of tokens and the block of code
     """
     
     if tokens == [] or len(tokens) == 0:

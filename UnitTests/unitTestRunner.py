@@ -8,6 +8,11 @@ from Parser.parser import *
 from Runner.runner import *
 from Tools.tools import *
 
+class TestRunWithNoCodeTest(unittest.TestCase):
+    def test_runWithNoCode(self):
+        consolePrinting = PrintingOutput()
+        code, codePtr, state, output, functions = runABlock(CodeBlock(), 0, ProgramState(), consolePrinting, CodeBlock())
+        self.assertEqual(output.output, "")
 
 class TestHelloWorld(unittest.TestCase):
     def test_helloWorld(self):

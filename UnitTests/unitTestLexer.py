@@ -8,11 +8,63 @@ from Parser.parser import *
 from Runner.runner import *
 from Tools.tools import *
 
+
+class TestLexerWrongKeywords(unittest.TestCase):
+    def test_extra_tab(self):
+        dirstCode = ["\t\tfnc_function_n"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+    
+    def test_extra_space(self):
+        dirstCode = ["\t fnc_function_n"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+    
+    def test_extra_parameter(self):
+        dirstCode = ["les_val1_val2_val3_val4.dat"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+        
+    def test_extra_parameter_more_then_currently_provided(self):
+        dirstCode = ["les_val1_val2_val3_val4_val5.dat"]#there is no instructions with more then 6 parameters including the parameters and instruction type and file type 
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+        
+    def test_missing_parameter(self):
+        dirstCode = ["les_val1_val2.dat"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+    
+    def test_missing_tab(self):
+        dirstCode = ["fnc_function_n"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+    
+    def test_invalid_instruction_length(self):
+        dirstCode = ["\tfncn_function_n"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+        
+    def test_invalid_instruction(self):
+        dirstCode = ["\tnnn_test_test2.dat"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+        
+    def test_no_file_type_1(self):
+        dirstCode = ["div_val1_val2_val3"]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+        
+    def test_no_file_type_2(self):
+        dirstCode = ["div_val1_val2_val3."]
+        consoleInput = ""
+        self.assertRaises(Exception, lex, dirstCode, consoleInput)
+
 class TestLexerDirectorySubset(unittest.TestCase):
     def test_fnc(self):
         dirstCode = ["\tfnc_function_n"]
 
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].functionInput, 'n')
         self.assertEqual(lex_output[0].parameter1, 'function')
@@ -22,7 +74,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
     #todo add test for forgetting tab before function	
     def test_dif(self): 
         dirstCode = ["\tdif_n"]
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, 'n')
         self.assertEqual(lex_output[0].isInALoop, 1)
@@ -30,7 +82,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
     
     def test_nif(self): 
         dirstCode = ["\tnif_n"]
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, 'n')
         self.assertEqual(lex_output[0].isInALoop, 1)
@@ -38,7 +90,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
         
     def test_lpc(self): 
         dirstCode = ["\tlpc_n"]
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, 'n')
         self.assertEqual(lex_output[0].isInALoop, 1)
@@ -46,7 +98,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
         
     def test_lpn(self): 
         dirstCode = ["\tlpn_n"]
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, 'n')
         self.assertEqual(lex_output[0].isInALoop, 1)
@@ -54,7 +106,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
         
     def test_dlw(self): 
         dirstCode = ["\tdlw_n"]
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, 'n')
         self.assertEqual(lex_output[0].isInALoop, 1)
@@ -62,7 +114,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
         
     def test_dlu(self): 
         dirstCode = ["\tdlu_n"]
-        consoleInput = ""#max recursion depth is default 1000,can be changed to an higher value, to support bigger functions
+        consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, 'n')
         self.assertEqual(lex_output[0].isInALoop, 1)
@@ -176,11 +228,12 @@ class TestLexerDATSubset(unittest.TestCase):
         self.assertIsInstance(lex_output[0], nad)
         
     def test_nor(self):
-        dirstCode = ["nor_val1_val2.dat"]
+        dirstCode = ["nor_val1_val2_val3.dat"]
         consoleInput = ""
         lex_output = lex(dirstCode, consoleInput)
         self.assertEqual(lex_output[0].parameter1, "val1")
         self.assertEqual(lex_output[0].parameter2, "val2")
+        self.assertEqual(lex_output[0].parameter3, "val3")
         self.assertIsInstance(lex_output[0], nor)
         
     def test_not_(self):

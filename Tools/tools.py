@@ -1,5 +1,5 @@
 import os 
-from typing import Callable
+from typing import Callable, Self
 
 DEBUG_PRINTING = False
 
@@ -9,12 +9,12 @@ def readFile(filename : str) -> str:
         return list(map(lambda line: line.replace("    ", "\t"), filter(lambda x: not x.isspace(), f.readlines())))#remove empty lines with only \n in them, filter is an higher order function also convert 4 spaces to 1 tab
 
 class PrintingOutput:
-    def __init__(self) -> None:
-        self.output = ""
+    def __init__(self, output: str="") -> None:
+        self.output = output
     
     def __call__(self, text):
-        self.output += text
-        return self.output
+        #self.output += text
+        return PrintingOutput(self.output+text)#return a new PrintingOutput object with the new output, because of functional programming
     
     def __str__(self) -> str:
         return self.output

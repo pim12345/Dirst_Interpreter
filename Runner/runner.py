@@ -52,7 +52,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     if(codePtr >= len(code.statements) or codePtr < 0):
         return code, codePtr, state, output, functions
     statement = code.statements[codePtr]
-    newOutput = copy.deepcopy(output)#cant change original variable, and python is bad with constant and normal copy(is by classes a pointer), this is slower but works
+    #newOutput = copy.deepcopy(output)#cant change original variable, and python is bad with constant and normal copy(is by classes a pointer), this is slower but works
     #todo add check if value is the same as the type(like int is int and not string)
     #todo check wat te doen met parameter 1 wel of niet casten
     
@@ -89,306 +89,302 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             # newState.memory[newState.pointer]=0#todo check of wel goed doe en of wel nodig is, misch apparte dictionary of gewoon ignoren en alleen checken bij call
             # newState.variableNamesDictionary[statement.functionName] = newState.pointer
             # newState.pointer+=1
-            #return runABlock(code, codePtr+1, newState, newOutput, functions)
+            #return runABlock(code, codePtr+1, newState, output, functions)
         
         case CallFunction():
-            result, output_ = runAFunction(state.memory[state.variableNamesDictionary[statement.functionInputVar]], statement.functionName, newOutput, functions)
+            result, output_ = runAFunction(state.memory[state.variableNamesDictionary[statement.functionInputVar]], statement.functionName, output, functions)
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.functionReturnVar], result)#todo check if good functional programming
             #todo change after running a function to set the pointer to end of all the underlining functions
             return runABlock(code, codePtr+1, newState, output_, functions)#todo change after running a function to set the pointer to end of all the underlining functions
 
         case CreateVar():
             if statement.name in state.variableNamesDictionary:
-                newOutput("error variable with the name: " + statement.name + " is already created")
+                newOutput = output("error variable with the name: " + statement.name + " is already created")
                 return code, codePtr, state, newOutput, functions
             newState = state.changeStateMemory(state.pointer, 0)
             newState_ = newState.changeStateVariableNamesDictionary(statement.name, newState.pointer)
             newState__ = newState_.changeStatePointer(newState_.pointer+1)
-            return runABlock(code, codePtr+1, newState__, newOutput, functions)
+            return runABlock(code, codePtr+1, newState__, output, functions)
         
         case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementType.GREATER):
             if parameter2_value > parameter3_value:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -1)
             else:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], 0)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementType.LESS):
             if parameter2_value < parameter3_value:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -1)
             else:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], 0)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementType.EQUAL):
             if parameter2_value == parameter3_value:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -1)
             else:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], 0)
-            return runABlock(code,codePtr+1,newState,newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementType.NOTEQUAL):
             if parameter2_value != parameter3_value:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -1)
             else:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], 0)
-            return runABlock(code,codePtr+1,newState,newOutput, functions)
+            return runABlock(code,codePtr+1,newState,output, functions)
         
         case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementType.GREATEREQUAL):
             if parameter2_value >= parameter3_value:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -1)
             else:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], 0)
-            return runABlock(code,codePtr+1,newState,newOutput, functions)
+            return runABlock(code,codePtr+1,newState,output, functions)
         
         case IfStatement(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,condition=IfStatementType.LESSEQUAL):
             if parameter2_value <= parameter3_value:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -1)
             else:
                 newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], 0)
-            return runABlock(code,codePtr+1,newState,newOutput, functions)
+            return runABlock(code,codePtr+1,newState,output, functions)
         
         case setValue():
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.plus):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value + parameter3_value)
-            return runABlock(code,codePtr+1,newState,newOutput, functions)
+            return runABlock(code,codePtr+1,newState,output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.minus):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value - parameter3_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.multiply):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value * parameter3_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.divide):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value / parameter3_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.modulo):  
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value % parameter3_value)          
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.andOp):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value & parameter3_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.orb):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value | parameter3_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.xor):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], parameter2_value ^ parameter3_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.xad):
             #https://deepai.org/machine-learning-glossary-and-terms/xand is it the same as xnor
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~(parameter2_value ^ parameter3_value))#todo test if good
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.nad):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~(parameter2_value & parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.nor):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~(parameter2_value | parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.bitWiseNot):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~parameter2_value)
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.maxVal):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], max(parameter2_value, parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.maxVal):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], min(parameter2_value, parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.roundNormal):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], round(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.roundCeiling):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.ceil(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.roundFloor):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.floor(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFunctionType=MathFloatType.power):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.pow(parameter2_value, parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.sign):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.copysign(1, parameter2_value))#todo check if good use of sign https://www.tutorialspoint.com/how-to-get-the-sign-of-an-integer-in-python
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.squareRoot):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.sqrt(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFloatFunctionType=MathFloatType.sin):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.sin(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.cos):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.cos(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.tan):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.tan(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.hyperbolicSin):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.sinh(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.hyperbolicCos):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.cosh(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.hyperbolicTan):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.tanh(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.logBase10):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.log10(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.logNatural):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.log(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,mathFunctionType=MathFloatType.log):  
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.log(parameter2_value, parameter3_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
             
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.eToPower):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.exp(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.absolute):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], abs(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.negative):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -parameter2_value)#todo need to test if good negative value, otherwise use ~abs
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
-            
-        #case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.RANDOM):
-        #    newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], random.randint(parameter2_value, parameter3_value))
-        #    return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseSin):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.asin(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseCos):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.acos(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseTan):
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.atan(parameter2_value))
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case Tape(tapeAction=TapeAction.MoveLeft):#todo fix tape implementation
             if newState.tapePointer == 0:#todo make more functional with functions in state
                 newState.tape.insert(0,math.nan)#insert blank
             else:
                 newState.tapePointer-=1
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
                 
         case Tape(tapeAction=TapeAction.MoveRight):#todo make more functional with functions in state
             if (newState.tapePointer + 1) >= len(newState.tape)-1:#todo fix tape implementation
                 newState.tape.append(math.nan)
             newState.tapePointer+=1
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case Tape(tapeAction=TapeAction.ReadCurrentElementPosition):#todo fix tape implementation
             #newState.memory[newState.variableNamesDictionary[statement.parameter1]] = newState.tape[newState.tapePointer]
             #newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], newState.tape[newState.tapePointer])
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case Tape(tapeAction=TapeAction.WriteElementToCurrentPosition):#todo fix tape implementation
             #newState.tape[newState.tapePointer] = newState.memory[newState.variableNamesDictionary[statement.parameter1]]
             #newState = state.changeStateTape(newState.tapePointer, newState.memory[newState.variableNamesDictionary[statement.parameter1]])
-            return runABlock(code, codePtr+1, newState, newOutput, functions)
+            return runABlock(code, codePtr+1, newState, output, functions)
         
         case displayValue():
             if statement.nameVar in state.variableNamesDictionary:#todo check if good
                 if statement.newLine:
-                    newOutput(str(state.memory[state.variableNamesDictionary[statement.nameVar]]) + '\n')
+                    newOutput = output(str(state.memory[state.variableNamesDictionary[statement.nameVar]]) + '\n')
                 else:
-                    newOutput(str(state.memory[state.variableNamesDictionary[statement.nameVar]]))
+                    newOutput = output(str(state.memory[state.variableNamesDictionary[statement.nameVar]]))
             else:
                 if statement.newLine:
-                    newOutput(str(statement.nameVar) + '\n')
+                    newOutput = output(str(statement.nameVar) + '\n')
                 else:
-                    newOutput(str(statement.nameVar))
+                    newOutput = output(str(statement.nameVar))
             return runABlock(code, codePtr+1, state, newOutput, functions)
         
         case DeleteVar():
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.name], 0)
             newState_ = newState.removeVarFromVariableNamesDictionary(statement.name)
-            return runABlock(code, codePtr+1, newState_, newOutput, functions)
+            return runABlock(code, codePtr+1, newState_, output, functions)
         
         case Loop(block=block,varConditionName=varConditionName,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
-            statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, newOutput, functions)#loop only once
+            statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop only once
             if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
                     return code, codePtr, state_, output_, functions_
             return runABlock(code, codePtr+1, state_, output_, functions_)
         
         case Loop(block=block,varConditionName=varConditionName,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
             if state.memory[state.variableNamesDictionary[statement.varConditionName]] != 0:#only checks if statement is var name not if statement is int maybe implement in front code
-                statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, newOutput, functions)
+                statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)
                 if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
                     return code, codePtr, state_, output_, functions_
                 return runABlock(code, codePtr+1, state_, output_, functions_)
-            return runABlock(code, codePtr+1, state, newOutput, functions)
+            return runABlock(code, codePtr+1, state, output, functions)
         
         case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=False, onlyOneTime=True):#nif
             if state.memory[state.variableNamesDictionary[statement.varConditionName]] == 0:#only checks if statement is var name not if statement is int maybe implement in front code
-                statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, newOutput, functions)
+                statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)
                 if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
                     return code, codePtr, state_, output_, functions_
                 return runABlock(code, codePtr+1, state_, output_, functions_)
-            return runABlock(code, codePtr+1, state, newOutput, functions)
+            return runABlock(code, codePtr+1, state, output, functions)
 
         case Loop(block=block, varConditionName=varConditionName, whileZero=False, loopAtLeastOnce=False, onlyOneTime=False):#lpc # check if logic is good with if statement
-            state_, output_ = runLoopWhileNotZero(code.statements[codePtr].block, state, newOutput, statement.varConditionName, functions)
+            state_, output_ = runLoopWhileNotZero(code.statements[codePtr].block, state, output, statement.varConditionName, functions)
             return runABlock(code, codePtr+1, state_, output_, functions)
         
         case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=False, onlyOneTime=False):#lpn
-            state_, output_ = runLoopWhileZero(code.statements[codePtr].block, state, newOutput, statement.varConditionName, functions)# check if logic is good with if statement in function
+            state_, output_ = runLoopWhileZero(code.statements[codePtr].block, state, output, statement.varConditionName, functions)# check if logic is good with if statement in function
             return runABlock(code, codePtr+1, state_, output_, functions)
         
         case Loop(block=block, varConditionName=varConditionName, whileZero=False, loopAtLeastOnce=True, onlyOneTime=False):#dlw
-            statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, newOutput, functions)#loop at least once
+            statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
             state__, output__ = runLoopWhileNotZero(statementLoop, state_, output_, statement.varConditionName, functions_)
             return runABlock(code, codePtr+1, state__, output__, functions_)
         
         case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=True, onlyOneTime=False):#dlu
-            statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, newOutput, functions)#loop at least once
+            statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop at least once
             state__, output__ = runLoopWhileZero(statementLoop, state_, output_, statement.varConditionName, functions_)
             return runABlock(code, codePtr+1, state__, output__, functions_)
         
         case ReturnFunction():
             newState = state.changeStateMemory(0, parameter1_value)#todo add string and float types
             newCodePtr = -1
-            return code, newCodePtr, newState, newOutput, functions
+            return code, newCodePtr, newState, output, functions
         
         case NotImplemented(ignore=True):
             #statement is not implemented and not really important so ignore it
             return runABlock(code, codePtr+1, state, output, functions)
         
         case NotImplemented() | _:
-            newOutput("method not implemented" + '\n')
+            newOutput = output("method not implemented" + '\n')
             return code, codePtr, state, newOutput, functions
         
 
@@ -398,9 +394,9 @@ def runAFunction(functionInputVarValue: str, functionName: str, output: Callable
     functionCodes = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == functionName, functions.statements))
     if len(functionCodes) == 0:
         #There is no function declared with that name
-        newOutput = copy.deepcopy(output)
-        newOutput("error, no function declared with the name: " + functionName + '\n')
-        return -1, newOutput#todo add return code if error encountered
+        raise Exception("error, no function declared with the name: " + functionName + '\n')
+        #newOutput = output("error, no function declared with the name: " + functionName + '\n')
+        #return -1, newOutput#todo add return code if error encountered
     else:
         functionCode = functionCodes[0]
     # create a new state for the function and copy the variables from the current state to the function state(input var)
@@ -418,7 +414,7 @@ def runLoopWhileZero(loop : CodeBlock, state: ProgramState, output : Callable, l
         loop_, codePtr_, state_, output_, functions_ = runABlock(loop.code, 0, state, output, functions)
         return runLoopWhileZero(loop_, state_, output_, loopName, functions_)
     else:
-        return state, output#todo is this correct functional programming?
+        return state, output
 
 #runLoopWhileNotZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)
 @function_debug_printing
