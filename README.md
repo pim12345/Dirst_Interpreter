@@ -2,6 +2,8 @@
 
 A python Dirst scripting interpreter
 
+De Dirst taal is een een programeertaal waarvan de code bestaat namen van folders en bestanden. In deze interpreter is het script gedeelte geïmplementeerd.
+
 Deze python Dirst scripting interpreter is gebaseerd op de [Dirst programming language](https://esolangs.org/wiki/Dirst) and ondersteund een deel van alle functies van de taal met een toevoeging om functies uit te voeren.
 Ook ondersteund deze interpreter alleen het script gedeelte van de taal en helaas niet het folder gedeelte van de taal.
 
@@ -29,11 +31,11 @@ een voorbeeld aanroep van de greeter programma:
 
 ### waarom?
 
-om aan de eisen van de atp opdracht te voldoen heb ik 1 operator veranderd en 2 toegevoegd.
+Om aan de eisen van de atp opdracht te voldoen heb ik 1 operator veranderd en 2 toegevoegd.
 
 ### added operators
 
-veranderd aan de taal is dat de instructie: fnc normaal alleen 1 keer de sub items uitvoert, nu de mogelijkheid heeft om aangeroepen te worden met een argument, dit argument wordt dan gebruikt om de sub items uit te voeren(meer naar een functie), nu is de syntax van de fnc als volgt:
+Veranderd aan de taal is dat de instructie: fnc normaal alleen 1 keer de sub items uitvoert, nu de mogelijkheid heeft om aangeroepen te worden met een argument, dit argument wordt dan gebruikt om de sub items uit te voeren(meer naar een functie), nu is de syntax van de fnc als volgt:
 ```- fnc_[functienaam]_[functieargument naam in functie]``` - gebruikt om een functie te defineren, dit is een folder
 ```- run_[functienaam]_[functieargument]_[functie return variable].LNK``` - gebruikt om een functie aan te roepen, de functie return variable is de variable waar de return van de functie in wordt opgeslagen
 ```-rtn_[functieargument].LNK``` - gebruikt om een functie te returnen
@@ -61,10 +63,12 @@ Dirst is Turing-compleet omdat:
     - de taal staat tussen de turing complete talen op de esolangs website(https://esolangs.org/wiki/Dirst)
 
 Code is geschreven in functionele stijl.
-ik heb er goed op gelet dat de code in functionele stijl is geschreven, zo zijn er geen globale variablen gebruikt en zijn er geen loops gebruikt, maar alleen recursie.
+Ik heb er goed op gelet dat de code in functionele stijl is geschreven, zo zijn er geen globale variablen gebruikt en zijn er geen loops gebruikt, maar alleen recursie.
 wel was het lastig met het rekening houden met hoe erg functioneel de code zou moeten zijn omdat bijvoorbeeld deze code de dirst code leest uit een file en io is strict genoemen een side effect en niet toegestaan. Ook was het lastig om te vinden of het overschrijven van een variable een side effect is of niet, hierop heb ik in de code nu wel rekening mee gehouden en aangepast.
 
-voor alle mogelijkheden van de Dirst taal, zie documentatie van de taal(https://esolangs.org/wiki/Dirst) en de voorbeelden in de [/UnitTests/TestCode] folder
+
+Voor alle mogelijkheden van de Dirst taal, zie documentatie van de taal(https://esolangs.org/wiki/Dirst) en de voorbeelden in de [/UnitTests/TestCode] folder.
+Niet alle mogelijkheden van de taal zijn geïmplementeerd. Zie kop "niet geïmplementeerd" onderaan in deze readme.
 
 Loops Voorbeeld: [/UnitTests/TestCode/sommig.txt] - [6-9] - lpc keyword is: "Loop through directory subitems while the specified integer value is not zero"
 
@@ -111,3 +115,9 @@ bij niet het gebruik van vscode zie de documentatie van de unittest library van 
 de testen zijn geschreven om de functionaliteit van de lexer, parser en runner te testen
 
 de testen die zijn geschreven zijn nuttig voor de kwaliteit van de code omdat bijvoorbeeld bij de lexer word er uitbundig getest of de lexer de juiste tokens terug geeft voor de juiste input, dit is belangrijk omdat de parser en runner afhankelijk zijn van de lexer en als de lexer niet goed werkt dan werken de parser en runner ook niet goed, dit maakt dat als er fouten in de implementatie van de lexer zitten deze fouten snel gevonden worden en opgelost kunnen worden. Ook zijn er testen om te controleren hoe de lexer reageert met foute input, zoals een extra spatie of tab of een onbekend bestand of een file zonder geldige bestand extensie. Door deze dingen te testen kan er gecontroleerd worden of de lexer de fouten eruit haald en kan continu getest worden of veranderingen in de code geen fouten veroorzaken.
+
+## niet geïmplementeerd
+
+Niet alle statements van deze taal zijn geïmplementeerd, zie voor alle statements die geimplementeerd en niet zijn [/Parser/parser.py] bij de functie: parseCodeBlock (regel: ~544), bij een geen implementatie van een statement wordt de class NotImplemented gebruikt.
+
+Ook is er tijdens het ontwikkelen er voor gekozen om de consoleinput vooraf aan het runnen van de functie mee te geven. Dit is omdat het een side effect is en niet functioneel geprogrameerd kan.
