@@ -6,6 +6,8 @@ from Lexer.lexer import *
 from Runner.runner import *
 from Parser.parser import *
 from Tools.tools import *
+from UnitTests.unitTestLexer import *
+from UnitTests.unitTestParser import *
 from UnitTests.unitTestRunner import *
 
 # voor alle unit tests ga naar de map UnitTests en run daar de test.py file, deze file is er om er voor te zorgen dan vs code extensie de unittests makkelijker kan vinden
