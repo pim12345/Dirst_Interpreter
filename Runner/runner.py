@@ -1,4 +1,4 @@
-from typing import List, Tuple, Callable, Self, Any
+from typing import List, Tuple, Callable, Self, Any, Union
 from Lexer.tokens import *
 from Lexer.lexer import *
 from Parser.parser import *
@@ -11,21 +11,17 @@ class ProgramState():
         self.pointer = pointer#need to clear register 0 for loops and arguments
         self.memory = memory#om de 2 registers is eerste de identifyer de 2e is de variable value
         self.variableNamesDictionary = variableNamesDictionary
-        self.stack = stack#todo idk if good if add so, os maybe remove
-        self.tape = tape#todo idk if good if add so, os maybe remove
-        self.tapePointer = tapePointer#todo idk if good if add so, os maybe remove
+        self.stack = stack
+        self.tape = tape
+        self.tapePointer = tapePointer
     
-    #changeStatePointer :: ProgramState -> int -> ProgramState
-    def changeStateMemory(self, index: int, value: int ) -> Self:#todo add string type to value
-        #self.memory[index] = value
-        #this is because of functional programming
+    #changeStatePointer :: ProgramState -> Union[int, float, string] -> ProgramState
+    def changeStateMemory(self, index: int, value: Union[int, float, str] ) -> Self:
         newMemoryState = self.memory[:index]+[value]+self.memory[index+1:]#https://www.geeksforgeeks.org/python-list-slicing/
-        
         return ProgramState(self.pointer, newMemoryState, self.variableNamesDictionary, self.stack, self.tape, self.tapePointer)
     
     #changeStatePointer :: ProgramState -> int -> ProgramState
     def changeStatePointer(self, pointer: int) -> Self:
-        #self.pointer = pointer
         return ProgramState(pointer, self.memory, self.variableNamesDictionary, self.stack, self.tape, self.tapePointer)
     
     #changeStateVariableNamesDictionary :: ProgramState -> String -> int -> ProgramState
@@ -38,6 +34,18 @@ class ProgramState():
         newVariableNamesDictionary = {key:val for key, val in self.variableNamesDictionary.items() if key != varName}
         return ProgramState(self.pointer, self.memory, newVariableNamesDictionary, self.stack, self.tape, self.tapePointer)
         
+    #changeTapePointer :: ProgramState -> int -> ProgramState
+    def changeTapePointer(self, tapePointer: int) -> Self:
+        return ProgramState(self.pointer, self.memory, self.variableNamesDictionary, self.stack, self.tape, tapePointer)
+        
+    #changeTapeElement :: ProgramState -> int -> ProgramState
+    def changeTapeElement(self, newElement: int) -> Self:
+        return ProgramState(self.pointer, self.memory, self.variableNamesDictionary, self.stack, self.tape[:self.tapePointer]+[newElement]+self.tape[self.tapePointer+1:], self.tapePointer)
+    
+    #insertTapeElement :: ProgramState -> int -> ProgramState
+    def insertTapeElement(self, newElement: int) -> Self:
+        return ProgramState(self.pointer, self.memory, self.variableNamesDictionary, self.stack, self.tape[:self.tapePointer]+[newElement]+self.tape[self.tapePointer:], self.tapePointer)
+    
     #__repr__ :: ProgramState -> String
     def __repr__(self) -> str:
         return "ptr: " + str(self.pointer) + " val: " + str(self.memory) + " varname dictionary: " + str(self.variableNamesDictionary)
@@ -52,11 +60,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
     if(codePtr >= len(code.statements) or codePtr < 0):
         return code, codePtr, state, output, functions
     statement = code.statements[codePtr]
-    #todo add check if value is the same as the type(like int is int and not string)
-    #todo check wat te doen met parameter 1 wel of niet casten
     
-    
-    #todo check if conversion from parameter 1 is good
     if hasattr(statement, 'parameter1'):#check if object has parameter1
         try:
             if statement.parameter1 in state.variableNamesDictionary:
@@ -81,16 +85,16 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
                 parameter3_value = __builtins__[statement.instructionType.value](statement.parameter3)#casting the value to the correct type using the enum for the type(to cast to int, float, string and other ) #https://gist.github.com/mdogo/4947278
         except:
             raise Exception("Error: converting or getting parameter parameter3 from memory: " + statement.parameter3)
+    
     match statement:        
         case CallFunction():
             result, output_ = runAFunction(state.memory[state.variableNamesDictionary[statement.functionInputVar]], statement.functionName, output, functions)
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.functionReturnVar], result)
-            return runABlock(code, codePtr+1, newState, output_, functions)#todo change after running a function to set the pointer to end of all the underlining functions
+            return runABlock(code, codePtr+1, newState, output_, functions)
 
         case CreateVar():
             if statement.name in state.variableNamesDictionary:
-                newOutput = output("error variable with the name: " + statement.name + " is already created")
-                return code, codePtr, state, newOutput, functions
+                raise Exception("error variable with the name: " + statement.name + " is already created")
             newState = state.changeStateMemory(state.pointer, 0)
             newState_ = newState.changeStateVariableNamesDictionary(statement.name, newState.pointer)
             newState__ = newState_.changeStatePointer(newState_.pointer+1)
@@ -176,7 +180,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.xad):
             #https://deepai.org/machine-learning-glossary-and-terms/xand is it the same as xnor
-            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~(parameter2_value ^ parameter3_value))#todo test if good
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], ~(parameter2_value ^ parameter3_value))
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case operators(parameter1=parameter1,parameter2=parameter2,parameter3=parameter3,operatorType=operatorsType.nad):
@@ -216,7 +220,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.sign):
-            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.copysign(1, parameter2_value))#todo check if good use of sign https://www.tutorialspoint.com/how-to-get-the-sign-of-an-integer-in-python
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.copysign(1, parameter2_value))# https://www.tutorialspoint.com/how-to-get-the-sign-of-an-integer-in-python
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.squareRoot):
@@ -268,7 +272,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case valueConv(parameter1=parameter1,parameter2=parameter2,convertType=ConvertType.negative):
-            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -parameter2_value)#todo need to test if good negative value, otherwise use ~abs
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], -parameter2_value)
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case mathFloatFunctions(parameter1=parameter1,parameter2=parameter2,mathFunctionType=MathFloatType.inverseSin):
@@ -283,27 +287,26 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], math.atan(parameter2_value))
             return runABlock(code, codePtr+1, newState, output, functions)
         
-        case Tape(tapeAction=TapeAction.MoveLeft):#todo fix tape implementation
-            if newState.tapePointer == 0:#todo make more functional with functions in state
-                newState.tape.insert(0,math.nan)#insert blank
+        case Tape(tapeAction=TapeAction.MoveLeft):#TODO fix tape implementation
+            if state.tapePointer == 0:
+                newState = state.insertTapeElement(math.nan)#insert blank
+                pass
             else:
-                newState.tapePointer-=1
+                newState = state.changeTapePointer(state.tapePointer-1)
             return runABlock(code, codePtr+1, newState, output, functions)
                 
-        case Tape(tapeAction=TapeAction.MoveRight):#todo make more functional with functions in state
-            if (newState.tapePointer + 1) >= len(newState.tape)-1:#todo fix tape implementation
-                newState.tape.append(math.nan)
-            newState.tapePointer+=1
+        case Tape(tapeAction=TapeAction.MoveRight):
+            if (newState.tapePointer + 1) >= len(newState.tape)-1:
+                newState = state.insertTapeElement(math.nan)#insert blank
+            newState = state.changeTapePointer(state.tapePointer+1)
             return runABlock(code, codePtr+1, newState, output, functions)
         
-        case Tape(tapeAction=TapeAction.ReadCurrentElementPosition):#todo fix tape implementation
-            #newState.memory[newState.variableNamesDictionary[statement.parameter1]] = newState.tape[newState.tapePointer]
-            #newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], newState.tape[newState.tapePointer])
+        case Tape(tapeAction=TapeAction.ReadCurrentElementPosition):
+            newState = state.changeStateMemory(state.variableNamesDictionary[statement.parameter1], newState.tape[newState.tapePointer])
             return runABlock(code, codePtr+1, newState, output, functions)
         
-        case Tape(tapeAction=TapeAction.WriteElementToCurrentPosition):#todo fix tape implementation
-            #newState.tape[newState.tapePointer] = newState.memory[newState.variableNamesDictionary[statement.parameter1]]
-            #newState = state.changeStateTape(newState.tapePointer, newState.memory[newState.variableNamesDictionary[statement.parameter1]])
+        case Tape(tapeAction=TapeAction.WriteElementToCurrentPosition):
+            newState = state.changeTapeElement(parameter1_value)
             return runABlock(code, codePtr+1, newState, output, functions)
         
         case displayValue():
@@ -326,14 +329,14 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         
         case Loop(block=block,varConditionName=varConditionName,whileZero=False,loopAtLeastOnce=True,onlyOneTime=True):#fnc
             statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)#loop only once
-            if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
+            if codePtr_ <= -1:
                     return code, codePtr, state_, output_, functions_
             return runABlock(code, codePtr+1, state_, output_, functions_)
         
         case Loop(block=block,varConditionName=varConditionName,whileZero=False,loopAtLeastOnce=False,onlyOneTime=True):#dif
             if state.memory[state.variableNamesDictionary[statement.varConditionName]] != 0:#only checks if statement is var name not if statement is int maybe implement in front code
                 statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)
-                if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
+                if codePtr_ <= -1:
                     return code, codePtr, state_, output_, functions_
                 return runABlock(code, codePtr+1, state_, output_, functions_)
             return runABlock(code, codePtr+1, state, output, functions)
@@ -341,7 +344,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
         case Loop(block=block, varConditionName=varConditionName, whileZero=True, loopAtLeastOnce=False, onlyOneTime=True):#nif
             if state.memory[state.variableNamesDictionary[statement.varConditionName]] == 0:#only checks if statement is var name not if statement is int maybe implement in front code
                 statementLoop, codePtr_, state_, output_, functions_ = runABlock(code.statements[codePtr].block, 0, state, output, functions)
-                if codePtr_ <= -1:#todo add logic in begin if that works and other in other loop functions
+                if codePtr_ <= -1:
                     return code, codePtr, state_, output_, functions_
                 return runABlock(code, codePtr+1, state_, output_, functions_)
             return runABlock(code, codePtr+1, state, output, functions)
@@ -365,7 +368,7 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, state__, output__, functions_)
         
         case ReturnFunction():
-            newState = state.changeStateMemory(0, parameter1_value)#todo add string and float types
+            newState = state.changeStateMemory(0, parameter1_value)
             newCodePtr = -1
             return code, newCodePtr, newState, output, functions
         
@@ -374,27 +377,23 @@ def runABlock(code: CodeBlock, codePtr: int, state: ProgramState, output: Callab
             return runABlock(code, codePtr+1, state, output, functions)
         
         case NotImplemented() | _:
-            newOutput = output("method not implemented" + '\n')
-            return code, codePtr, state, newOutput, functions
+            raise Exception("method not implemented")
         
 
 #runAFunction :: String -> String -> Callable -> CodeBlock -> (int, Callable)
 @function_debug_printing
-def runAFunction(functionInputVarValue: str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:#todo add also possible float or string types as return
+def runAFunction(functionInputVarValue: str, functionName: str, output: Callable, functions: CodeBlock) -> Tuple[int,Callable]:
     functionCodes = list(filter(lambda x: isinstance(x, DeclareFunction) and x.functionName == functionName, functions.statements))
     if len(functionCodes) == 0:
         #There is no function declared with that name
         raise Exception("error, no function declared with the name: " + functionName + '\n')
-        #newOutput = output("error, no function declared with the name: " + functionName + '\n')
-        #return -1, newOutput#todo add return code if error encountered
     else:
         functionCode = functionCodes[0]
     # create a new state for the function and copy the variables from the current state to the function state(input var)
     functionState = ProgramState().changeStateMemory(1, functionInputVarValue)
     functionState_ = functionState.changeStateVariableNamesDictionary(functionCode.functionInputVar, functionState.pointer)
     functionState__ = functionState_.changeStatePointer(functionState_.pointer+1)
-    #todo check if return var exists, if is an digit also add check if it is a digit and return that directly
-    code_, codePtr_, functionState___, newOutput, functions_ = runABlock(functionCode.block, 0, functionState__, output, functions)#todo make it smarter like runloop functions so it requires less hackery
+    code_, codePtr_, functionState___, newOutput, functions_ = runABlock(functionCode.block, 0, functionState__, output, functions)
     return functionState___.memory[0], newOutput#in place 0 in the memory is always the return var(only one return var supported)
 
 #runLoopWhileZero :: CodeBlock -> ProgramState -> Callable -> String -> (ProgramState, Callable)

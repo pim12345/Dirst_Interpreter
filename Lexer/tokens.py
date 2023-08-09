@@ -4,7 +4,7 @@ from typing import NamedTuple, Union
 
 class Instruction_Variable_Type(Enum):
     #an enum to describe an instruction var type
-    Unknown = '0'#todo convert str functies van elk statement i.p.v van str convert naar goede type voor debug 
+    Unknown = '0'#TODO convert str functies van elk statement i.p.v van str convert naar goede type voor debug 
     Integer = 'int'
     String = "str"
     Float = "float"
@@ -1699,7 +1699,6 @@ class zfa(ZIP):
         super().__init__(isInALoop)
         
 
-#todo check ff of dat goed is: one dubble removed
 ##################################
 ########## EXE Tokens ############
 class EXE(Token):
@@ -2279,7 +2278,7 @@ class LNK(Token):
         return self.__repr__()
     
 
-class run(LNK):#todo: add documentation and examples
+class run(LNK):
     def __init__(self, functionName: str, parameterVar: str, returnVar: str ,isInALoop : int) -> None:
         self.functionName = functionName
         self.parameterVar = parameterVar
@@ -2294,7 +2293,7 @@ class run(LNK):#todo: add documentation and examples
         return self.__repr__()
     
     
-class rtn(LNK):#todo add float type and string type return values options and #todo: add documentation and examples
+class rtn(LNK):
     def __init__(self, parameter1: str, isInALoop : int) -> None:
         self.parameter1 = parameter1
         super().__init__(isInALoop)

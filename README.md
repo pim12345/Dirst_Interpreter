@@ -38,7 +38,7 @@ Om aan de eisen van de atp opdracht te voldoen heb ik 1 operator veranderd en 2 
 Veranderd aan de taal is dat de instructie: fnc normaal alleen 1 keer de sub items uitvoert, nu de mogelijkheid heeft om aangeroepen te worden met een argument, dit argument wordt dan gebruikt om de sub items uit te voeren(meer naar een functie), nu is de syntax van de fnc als volgt:
 ```- fnc_[functienaam]_[functieargument naam in functie]``` - gebruikt om een functie te defineren, dit is een folder
 ```- run_[functienaam]_[functieargument]_[functie return variable].LNK``` - gebruikt om een functie aan te roepen, de functie return variable is de variable waar de return van de functie in wordt opgeslagen
-```-rtn_[functieargument].LNK``` - gebruikt om een functie te returnen
+```-rtn_[functieargument].LNK``` - gebruikt om een functie te returnen(momenteel alleen support voor return type int)
 momenteel is het alleen ondersteund type voor een return type momenteel: int
 voorbeeld voor een functie definitie in dirst:
 ```
@@ -81,6 +81,7 @@ Classes met inheritance: bijvoorbeeld [/Parser/tokens.py] - alle tokens zijn cla
 Object-printing voor elke class: [ja]
 
 Decorator: functiedefinitie op [Tools/tools.py] - [23](functie: function_debug_printing), toegepast op [Runner/runner.py] - [420, 411, 392, 50] - [Parser/parser.py]
+de decorator functie is aan te zetten door de variable: "DEBUG_PRINTING" op regel 4 van de tools.py op true te zetten, dan word er bij elke functie ervoor en erna de status van de functie argumenten is. Dit is handig voor het debuggen van de code.
 
 Type-annotatie: Haskell-stijl in comments: [ja]; Python-stijl in functiedefinities: [ja]
 

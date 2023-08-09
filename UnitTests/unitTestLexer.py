@@ -70,8 +70,7 @@ class TestLexerDirectorySubset(unittest.TestCase):
         self.assertEqual(lex_output[0].parameter1, 'function')
         self.assertEqual(lex_output[0].isInALoop, 1)
         self.assertIsInstance(lex_output[0], fnc)
-        #print(lex_output)
-    #todo add test for forgetting tab before function	
+
     def test_dif(self): 
         dirstCode = ["\tdif_n"]
         consoleInput = ""

@@ -1,6 +1,5 @@
 from lib2to3.pgen2.token import EQUAL, GREATER, GREATEREQUAL, LESS, LESSEQUAL, NOTEQUAL
 from typing import List, Tuple
-import copy#todo check if this lib is needed and if included in requirements.txt
 
 from numpy import greater_equal, not_equal
 from Lexer.lexer import Instruction_Variable_Type
@@ -304,7 +303,6 @@ class mathFloatFunctions(SimpleStatement):
         super().__init__(Instruction_Variable_Type.Float)#because the math functions in dirst only use floats
         if parameter3 == "" and (mathFunctionType == MathFloatType.power or mathFunctionType == MathFloatType.log):
             raise ValueError("parameter3 is needed for math functions: power and log")
-    #todo check if fix solution for math functions with 3 parameters
         
     # __str__ :: mathFloatFunctions -> String
     def __str__(self) -> str:
@@ -354,7 +352,7 @@ class ConvertType(Enum):
     negative = "negative"
     bitWiseNot = "bitWiseNot"
     #RANDOM = "RANDOM"#rnd in bin subset in Dirst, maybe remove
-    #upperCase = "upperCase",
+    #upperCase = "upperCase"
     roundNormal = "round to the nearest whole number"#rou in bin subset in Dirst
     roundCeiling = "round to the ceiling"#cil in bin subset in Dirst
     roundFloor = "round to the floor"#flr in bin subset in Dirst
@@ -558,7 +556,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
     
     if isinstance(token, ERR):
         return tokens, code, functions
-    #if isinstance(token, fnc) and code.nestLevel == 1 and token.isInALoop == 1:#todo check if need i think not
+    #if isinstance(token, fnc) and code.nestLevel == 1 and token.isInALoop == 1:#TODO check if still need i think not
         #an other function is declared, but not be added to the current function
     #    return tokens, code, functions
     
@@ -628,12 +626,10 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, rdi):
             newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))
         elif isinstance(token, ric):
-            #newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.Integer))#TODO: set to -1 if eof not implemented
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, dsi):
             newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))
         elif isinstance(token, dic):
-            #newCode = code.addStatement(displayValue(token.parameter1, False, Instruction_Variable_Type.Integer))#todo display char of int
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, set):
             newCode = code.addStatement(setValue(token.parameter1, token.parameter2, Instruction_Variable_Type.Integer))
@@ -643,7 +639,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
             newCode = code.addStatement(operators(token.parameter1,token.parameter2, token.parameter3, operatorsType.minVal, Instruction_Variable_Type.Integer))
     elif isinstance(token, TXT):
         if isinstance(token, rdc):
-            newCode = code.addStatement(operators(token.parameter1, token.parameter1, token.consoleInput, operatorsType.plus, Instruction_Variable_Type.String))#todo test this
+            newCode = code.addStatement(operators(token.parameter1, token.parameter1, token.consoleInput, operatorsType.plus, Instruction_Variable_Type.String))
         elif isinstance(token, rds):#no input from console because of functional programming is that not allowed
             newCode = code.addStatement(setValue(token.parameter1, token.consoleInput, Instruction_Variable_Type.String))
         elif isinstance(token, eof):
@@ -657,9 +653,9 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         elif isinstance(token, dec):
             newCode = code.addStatement(NotImplemented())
         elif isinstance(token, des):
-            newCode = code.addStatement(NotImplemented())#error stream is using output #todo maybe implement error stream
+            newCode = code.addStatement(NotImplemented())#error stream is using raise function from python or output stream
         elif isinstance(token, del_):
-            newCode = code.addStatement(NotImplemented())#todo maybe implement error stream instead of using normal stream
+            newCode = code.addStatement(NotImplemented())
         elif isinstance(token, clr):
             newCode = code.addStatement(setValue(token.parameter1, "", Instruction_Variable_Type.String))
         elif isinstance(token, cat):
@@ -910,7 +906,7 @@ def parseCodeBlock(tokens: List[Token], code: CodeBlock, functions: CodeBlock) -
         if isinstance(token, run):
             newCode = code.addStatement(CallFunction(token.functionName, token.parameterVar, token.returnVar))
         elif isinstance(token,rtn):
-            newCode = code.addStatement(ReturnFunction(token.parameter1))#todo add return float and string type in instruction subset and everywhere else
+            newCode = code.addStatement(ReturnFunction(token.parameter1))#TODO add return float and string type in instruction subset and everywhere else
     if len(tokens) >= 2:#needed because if loop closes 2 times it will not correctly work because it will not close the loop 2 times
         if (rest[0].isInALoop) - (token.isInALoop) < 0:
             return rest, newCode, functions

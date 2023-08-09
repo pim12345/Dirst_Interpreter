@@ -757,7 +757,7 @@ def giveCorrectClass(operator : list[str], isInALoop : int, consoleInput : str) 
             if len(operator) != 5:
                 raise Exception("more or less then 5 arguments given for run, only 5 arguments are allowed, including the instruction and file type")
             return run(operator[1], operator[2], operator[3], isInALoop)
-        elif operator[0] == "rtn":#todo check if good this and make 1 line in logic
+        elif operator[0] == "rtn":#TODO check if good this and make 1 line in logic
             if len(operator) != 3:
                 raise Exception("more or less then 3 arguments given for rtn, only 3 arguments are allowed, including the instruction and file type")
             return rtn(operator[1], isInALoop)
