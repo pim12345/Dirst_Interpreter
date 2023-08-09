@@ -12,7 +12,7 @@ In this project is has also added functions calls in the project(an way to decla
 ## installatie
 
 clone deze repository
-installeer python 3.11 (https://www.python.org/downloads/)(oudere versies werken niet wegens het gebruiken van de self keyword in type notatie)
+installeer python 3.11 (https://www.python.org/downloads/) (oudere versies werken niet wegens het gebruiken van de self keyword in type notatie)
 installeer de requirements met ```pip install -r requirements.txt```
 
 ## gebruik
