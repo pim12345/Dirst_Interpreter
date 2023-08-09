@@ -122,3 +122,7 @@ de testen die zijn geschreven zijn nuttig voor de kwaliteit van de code omdat bi
 Niet alle statements van deze taal zijn geïmplementeerd, zie voor alle statements die geimplementeerd en niet zijn [/Parser/parser.py] bij de functie: parseCodeBlock (regel: ~544), bij een geen implementatie van een statement wordt de class NotImplemented gebruikt.
 
 Ook is er tijdens het ontwikkelen er voor gekozen om de consoleinput vooraf aan het runnen van de functie mee te geven. Dit is omdat het een side effect is en niet functioneel geprogrameerd kan.
+
+## video
+
+[![Dirst interpreter video]({https://img.youtube.com/vi/XQOu8LEz-X4/0.jpg})]({https://youtu.be/XQOu8LEz-X4} "Dirst interpreter - Beschrijving code en gebruik Dirst Scripting Interpreter")
