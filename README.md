@@ -125,4 +125,4 @@ Ook is er tijdens het ontwikkelen er voor gekozen om de consoleinput vooraf aan 
 
 ## video
 
-[![Dirst interpreter video]({https://img.youtube.com/vi/XQOu8LEz-X4/0.jpg})]({https://youtu.be/XQOu8LEz-X4} "Dirst interpreter - Beschrijving code en gebruik Dirst Scripting Interpreter")
+[![Dirst interpreter video]({https://img.youtube.com/vi/XQOu8LEz-X4/0.jpg})](https://youtu.be/XQOu8LEz-X4)
